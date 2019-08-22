@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Thu Aug 22 17:27:20 CEST 2019
+#Thu Aug 22 17:59:00 CEST 2019
 4.path=lib/armeabi-v7a/libgdx.so
 13.baseType=DIRECTORY
 8.set=NATIVE_RESOURCE

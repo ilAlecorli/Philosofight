@@ -44,7 +44,7 @@ public class PhilosofightMain implements ApplicationListener {
 			worldController.update(Gdx.graphics.getDeltaTime());
 
 			//Imposto ed eseguo il clear screen
-			Gdx.gl.glClearColor(1, 0, 0, 1);
+			Gdx.gl.glClearColor(255, 100, 3, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 			//Renderizzo il game world con il world renderer
