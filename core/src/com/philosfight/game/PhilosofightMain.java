@@ -1,12 +1,13 @@
 package com.philosfight.game;
 
 import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.philosfight.game.game.Assets;
+import com.philosfight.game.game.WorldController;
+import com.philosfight.game.game.WorldRenderer;
 
 public class PhilosofightMain implements ApplicationListener {
 	//TAG necessario per i log dell'applicazione
@@ -22,10 +23,11 @@ public class PhilosofightMain implements ApplicationListener {
 //	lo stato iniziale  del game world.
 	@Override
 	public void create () {
-		//Imposto i log level su DEBUG in modo da avere dei feedback durante l'esecuzione
+//		Imposto i log level su DEBUG in modo da avere dei feedback durante l'esecuzione
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
-
-		//Inizializzo il worldController ed il worldRenderer
+//		Carica gli assets
+		Assets.instance.init(new AssetManager());
+//		Inizializzo il worldController ed il worldRenderer
 		worldController = new WorldController();
 		worldRenderer = new WorldRenderer(worldController);
 
@@ -43,8 +45,8 @@ public class PhilosofightMain implements ApplicationListener {
 			//Aggiorno il world controller
 			worldController.update(Gdx.graphics.getDeltaTime());
 
-			//Imposto ed eseguo il clear screen
-			Gdx.gl.glClearColor(255, 100, 3, 1);
+			//Imposto ed eseguo il clear screen: Grigio scuro
+			Gdx.gl.glClearColor(99, 99, 99, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 			//Renderizzo il game world con il world renderer
@@ -81,6 +83,7 @@ public class PhilosofightMain implements ApplicationListener {
 	@Override
 	public void dispose () {
 		worldRenderer.dispose();
+		Assets.instance.dispose();
 	}
 
 
