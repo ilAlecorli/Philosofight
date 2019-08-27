@@ -17,20 +17,22 @@ public class Assets implements Disposable, AssetErrorListener {
 
     //Definisco gli assets di gioco
     public AssetWall wall;
+    public AssetTile tile;
 
-    /** Singleton: Può esistere solo una sola istanza di Assets,
+    /**
+     * Singleton: Può esistere solo una sola istanza di Assets,
      * definendo un costruttore privato si previene che le altre
      * classi istanzino la stessa classe.
      */
-    private Assets () {}
+    private Assets() {
+    }
 
     /**
      * Si occupa di gestire gli assets di gioco: dal caricamento al checking degli errori.
-     * @param assetManager  contiene tutti i metodi necessari per utilizzare efficacemente gli assets.
      *
-     *
+     * @param assetManager contiene tutti i metodi necessari per utilizzare efficacemente gli assets.
      */
-    public void init (AssetManager assetManager) {
+    public void init(AssetManager assetManager) {
         this.assetManager = assetManager;
         // Imposta l'error handler dell'asset manager
         assetManager.setErrorListener(this);
@@ -48,11 +50,12 @@ public class Assets implements Disposable, AssetErrorListener {
 
         //Attiva il texture filtering
         for (Texture t : atlas.getTextures()) {
-            t.setFilter(Texture.TextureFilter.Linear,  Texture.TextureFilter.Linear);
+            t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
 
         //Crea le risorse di gioco
         wall = new AssetWall(atlas);
+        tile = new AssetTile(atlas);
     }
 
     /**
@@ -60,26 +63,35 @@ public class Assets implements Disposable, AssetErrorListener {
      */
     public class AssetWall {
         public final TextureAtlas.AtlasRegion barrier;
-        public AssetWall (TextureAtlas atlas) {
+
+        public AssetWall(TextureAtlas atlas) {
             barrier = atlas.findRegion("wall");
         }
     }
 
+    public class AssetTile {
+        public final TextureAtlas.AtlasRegion tile00;
+
+        public AssetTile(TextureAtlas atlas) {
+            tile00 = atlas.findRegion("floor");
+        }
+    }
+
     /**
-     *  Dispose degli assets.
+     * Dispose degli assets.
      */
     @Override
-    public void dispose () {
+    public void dispose() {
         assetManager.dispose();
     }
 
     public void error(String filename, Class type, Throwable throwable) {
-        Gdx.app.error(TAG, "Couldn't load asset '"+ filename + "'", (Exception)throwable);
+        Gdx.app.error(TAG, "Couldn't load asset '" + filename + "'", (Exception) throwable);
     }
 
     @Override
     public void error(AssetDescriptor asset, Throwable throwable) {
-        Gdx.app.error(TAG, "Couldn't load asset '" + asset.fileName + "'", (Exception)throwable);
+        Gdx.app.error(TAG, "Couldn't load asset '" + asset.fileName + "'", (Exception) throwable);
     }
 }
 

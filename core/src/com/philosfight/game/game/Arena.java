@@ -5,12 +5,15 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.philosfight.game.game.objects.AbstractGameObject;
+import com.philosfight.game.game.objects.Tile;
 import com.philosfight.game.game.objects.Wall;
 
 public class Arena {
     public static final String TAG = Arena.class.getName();
+
     //Oggetti
     public Array<Wall> walls;
+    public Array<Tile> floor;
 
     public enum BLOCK_TYPE {
         EMPTY(0, 0, 0),     // black
@@ -42,7 +45,9 @@ public class Arena {
     private void init(String filename) {
 //        Carica l'immagine che rappresenta il livello
         Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
+//      Tag che permette di cambiare la dimensione dei muri a seconda della loro posizione
         this.walls = new Array();
+        this.floor = new Array();
         int lastPixel = -1;
 //        Scannerizza l'immagine dal pixel in basso a sinistra fino al pixel in alto a destra
         for (int pixelY = 0; pixelY < pixmap.getHeight(); pixelY++) {
@@ -61,7 +66,9 @@ public class Arena {
 
 //                Empty space
                 if (BLOCK_TYPE.EMPTY.sameColor(currentPixel)) {
-//                    non fa nulla
+                    obj = new Tile();
+                    obj.position.set((float)pixelX, (float)pixelY);
+                    this.floor.add((Tile)obj);
                 }
 //                Wall
                 else if (BLOCK_TYPE.WALL.sameColor(currentPixel)) {
@@ -69,7 +76,6 @@ public class Arena {
                     obj.position.set((float)pixelX, (float)pixelY);
                     this.walls.add((Wall)obj);
                 }
-
             }
         }
         //free memory
@@ -77,6 +83,10 @@ public class Arena {
         Gdx.app.debug(TAG, "Arena'" + filename + "' loaded");
     }
     public void render(SpriteBatch batch){
+        //Disegna il pavimento
+        for(Tile tile : floor){
+            tile.render(batch);
+        }
         //Disegna i muri
         for(Wall wall : walls){
             //Impostazioni di disegno dei muri
