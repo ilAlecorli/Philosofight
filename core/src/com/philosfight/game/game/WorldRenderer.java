@@ -8,10 +8,9 @@ import com.philosfight.game.utils.Constants;
 
 public class WorldRenderer implements Disposable {
     private static String TAG = WorldRenderer.class.getName();
-
     private OrthographicCamera camera;
 
-//    SpriteBatch permette di disegnare gli oggetti rispettando le impostazioni della telecamera
+//  batch permette di disegnare gli oggetti rispettando le impostazioni della telecamera
     private SpriteBatch batch;
     private WorldController worldController;
 
@@ -20,7 +19,9 @@ public class WorldRenderer implements Disposable {
         init();
     }
 
-//    Metodo per l'inizializzazione degli sprite di gioco
+    /**
+     * Metodo per l'inizializzazione degli sprite di gioco
+     */
     private void init(){
         batch = new SpriteBatch();
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
@@ -28,25 +29,33 @@ public class WorldRenderer implements Disposable {
         camera.update();
     }
 
-//    Metodo per decretare l'ordine di renderizzazione degli oggetti
+    /**
+     * Metodo per decretare l'ordine di renderizzazione degli oggetti
+     */
     public void render(){
-        renderTestObjects();
+        renderWorld(batch);
     }
-//    Metodo per la renderizzazione degli oggetti di testing
-    private void renderTestObjects(){
+
+
+    private void renderWorld (SpriteBatch batch) {
+//        Applica i setting di cameraHelper(WorldController) a camera
         worldController.cameraHelper.applyTo(camera);
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        for(Sprite sprite : worldController.testSprites){
-            sprite.draw(batch);
-        }
+        worldController.arena.render(batch);
         batch.end();
     }
-    public void resize(){
 
+
+    /**
+     *  Metodo di resize di renderer nel caso ci siano delle modifiche alla finestra di gioco
+     */
+    public void resize(){
     }
 
-//    Metodo per deallocare correttamente la memoria alla fine del'esecuzione
+    /**
+     * Metodo per deallocare correttamente la memoria alla fine dell'esecuzione
+     */
     @Override
     public void dispose() {
         batch.dispose();

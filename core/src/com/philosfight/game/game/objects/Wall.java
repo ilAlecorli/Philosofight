@@ -14,22 +14,25 @@ public class Wall extends AbstractGameObject {
     }
 
     private void init() {
-        dimension.set(4f, 0.5f);
-        setLenght(1);
+        dimension.set(1400f,233f);
+        wall = Assets.instance.wall.barrier;
     }
 
     public void setLenght(int lenght) {
         this.lenght = lenght;
     }
 
-    public void increaseLenght(int amount) {
-        setLenght(lenght + amount);
-    }
-
     @Override
     public void render(SpriteBatch batch) {
-
-        // Draw wall
+        /*
+         * srcX e scrY servono a "tagliare" un rettangolo, dalla texture o dal texture atlas
+         * x e y servono a disegnare il rettangolo a determinate coordinate
+         * originX ed originY servono a dichiarare l'origine di disegno dell'oggetto, (0,0) implica l'origine nell'angolo in basso a sinistra.
+         * width e height definiscono la dimensione dell'imagine da visualizzare
+         * scaleX e scaleY definiscono la scala del rettangolo intorno all'origine
+         * rotation definisce di quanti gradi ruotare l'immagine
+         * flipX e flipY specchiano l'immagine sui relativi assi.
+         * */
         batch.draw(wall.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, wall.getRegionX(), wall.getRegionY(), wall.getRegionWidth(), wall.getRegionHeight(), false, false);
     }
 }

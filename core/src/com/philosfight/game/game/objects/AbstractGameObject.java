@@ -45,6 +45,14 @@ public abstract class AbstractGameObject {
         bounds = new Rectangle();
     }
 
+    public void update (float deltaTime) {
+        updateMotionX(deltaTime);
+        updateMotionY(deltaTime);
+        // Move to new position
+        position.x += velocity.x * deltaTime;
+        position.y += velocity.y * deltaTime;
+    }
+
     protected void updateMotionX (float deltaTime) {
         if (velocity.x != 0) {
             // Apply friction
@@ -80,13 +88,6 @@ public abstract class AbstractGameObject {
         velocity.y = MathUtils.clamp(velocity.y, -terminalVelocity.y, terminalVelocity.y);
     }
 
-    public void update (float deltaTime) {
-        updateMotionX(deltaTime);
-        updateMotionY(deltaTime);
-        // Move to new position
-        position.x += velocity.x * deltaTime;
-        position.y += velocity.y * deltaTime;
-    }
 
     public abstract void render (SpriteBatch batch);
 }
