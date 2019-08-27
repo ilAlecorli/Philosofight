@@ -31,6 +31,7 @@ public class PhilosofightMain implements ApplicationListener {
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 //		Carica gli assets
 		Assets.instance.init(new AssetManager());
+
 //		Inizializza il worldController ed il worldRenderer
 		worldController = new WorldController();
 		worldRenderer = new WorldRenderer(worldController);
@@ -51,7 +52,7 @@ public class PhilosofightMain implements ApplicationListener {
 			worldController.update(Gdx.graphics.getDeltaTime());
 
 			//Imposto ed eseguo il clear screen: Grigio scuro
-			Gdx.gl.glClearColor(99, 99, 99, 1);
+			Gdx.gl.glClearColor(99/255f, 99/255f, 99/255f, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 			//Renderizzo il game world con il world renderer

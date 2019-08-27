@@ -39,27 +39,6 @@ public class WorldController extends InputAdapter {
         arena = new Arena(Constants.ARENA_00);
     }
 
-    /**
-     * Metodo per la creazione delle Pixmap
-     */
-    private Pixmap createProceduralPixmap(int width, int height) {
-//        Crea un quadrato
-        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGB888);
-
-//        Riempie il quadrato col colore rosso al 50% opaco
-        pixmap.setColor(1, 0, 0, 0.5f);
-        pixmap.fill();
-
-//        Disegna una X gialla sul quadrato
-        pixmap.setColor(1, 1, 0, 1);
-        pixmap.drawLine(0, 0, width, height);
-        pixmap.drawLine(width, 0, 0, height);
-
-//        Disegna un bordo color ciano  sul quadrato
-        pixmap.setColor(0, 1, 1, 1);
-        pixmap.drawRectangle(0, 0, width, height);
-        return pixmap;
-    }
 
     /**
      * Metodo che contiene i comandi della telecamera e di alcuni oggetti
@@ -90,9 +69,9 @@ public class WorldController extends InputAdapter {
             camZoomSpeed *= camZoomSpeedAccelerationFactor;
         if (Gdx.input.isKeyPressed(Input.Keys.COMMA))
             cameraHelper.addZoom(camZoomSpeed);
-        if (Gdx.input.isKeyPressed(Input.Keys.PERIOD))
+        if (Gdx.input.isKeyPressed(Input.Keys.F1))
             cameraHelper.addZoom(-camZoomSpeed);
-        if (Gdx.input.isKeyPressed(Input.Keys.SLASH))
+        if (Gdx.input.isKeyPressed(Input.Keys.F2))
             cameraHelper.setZoom(1);
     }
 

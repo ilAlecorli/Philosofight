@@ -14,16 +14,12 @@ public class Wall extends AbstractGameObject {
     }
 
     private void init() {
-        dimension.set(13f, 1f);
-        setLenght(1);
+        dimension.set(1400f,233f);
+        wall = Assets.instance.wall.barrier;
     }
 
     public void setLenght(int lenght) {
         this.lenght = lenght;
-    }
-
-    public void increaseLenght(int amount) {
-        setLenght(lenght + amount);
     }
 
     @Override
