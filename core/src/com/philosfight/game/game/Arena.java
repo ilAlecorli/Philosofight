@@ -78,7 +78,7 @@ public class Arena {
                     obj.position.set((float)pixelX, (float)pixelY);
                     if(pixelX > 0 && pixelX < (pixmap.getWidth() - 1)){
                         obj.ObjectAssets = Assets.instance.wall.nord;
-                        obj.dimension.set(1f,1f);
+                        obj.dimension.set(1f,1f); // questa serve a porre la dimensione del muro in base ai pixel
                     }
                     else if(pixelY > 0 && pixelY < (pixmap.getHeight() - 1)) {
                         obj.ObjectAssets = Assets.instance.wall.east;
