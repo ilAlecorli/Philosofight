@@ -1,0 +1,33 @@
+pack_wall.png
+size: 485, 487
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+floor
+  rotate: false
+  xy: 0, 0
+  size: 260, 262
+  orig: 260, 262
+  offset: 0, 0
+  index: -1
+wall0
+  rotate: false
+  xy: 260, 0
+  size: 225, 225
+  orig: 225, 225
+  offset: 0, 0
+  index: -1
+wall1
+  rotate: false
+  xy: 0, 262
+  size: 225, 225
+  orig: 225, 225
+  offset: 0, 0
+  index: -1
+wall2
+  rotate: false
+  xy: 225, 262
+  size: 225, 225
+  orig: 225, 225
+  offset: 0, 0
+  index: -1

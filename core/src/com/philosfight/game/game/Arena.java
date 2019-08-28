@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.philosfight.game.game.objects.AbstractGameObject;
 import com.philosfight.game.game.objects.Tile;
 import com.philosfight.game.game.objects.Wall;
+import com.philosfight.game.game.Assets;
 
 public class Arena {
     public static final String TAG = Arena.class.getName();
@@ -69,12 +70,34 @@ public class Arena {
                     obj = new Tile();
                     obj.position.set((float)pixelX, (float)pixelY);
                     this.floor.add((Tile)obj);
+
                 }
 //                Wall
                 else if (BLOCK_TYPE.WALL.sameColor(currentPixel)) {
                     obj = new Wall();
                     obj.position.set((float)pixelX, (float)pixelY);
+                    if(pixelX > 0 && pixelX < (pixmap.getWidth() - 1)){
+                        obj.ObjectAssets = Assets.instance.wall.nord;
+                        obj.dimension.set(1f,0.5f);
+                    }
+                    else if(pixelY > 0 && pixelY < (pixmap.getHeight() - 1)) {
+                        obj.ObjectAssets = Assets.instance.wall.east;
+                        obj.dimension.set(0.5f,1f);
+                    }
+                    else {
+                        obj.ObjectAssets = Assets.instance.wall.corner;
+                        obj.dimension.set(0.5f,0.5f);
+                        if(pixelY == 0 && pixelX == 0){
+                            obj.origin.set(0.5f, 0.5f);
+                            obj.rotation = 180;
+                        }
+                        if(pixelY == 0 && pixelX == pixmap.getWidth()){
+                           obj.origin.set(0.5f, 0.5f);
+                           obj.rotation = -90;
+                        }
+                    }
                     this.walls.add((Wall)obj);
+
                 }
             }
         }

@@ -1,6 +1,7 @@
 package com.philosfight.game.game.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.MathUtils;
@@ -30,6 +31,9 @@ public abstract class AbstractGameObject {
     public Vector2 origin;
     public Vector2 scale;
     public float rotation;
+    public boolean flipX;
+    public boolean flipY;
+    public TextureRegion ObjectAssets;
 
     //Constructor
     public AbstractGameObject () {
@@ -43,6 +47,8 @@ public abstract class AbstractGameObject {
         friction = new Vector2();
         acceleration = new Vector2();
         bounds = new Rectangle();
+        flipX = false;
+        flipY = false;
     }
 
     public void update (float deltaTime) {
