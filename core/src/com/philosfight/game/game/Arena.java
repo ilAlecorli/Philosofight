@@ -89,10 +89,11 @@ public class Arena {
                         obj.dimension.set(0.5f,0.5f);
                         if(pixelY == 0 && pixelX == 0){
                             obj.origin.set(0.5f, 0.5f);
-                            obj.rotation = 180;
+                           // obj.rotation = 180;
                         }
-                        if(pixelY == 0 && pixelX == pixmap.getWidth()){
+                        if(pixelY == 0 && pixelX == (pixmap.getWidth() - 1)){
                            obj.origin.set(0.5f, 0.5f);
+                           obj.position.set((float)pixelX, (float)pixelY);
                            obj.rotation = -90;
                         }
                     }
