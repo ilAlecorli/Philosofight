@@ -7,19 +7,14 @@ import com.philosfight.game.game.Assets;
 
 public class Wall extends AbstractGameObject {
     private TextureRegion wall;
-    private int lenght;
 
     public Wall() {
         init();
     }
 
     private void init() {
-        dimension.set(1400f,233f);
+        dimension.set(1f,1f);
         wall = Assets.instance.wall.barrier;
-    }
-
-    public void setLenght(int lenght) {
-        this.lenght = lenght;
     }
 
     @Override
