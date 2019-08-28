@@ -78,15 +78,15 @@ public class Arena {
                     obj.position.set((float)pixelX, (float)pixelY);
                     if(pixelX > 0 && pixelX < (pixmap.getWidth() - 1)){
                         obj.ObjectAssets = Assets.instance.wall.nord;
-                        obj.dimension.set(1f,0.5f);
+                        obj.dimension.set(1f,1f);
                     }
                     else if(pixelY > 0 && pixelY < (pixmap.getHeight() - 1)) {
                         obj.ObjectAssets = Assets.instance.wall.east;
-                        obj.dimension.set(0.5f,1f);
+                        obj.dimension.set(1f,1f);
                     }
                     else {
                         obj.ObjectAssets = Assets.instance.wall.corner;
-                        obj.dimension.set(0.5f,0.5f);
+                        obj.dimension.set(1f,1f);
                         if(pixelY == 0 && pixelX == 0){
                             obj.origin.set(0.5f, 0.5f);
                            // obj.rotation = 180;
