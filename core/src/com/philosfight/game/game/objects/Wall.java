@@ -6,7 +6,6 @@ import com.philosfight.game.utils.Constants;
 import com.philosfight.game.game.Assets;
 
 public class Wall extends AbstractGameObject {
-    private TextureRegion wall;
 
     public Wall() {
         init();
@@ -14,20 +13,23 @@ public class Wall extends AbstractGameObject {
 
     private void init() {
         dimension.set(1f,1f);
-        wall = Assets.instance.wall.barrier;
+        //origin.set(0.5f, 0.5f);
     }
 
+
+    /*
+     * texture rappresenta la texture dell'oggetto e quindi l'immagine da prendere in considerazione
+     * x e y servono a disegnare il rettangolo a determinate coordinate
+     * originX ed originY servono a dichiarare l'origine dell'oggetto, (0,0) implica l'origine nell'angolo in basso a sinistra.
+     * width e height definiscono la dimensione dell'imagine da visualizzare
+     * scaleX e scaleY definiscono la scala del rettangolo intorno all'origine
+     * rotation definisce di quanti gradi ruotare l'immagine
+     * srcX e scrY servono a "tagliare" un rettangolo, dalla texture o dal texture atlas
+     * srcHeight e srcWidth
+     * flipX e flipY specchiano l'immagine sui relativi assi.
+     * */
     @Override
     public void render(SpriteBatch batch) {
-        /*
-         * srcX e scrY servono a "tagliare" un rettangolo, dalla texture o dal texture atlas
-         * x e y servono a disegnare il rettangolo a determinate coordinate
-         * originX ed originY servono a dichiarare l'origine di disegno dell'oggetto, (0,0) implica l'origine nell'angolo in basso a sinistra.
-         * width e height definiscono la dimensione dell'imagine da visualizzare
-         * scaleX e scaleY definiscono la scala del rettangolo intorno all'origine
-         * rotation definisce di quanti gradi ruotare l'immagine
-         * flipX e flipY specchiano l'immagine sui relativi assi.
-         * */
-        batch.draw(wall.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, wall.getRegionX(), wall.getRegionY(), wall.getRegionWidth(), wall.getRegionHeight(), false, false);
+        batch.draw(ObjectAssets.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, ObjectAssets.getRegionX(), ObjectAssets.getRegionY(), ObjectAssets.getRegionWidth(), ObjectAssets.getRegionHeight(), flipX, flipY);
     }
 }

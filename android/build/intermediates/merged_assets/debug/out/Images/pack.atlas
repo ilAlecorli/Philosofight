@@ -1,19 +1,19 @@
 pack.png
-size: 623, 160
+size: 485, 262
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 floor
   rotate: false
   xy: 0, 0
-  size: 95, 95
-  orig: 95, 95
+  size: 260, 262
+  orig: 260, 262
   offset: 0, 0
   index: -1
 wall
   rotate: false
-  xy: 95, 0
-  size: 528, 160
-  orig: 528, 160
+  xy: 260, 0
+  size: 225, 225
+  orig: 225, 225
   offset: 0, 0
   index: -1

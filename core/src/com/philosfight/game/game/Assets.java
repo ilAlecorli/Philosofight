@@ -62,10 +62,13 @@ public class Assets implements Disposable, AssetErrorListener {
      * Asset dei muri dell'arena.
      */
     public class AssetWall {
-        public final TextureAtlas.AtlasRegion barrier;
-
+        public final TextureAtlas.AtlasRegion east;
+        public final TextureAtlas.AtlasRegion nord;
+        public final TextureAtlas.AtlasRegion corner;
         public AssetWall(TextureAtlas atlas) {
-            barrier = atlas.findRegion("wall");
+            east = atlas.findRegion("wall0");
+            nord = atlas.findRegion("wall2");
+            corner = atlas.findRegion("wall1");
         }
     }
 
