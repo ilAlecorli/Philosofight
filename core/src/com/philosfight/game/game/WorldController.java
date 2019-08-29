@@ -6,13 +6,48 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.philosfight.game.game.objects.Player;
+import com.philosfight.game.game.objects.Wall;
 import com.philosfight.game.utils.CameraHelper;
 import com.philosfight.game.utils.Constants;
+import com.badlogic.gdx.math.Rectangle;
+
 
 public class WorldController extends InputAdapter {
     private static final String TAG = WorldController.class.getName();
     public CameraHelper cameraHelper;
     public Arena arena;
+
+//    Rettangoli per il riconoscimento delle collisioni
+    private Rectangle r1 = new Rectangle();
+    private Rectangle r2 = new Rectangle();
+
+    private void onCollisionPlayerWithWall(Wall wall, Player player){
+        float heightDifference = Math.abs(player.position.y - (  wall.position.y + wall.bounds.height));
+        if (heightDifference > 0.25f) {
+            boolean hitRightEdge = player.position.x > (wall.position.x + wall.bounds.width / 2.0f);
+            if (hitRightEdge) {
+                player.position.x = wall.position.x + wall.bounds.width;
+            } else {
+                player.position.x = wall.position.x - player.bounds.width;
+            }
+        }
+        return;
+    }
+
+    private void testCollisions(){
+       // r1.set(arena.player.position.x, arena.player.position.y, arena.player.bounds.width, arena.player.bounds.height);
+        //    Test collision: Player <-> Wall
+        for(Wall wall : arena.walls){
+            r2.set(wall.position.x, wall.position.y, wall.bounds.width, wall.bounds.height);
+            if(!r1.overlaps(r2))
+                continue;
+         //   onCollisionPlayerWithWall(wall, arena.player);
+        }
+    }
+
+
+
 
     public WorldController() {
         init();

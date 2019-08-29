@@ -1,5 +1,5 @@
-pack_wall.png
-size: 770, 225
+pack_arena.png
+size: 228, 908
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -10,23 +10,30 @@ floor
   orig: 95, 95
   offset: 0, 0
   index: -1
-wall0
+player
   rotate: false
   xy: 95, 0
+  size: 133, 233
+  orig: 133, 233
+  offset: 0, 0
+  index: -1
+wall0
+  rotate: false
+  xy: 0, 233
   size: 225, 225
   orig: 225, 225
   offset: 0, 0
   index: -1
 wall1
   rotate: false
-  xy: 320, 0
+  xy: 0, 458
   size: 225, 225
   orig: 225, 225
   offset: 0, 0
   index: -1
 wall2
   rotate: false
-  xy: 545, 0
+  xy: 0, 683
   size: 225, 225
   orig: 225, 225
   offset: 0, 0
