@@ -5,7 +5,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Pixmap;
+import com.philosfight.game.game.objects.AbstractGameObject;
 import com.philosfight.game.game.objects.Player;
 import com.philosfight.game.game.objects.Wall;
 import com.philosfight.game.utils.CameraHelper;
@@ -21,32 +21,6 @@ public class WorldController extends InputAdapter {
 //    Rettangoli per il riconoscimento delle collisioni
     private Rectangle r1 = new Rectangle();
     private Rectangle r2 = new Rectangle();
-
-    private void onCollisionPlayerWithWall(Wall wall, Player player){
-        float heightDifference = Math.abs(player.position.y - (  wall.position.y + wall.bounds.height));
-        if (heightDifference > 0.25f) {
-            boolean hitRightEdge = player.position.x > (wall.position.x + wall.bounds.width / 2.0f);
-            if (hitRightEdge) {
-                player.position.x = wall.position.x + wall.bounds.width;
-            } else {
-                player.position.x = wall.position.x - player.bounds.width;
-            }
-        }
-        return;
-    }
-
-    private void testCollisions(){
-       // r1.set(arena.player.position.x, arena.player.position.y, arena.player.bounds.width, arena.player.bounds.height);
-        //    Test collision: Player <-> Wall
-        for(Wall wall : arena.walls){
-            r2.set(wall.position.x, wall.position.y, wall.bounds.width, wall.bounds.height);
-            if(!r1.overlaps(r2))
-                continue;
-         //   onCollisionPlayerWithWall(wall, arena.player);
-        }
-    }
-
-
 
 
     public WorldController() {
@@ -129,4 +103,47 @@ public class WorldController extends InputAdapter {
         }
         return false;
     }
+
+
+    /**
+     * Funzione per controllare le collisioni fra oggetti astratti
+     * @param obj1
+     * @param obj2
+     */
+    public void CheckCollisions(AbstractGameObject obj1, AbstractGameObject obj2) {
+        r1.set(obj1.position.x, obj1.position.y, obj1.bounds.width, obj1.bounds.height);
+        r2.set(obj2.position.x, obj2.position.y, obj2.bounds.width, obj2.bounds.height);
+        if(r1.overlaps(r2)) {
+            if (obj1 instanceof Wall || obj2 instanceof  Wall) {
+                if (obj1 instanceof Player)
+                    onCollisionPlayerWithWall(obj1, obj2);
+                else if (obj2 instanceof Player)
+                    onCollisionPlayerWithWall(obj2, obj1);
+                else{}
+            }
+        }
+    }
+
+    private void onCollisionPlayerWithWall(AbstractGameObject player, AbstractGameObject obj) {
+        float heightDifference = Math.abs(player.position.y - (obj.position.y + obj.bounds.height));
+        float widthDifference = Math.abs(player.position.x - (obj.position.x + obj.bounds.width));
+        if(heightDifference < (obj.bounds.height / 2)) {
+            if(player.position.y > obj.position.y)
+                player.position.y = player.position.y + (heightDifference - (obj.bounds.height / 2));
+            else
+                player.position.y = player.position.y - (heightDifference - (obj.bounds.height / 2));
+        }
+        if(widthDifference < (obj.bounds.width / 2)){
+            if(player.position.x > obj.position.x)
+                player.position.x = player.position.x + (widthDifference - (obj.bounds.width / 2));
+            else
+                player.position.x = player.position.x - (widthDifference - (obj.bounds.width / 2));
+
+        }
+        return;
+    }
+//
+//
+//    }
 }
+
