@@ -1,13 +1,66 @@
 package com.philosfight.game.game.objects;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.philosfight.game.game.Assets;
+        import com.badlogic.gdx.Gdx;
+        import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+        import com.badlogic.gdx.graphics.g2d.TextureRegion;
+        import com.philosfight.game.utils.Constants;
+        import com.philosfight.game.game.Assets;
+
 
 public class Player extends AbstractGameObject {
 
+    //Utile nelle exeptions per mostrare il nome dell'oggetto
     public static final String TAG = Player.class.getName();
 
 
+    private String namePlayer;
+    //Vita del Player
+    private float lifePlayer;
+    //Mana del Player
+    private float mana;
+    //Estensione dell'area Melee con la quale il Player attacca fisicamente;
+    private float meleeExtension;
+
+    public enum DIRECTION {
+        UP, DOWN, LEFT, RIGHT
+    }
+
+
+    public void setNamePlayer(String namePlayer) {
+        this.namePlayer = namePlayer;
+    }
+
+    public String getNamePlayer() {
+        return namePlayer;
+    }
+
+    public float getLifePlayer() {
+        return lifePlayer;
+    }
+
+    public void setLifePlayer(float lifePlayer) {
+        this.lifePlayer = lifePlayer;
+    }
+
+    public float getMana() {
+        return mana;
+    }
+
+    public void setMana(float mana) {
+        this.mana = mana;
+    }
+
+    public float getMeleeExtension() {
+        return meleeExtension;
+    }
+
+    public void setMeleeExtension(float meleeExtension) {
+        //La meleeExtension non sarà mai negativa
+        if (meleeExtension < 0) meleeExtension = 0;
+        this.meleeExtension = meleeExtension;
+    }
+
+    //Costruttore
     public Player() {
         init();
     }
@@ -16,6 +69,16 @@ public class Player extends AbstractGameObject {
         dimension.set(0.75f, 0.75f);
         ObjectAssets = Assets.instance.player.pg;
 
+    }
+    @Override
+    public void update (float deltaTime) {
+        super.update(deltaTime);
+
+    }
+
+    @Override
+    protected void updateMotionY (float deltaTime) {
+        super.updateMotionY(deltaTime);
     }
 
     @Override
