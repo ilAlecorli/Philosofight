@@ -130,6 +130,23 @@ public class WorldController extends InputAdapter {
         return;
     }
 
+    /**
+     * Metodo per i comandi di debug
+     */
+    @Override
+    public boolean keyUp(int keycode) {
+//    Resetta il mondo di gioco
+        if (keycode == Input.Keys.R) {
+            init();
+            Gdx.app.debug(TAG, "Game world resetted");
+        }
+        // Toggle camera follow
+        else if (keycode == Input.Keys.ENTER) {
+            cameraHelper.setTarget(cameraHelper.hasTarget() ? null: arena.players());
+            Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
+        }
+        return false;
+    }
 }
 
 
