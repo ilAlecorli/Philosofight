@@ -71,7 +71,7 @@ public class WorldController extends InputAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.BACKSPACE))
             cameraHelper.setPosition(0, 0);
 
-// Camera Controls (zoom)
+        // Camera Controls (zoom)
         float camZoomSpeed = 1 * deltaTime;
         float camZoomSpeedAccelerationFactor = 5;
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))
@@ -90,19 +90,6 @@ public class WorldController extends InputAdapter {
         cameraHelper.setPosition(x, y);
     }
 
-    /**
-     * Metodo per i comandi di debug
-     */
-
-    @Override
-    public boolean keyUp(int keycode) {
-//    Resetta il mondo di gioco
-        if (keycode == Input.Keys.R) {
-            init();
-            Gdx.app.debug(TAG, "Game world resetted");
-        }
-        return false;
-    }
 
 
     /**
@@ -142,8 +129,7 @@ public class WorldController extends InputAdapter {
         }
         return;
     }
-//
-//
-//    }
+
 }
+
 
