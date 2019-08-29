@@ -50,10 +50,12 @@ public class Arena {
     private void init(String filename) {
 //        Carica l'immagine che rappresenta il livello
         Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
+
 //      Tag che permette di cambiare la dimensione dei muri a seconda della loro posizione
         this.walls = new Array();
         this.floor = new Array();
         this.players = new Array();
+
         int lastPixel = -1;
 //        Scannerizza l'immagine dal pixel in basso a sinistra fino al pixel in alto a destra
         for (int pixelY = 0; pixelY < pixmap.getHeight(); pixelY++) {
@@ -77,6 +79,7 @@ public class Arena {
                     this.floor.add((Tile)obj);
 
                 }
+
 //                Wall
                 else if (BLOCK_TYPE.WALL.sameColor(currentPixel)) {
                     obj = new Wall();
@@ -107,7 +110,6 @@ public class Arena {
                 else if(BLOCK_TYPE.SPAWN.sameColor(currentPixel)){
                     obj = new Player();
                     obj.position.set(pixelX, pixelY);
-
                     this.players.add((Player)obj);
                 }
             }
