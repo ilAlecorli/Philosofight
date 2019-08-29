@@ -1,10 +1,11 @@
 package com.philosfight.game.game.objects;
 
+        import com.badlogic.gdx.Application;
         import com.badlogic.gdx.Gdx;
+        import com.badlogic.gdx.Input;
         import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-        import com.badlogic.gdx.graphics.g2d.TextureRegion;
-        import com.philosfight.game.utils.Constants;
         import com.philosfight.game.game.Assets;
+    
 
 
 public class Player extends AbstractGameObject {
@@ -20,10 +21,6 @@ public class Player extends AbstractGameObject {
     private float mana;
     //Estensione dell'area Melee con la quale il Player attacca fisicamente;
     private float meleeExtension;
-
-    public enum DIRECTION {
-        UP, DOWN, LEFT, RIGHT
-    }
 
 
     public void setNamePlayer(String namePlayer) {
@@ -95,5 +92,36 @@ public class Player extends AbstractGameObject {
      * */
     public void render(SpriteBatch batch) {
         batch.draw(ObjectAssets.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, ObjectAssets.getRegionX(), ObjectAssets.getRegionY(), ObjectAssets.getRegionWidth(), ObjectAssets.getRegionHeight(), flipX, flipY);
+    }
+
+    
+    private void movementCheck(){
+        // Movimento player attivo sull'asse x
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            //movimento verso Ovest
+            velocity.x = -terminalVelocity.x;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            //movimento verso Est
+            velocity.x = terminalVelocity.x;
+        } else {
+            // Execute auto-forward movement on non-desktop platform
+            if (Gdx.app.getType() != Application.ApplicationType.Desktop) {
+                velocity.x = terminalVelocity.x;
+            }
+        }
+
+        // Movimento player attivo sull'asse Y
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            // movimento verso nord
+            velocity.y = -terminalVelocity.y;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            // movimento verso sud
+            velocity.y = terminalVelocity.y;
+        } else {
+            // Execute auto-forward movement on non-desktop platform
+            if (Gdx.app.getType() != Application.ApplicationType.Desktop) {
+                velocity.y = terminalVelocity.y;
+            }
+        }
     }
 }
