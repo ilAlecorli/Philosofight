@@ -1,22 +1,24 @@
 package com.philosfight.game.game.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.philosfight.game.utils.Constants;
 import com.philosfight.game.game.Assets;
 
-public class Wall extends AbstractGameObject {
+public class Player extends AbstractGameObject {
 
-    public Wall() {
+    public static final String TAG = Player.class.getName();
+
+
+    public Player() {
         init();
     }
 
-    private void init() {
-        dimension.set(1f,1f);
-        //origin.set(0.5f, 0.5f);
+    private void init(){
+        dimension.set(0.75f, 0.75f);
+        ObjectAssets = Assets.instance.player.pg;
+
     }
 
-
+    @Override
     /**
      * texture rappresenta la texture dell'oggetto e quindi l'immagine da prendere in considerazione
      * x e y servono a disegnare il rettangolo a determinate coordinate
@@ -28,7 +30,6 @@ public class Wall extends AbstractGameObject {
      * srcHeight e srcWidth
      * flipX e flipY specchiano l'immagine sui relativi assi.
      * */
-    @Override
     public void render(SpriteBatch batch) {
         batch.draw(ObjectAssets.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, ObjectAssets.getRegionX(), ObjectAssets.getRegionY(), ObjectAssets.getRegionWidth(), ObjectAssets.getRegionHeight(), flipX, flipY);
     }

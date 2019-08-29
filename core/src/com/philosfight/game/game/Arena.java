@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.philosfight.game.game.objects.AbstractGameObject;
+import com.philosfight.game.game.objects.Player;
 import com.philosfight.game.game.objects.Tile;
 import com.philosfight.game.game.objects.Wall;
 import com.philosfight.game.game.Assets;
@@ -12,13 +13,16 @@ import com.philosfight.game.game.Assets;
 public class Arena {
     public static final String TAG = Arena.class.getName();
 
+
     //Oggetti
     public Array<Wall> walls;
     public Array<Tile> floor;
+    public Array<Player> players;
 
     public enum BLOCK_TYPE {
-        EMPTY(0, 0, 0),     // black
-        WALL(255, 216, 0);  //yellow
+        TILE(0, 0, 0),     // black
+        WALL(255, 216, 0),  //yellow
+        SPAWN(255,255,255); //white
 
         private int color;
 
@@ -49,6 +53,7 @@ public class Arena {
 //      Tag che permette di cambiare la dimensione dei muri a seconda della loro posizione
         this.walls = new Array();
         this.floor = new Array();
+        this.players = new Array();
         int lastPixel = -1;
 //        Scannerizza l'immagine dal pixel in basso a sinistra fino al pixel in alto a destra
         for (int pixelY = 0; pixelY < pixmap.getHeight(); pixelY++) {
@@ -66,7 +71,7 @@ public class Arena {
 //                a match
 
 //                Empty space
-                if (BLOCK_TYPE.EMPTY.sameColor(currentPixel)) {
+                if (BLOCK_TYPE.TILE.sameColor(currentPixel)) {
                     obj = new Tile();
                     obj.position.set((float)pixelX, (float)pixelY);
                     this.floor.add((Tile)obj);
@@ -89,16 +94,21 @@ public class Arena {
                         obj.dimension.set(1f,1f);
                         if(pixelY == 0 && pixelX == 0){
                             obj.origin.set(0.5f, 0.5f);
-                           // obj.rotation = 180;
+//                            obj.rotation = 180;
                         }
                         if(pixelY == 0 && pixelX == (pixmap.getWidth() - 1)){
                            obj.origin.set(0.5f, 0.5f);
                            obj.position.set((float)pixelX, (float)pixelY);
-                           obj.rotation = -90;
+//                           obj.rotation = -90;
                         }
                     }
                     this.walls.add((Wall)obj);
+                }
+                else if(BLOCK_TYPE.SPAWN.sameColor(currentPixel)){
+                    obj = new Player();
+                    obj.position.set(pixelX, pixelY);
 
+                    this.players.add((Player)obj);
                 }
             }
         }
@@ -112,9 +122,13 @@ public class Arena {
             tile.render(batch);
         }
         //Disegna i muri
-        for(Wall wall : walls){
+        for(Wall wall : walls) {
             //Impostazioni di disegno dei muri
             wall.render(batch);
+        }
+//            Disegna i giocatori
+         for(Player player : players){
+             player.render(batch);
         }
     }
 }

@@ -18,6 +18,7 @@ public class Assets implements Disposable, AssetErrorListener {
     //Definisco gli assets di gioco
     public AssetWall wall;
     public AssetTile tile;
+    public AssetPlayer player;
 
     /**
      * Singleton: Può esistere solo una sola istanza di Assets,
@@ -36,8 +37,8 @@ public class Assets implements Disposable, AssetErrorListener {
         this.assetManager = assetManager;
         // Imposta l'error handler dell'asset manager
         assetManager.setErrorListener(this);
-        // Carica le texture atlas
-        assetManager.load(Constants.TEXTURE_ATLAS_OBJECTS, TextureAtlas.class);
+        // Carica le texture atlas dell'arena
+        assetManager.load(Constants.TEXTURE_ATLAS_ARENA, TextureAtlas.class);
         //Inizia il caricamento degli assets ed aspetta che abbiano finito
         assetManager.finishLoading();
         Gdx.app.debug(TAG, "# of assets loaded: " + assetManager.getAssetNames().size);
@@ -45,8 +46,8 @@ public class Assets implements Disposable, AssetErrorListener {
             Gdx.app.debug(TAG, "asset: " + a);
         }
 
-        //Carica i dati degli asset dalla fonte definita in Constants.TEXTURE_ATLAS_OBJECTS
-        TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS_OBJECTS);
+        //Carica i dati degli asset dalla fonte definita in Constants.TEXTURE_ATLAS_ARENA
+        TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS_ARENA);
 
         //Attiva il texture filtering
         for (Texture t : atlas.getTextures()) {
@@ -56,6 +57,15 @@ public class Assets implements Disposable, AssetErrorListener {
         //Crea le risorse di gioco
         wall = new AssetWall(atlas);
         tile = new AssetTile(atlas);
+        player = new AssetPlayer(atlas);
+    }
+
+
+    public class AssetPlayer{
+        public final TextureAtlas.AtlasRegion pg;
+        public AssetPlayer(TextureAtlas atlas){
+            pg = atlas.findRegion("player");
+        }
     }
 
     /**
@@ -72,6 +82,9 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+    /**
+     * Asset del pavimento
+     */
     public class AssetTile {
         public final TextureAtlas.AtlasRegion tile00;
 
