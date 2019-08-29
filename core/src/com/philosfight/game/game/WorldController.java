@@ -18,7 +18,7 @@ public class WorldController extends InputAdapter {
     public CameraHelper cameraHelper;
     public Arena arena;
 
-//    Rettangoli per il riconoscimento delle collisioni
+    //Rettangoli per il riconoscimento delle collisioni
     private Rectangle r1 = new Rectangle();
     private Rectangle r2 = new Rectangle();
 
@@ -142,8 +142,19 @@ public class WorldController extends InputAdapter {
         }
         // Toggle camera follow
         else if (keycode == Input.Keys.ENTER) {
-            cameraHelper.setTarget(cameraHelper.hasTarget() ? null: arena.players());
-            Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
+            //Se la camera è libera
+            if (cameraHelper.hasTarget() == false) {
+                //Puntala sul primo player
+                cameraHelper.setTarget(arena.players.get(0));
+                Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
+            } else if (cameraHelper.hasTarget() == true && cameraHelper.getTarget() == arena.players.get(0)) {
+                //Se è già occupata dal primo player va al successivo
+                cameraHelper.setTarget(arena.players.get(1));
+            } else  if (cameraHelper.hasTarget() == true && cameraHelper.getTarget() == arena.players.get(1)){
+                //Se è già occupata puntala dal secondo player viene liberata
+                cameraHelper.setTarget(null);
+            }
+
         }
         return false;
     }
