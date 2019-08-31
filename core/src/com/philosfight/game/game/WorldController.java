@@ -32,8 +32,10 @@ public class WorldController extends InputAdapter {
      */
     private void init() {
         Gdx.input.setInputProcessor(this);
-        cameraHelper = new CameraHelper();
         initArena();
+        cameraHelper = new CameraHelper();
+        cameraHelper.setPosition(arena.pixmap.getWidth() / 2, arena.pixmap.getHeight() / 2);
+        cameraHelper.setZoom(2.5f);
     }
 
     /**
@@ -41,6 +43,9 @@ public class WorldController extends InputAdapter {
      */
     public void update(float deltaTime) {
         handleDebugInput(deltaTime);
+        arena.player1.movementCheck(deltaTime);
+        arena.player1.movementUpdate(deltaTime);
+        CheckCollisions(arena.player1);
         cameraHelper.update(deltaTime);
     }
 
@@ -93,39 +98,30 @@ public class WorldController extends InputAdapter {
 
 
     /**
-     * Funzione per controllare le collisioni fra oggetti astratti
-     * @param obj1
-     * @param obj2
+     * Funzione per controllare le collisioni fra oggetti generici
      */
-    public void CheckCollisions(AbstractGameObject obj1, AbstractGameObject obj2) {
-        r1.set(obj1.position.x, obj1.position.y, obj1.bounds.width, obj1.bounds.height);
-        r2.set(obj2.position.x, obj2.position.y, obj2.bounds.width, obj2.bounds.height);
-        if(r1.overlaps(r2)) {
-            if (obj1 instanceof Wall || obj2 instanceof  Wall) {
-                if (obj1 instanceof Player)
-                    onCollisionPlayerWithWall(obj1, obj2);
-                else if (obj2 instanceof Player)
-                    onCollisionPlayerWithWall(obj2, obj1);
-                else{}
+    public void CheckCollisions(Player player) {
+        r1.set(player.position.x, player.position.y, player.bounds.width, player.bounds.height);
+        for(Wall wall : arena.walls) {
+            r2.set(wall.position.x, wall.position.y, wall.bounds.width, wall.bounds.height);
+            if (r1.overlaps(r2)) {
+                onCollisionPlayerWithWall(player, wall);
             }
         }
     }
 
-    private void onCollisionPlayerWithWall(AbstractGameObject player, AbstractGameObject obj) {
-        float heightDifference = Math.abs(player.position.y - (obj.position.y + obj.bounds.height));
-        float widthDifference = Math.abs(player.position.x - (obj.position.x + obj.bounds.width));
-        if(heightDifference < (obj.bounds.height / 2)) {
-            if(player.position.y > obj.position.y)
-                player.position.y = player.position.y + (heightDifference - (obj.bounds.height / 2));
-            else
-                player.position.y = player.position.y - (heightDifference - (obj.bounds.height / 2));
+    private void onCollisionPlayerWithWall(Player player, Wall wall) {
+        if(r1.x > r1.x) {
+            player.position.x =  wall.position.x + (wall.bounds.width + player.bounds.width)/2;
         }
-        if(widthDifference < (obj.bounds.width / 2)){
-            if(player.position.x > obj.position.x)
-                player.position.x = player.position.x + (widthDifference - (obj.bounds.width / 2));
-            else
-                player.position.x = player.position.x - (widthDifference - (obj.bounds.width / 2));
-
+        else{
+            player.position.x =  wall.position.x - (wall.bounds.width + player.bounds.width)/2;
+        }
+        if(r1.y > r1.y) {
+            player.position.y =  wall.position.y + (wall.bounds.height + player.bounds.height)/2;
+        }
+        else{
+            player.position.y =  wall.position.y - (wall.bounds.height + player.bounds.height)/2;
         }
         return;
     }
@@ -145,12 +141,12 @@ public class WorldController extends InputAdapter {
             //Se la camera è libera
             if (cameraHelper.hasTarget() == false) {
                 //Puntala sul primo player
-                cameraHelper.setTarget(arena.players.get(0));
+                cameraHelper.setTarget(arena.player1);
                 Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
-            } else if (cameraHelper.hasTarget() == true && cameraHelper.getTarget() == arena.players.get(0)) {
+            } else if (cameraHelper.hasTarget() == true && cameraHelper.getTarget() == arena.player1) {
                 //Se è già occupata dal primo player va al successivo
-                cameraHelper.setTarget(arena.players.get(1));
-            } else  if (cameraHelper.hasTarget() == true && cameraHelper.getTarget() == arena.players.get(1)){
+                cameraHelper.setTarget(arena.player2);
+            } else  if (cameraHelper.hasTarget() == true && cameraHelper.getTarget() == arena.player2){
                 //Se è già occupata puntala dal secondo player viene liberata
                 cameraHelper.setTarget(null);
             }
