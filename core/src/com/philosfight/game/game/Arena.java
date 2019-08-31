@@ -1,5 +1,6 @@
 package com.philosfight.game.game;
 
+import com.philosfight.game.game.WorldController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,12 +13,14 @@ import com.philosfight.game.game.Assets;
 
 public class Arena {
     public static final String TAG = Arena.class.getName();
-
+    private int FLAG_P = 0;
+    public Pixmap pixmap;
 
     //Oggetti
     public Array<Wall> walls;
     public Array<Tile> floor;
-    public Array<Player> players;
+    public Player player1;
+    public Player player2;
 
     public enum BLOCK_TYPE {
         TILE(0, 0, 0),     // black
@@ -49,12 +52,11 @@ public class Arena {
 
     private void init(String filename) {
 //        Carica l'immagine che rappresenta il livello
-        Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
+        pixmap = new Pixmap(Gdx.files.internal(filename));
 
 //      Tag che permette di cambiare la dimensione dei muri a seconda della loro posizione
         this.walls = new Array();
         this.floor = new Array();
-        this.players = new Array();
 
         int lastPixel = -1;
 //        Scannerizza l'immagine dal pixel in basso a sinistra fino al pixel in alto a destra
@@ -84,33 +86,27 @@ public class Arena {
                 else if (BLOCK_TYPE.WALL.sameColor(currentPixel)) {
                     obj = new Wall();
                     obj.position.set((float)pixelX, (float)pixelY);
-                    if(pixelX > 0 && pixelX < (pixmap.getWidth() - 1)){
+                    if(pixelX > 0 && pixelX < (pixmap.getWidth() - 1))
                         obj.ObjectAssets = Assets.instance.wall.nord;
-                        obj.dimension.set(1f,1f); // questa serve a porre la dimensione del muro in base ai pixel
-                    }
-                    else if(pixelY > 0 && pixelY < (pixmap.getHeight() - 1)) {
+                    else if(pixelY > 0 && pixelY < (pixmap.getHeight() - 1))
                         obj.ObjectAssets = Assets.instance.wall.east;
-                        obj.dimension.set(1f,1f);
-                    }
                     else {
                         obj.ObjectAssets = Assets.instance.wall.corner;
-                        obj.dimension.set(1f,1f);
-                        if(pixelY == 0 && pixelX == 0){
-                            obj.origin.set(0.5f, 0.5f);
-//                            obj.rotation = 180;
-                        }
-                        if(pixelY == 0 && pixelX == (pixmap.getWidth() - 1)){
-                           obj.origin.set(0.5f, 0.5f);
-                           obj.position.set((float)pixelX, (float)pixelY);
 //                           obj.rotation = -90;
                         }
-                    }
                     this.walls.add((Wall)obj);
                 }
+
                 else if(BLOCK_TYPE.SPAWN.sameColor(currentPixel)){
                     obj = new Player();
                     obj.position.set(pixelX, pixelY);
-                    this.players.add((Player)obj);
+                    if(FLAG_P == 0) {
+                        player1 = (Player) obj;
+                        FLAG_P = 1;
+                    }
+                    else if(FLAG_P == 1){
+                        player2 = (Player)obj;
+                    }
                 }
             }
         }
@@ -129,8 +125,7 @@ public class Arena {
             wall.render(batch);
         }
 //            Disegna i giocatori
-         for(Player player : players){
-             player.render(batch);
-        }
+        player1.render(batch);
+        player2.render(batch);
     }
 }

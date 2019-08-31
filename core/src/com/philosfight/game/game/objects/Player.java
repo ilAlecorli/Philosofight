@@ -64,6 +64,9 @@ public class Player extends AbstractGameObject {
 
     private void init(){
         dimension.set(0.75f, 0.75f);
+        origin.set(dimension.x / 2, dimension.y /2);
+        bounds.set(position.x, position.y, dimension.x, dimension.y);
+        terminalVelocity.set(0.02f ,0.02f);
         ObjectAssets = Assets.instance.player.pg;
 
     }
@@ -95,12 +98,12 @@ public class Player extends AbstractGameObject {
     }
 
     
-    private void movementCheck(){
+    public void movementCheck(float deltatime){
         // Movimento player attivo sull'asse x
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             //movimento verso Ovest
             velocity.x = -terminalVelocity.x;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             //movimento verso Est
             velocity.x = terminalVelocity.x;
         } else {
@@ -109,12 +112,11 @@ public class Player extends AbstractGameObject {
                 velocity.x = terminalVelocity.x;
             }
         }
-
         // Movimento player attivo sull'asse Y
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             // movimento verso nord
             velocity.y = -terminalVelocity.y;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             // movimento verso sud
             velocity.y = terminalVelocity.y;
         } else {
@@ -123,5 +125,10 @@ public class Player extends AbstractGameObject {
                 velocity.y = terminalVelocity.y;
             }
         }
+    }
+
+    public void movementUpdate (float deltaTime) {
+        this.position.x = this.position.x + velocity.x;
+        this.position.y = this.position.y + velocity.y;
     }
 }
