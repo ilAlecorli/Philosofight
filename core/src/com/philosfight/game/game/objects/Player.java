@@ -13,7 +13,7 @@ public class Player extends AbstractGameObject {
     //Utile nelle exeptions per mostrare il nome dell'oggetto
     public static final String TAG = Player.class.getName();
 
-
+    //Nome
     private String namePlayer;
     //Vita del Player
     private float lifePlayer;
@@ -21,6 +21,8 @@ public class Player extends AbstractGameObject {
     private float mana;
     //Estensione dell'area Melee con la quale il Player attacca fisicamente;
     private float meleeExtension;
+    //Flag di movimento
+    private boolean movementEnable = false;
 
 
     public void setNamePlayer(String namePlayer) {
@@ -66,7 +68,10 @@ public class Player extends AbstractGameObject {
         dimension.set(0.75f, 0.75f);
         origin.set(dimension.x / 2, dimension.y /2);
         bounds.set(position.x, position.y, dimension.x, dimension.y);
-        terminalVelocity.set(0.02f ,0.02f);
+        // Set physics values
+        terminalVelocity.set(3.0f, 3.0f);   //3 è un valore medio
+        friction.set(12.0f, 12.0f);         //12 è un valore medio
+
         ObjectAssets = Assets.instance.player.pg;
 
     }
@@ -97,8 +102,11 @@ public class Player extends AbstractGameObject {
         batch.draw(ObjectAssets.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, ObjectAssets.getRegionX(), ObjectAssets.getRegionY(), ObjectAssets.getRegionWidth(), ObjectAssets.getRegionHeight(), flipX, flipY);
     }
 
-    
+
     public void movementCheck(float deltatime){
+        //se il movimento è possibilitato
+        if (!movementEnable)
+            return;
         // Movimento player attivo sull'asse x
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             //movimento verso Ovest
@@ -127,8 +135,18 @@ public class Player extends AbstractGameObject {
         }
     }
 
-    public void movementUpdate (float deltaTime) {
-        this.position.x = this.position.x + velocity.x;
-        this.position.y = this.position.y + velocity.y;
+    public boolean getMovementEnable(){
+        return  movementEnable;
     }
+
+    /**
+     * Attiva il movimento del Player
+     * se @param movementEnable True = in movimento
+     * se @param movementEnable False = disabilitato
+    */
+    public void setMovementEnable(boolean movementEnable){
+        Gdx.app.debug(TAG, "Movement player set: " + movementEnable + " on Player: " + namePlayer);
+        this.movementEnable = movementEnable;
+    }
+
 }

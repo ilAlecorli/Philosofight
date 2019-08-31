@@ -44,8 +44,11 @@ public class WorldController extends InputAdapter {
     public void update(float deltaTime) {
         handleDebugInput(deltaTime);
         arena.player1.movementCheck(deltaTime);
-        arena.player1.movementUpdate(deltaTime);
+        arena.player1.update(deltaTime);
         CheckCollisions(arena.player1);
+        arena.player2.movementCheck(deltaTime);
+        arena.player2.update(deltaTime);
+        CheckCollisions(arena.player2);
         cameraHelper.update(deltaTime);
     }
 
@@ -140,13 +143,21 @@ public class WorldController extends InputAdapter {
         else if (keycode == Input.Keys.ENTER) {
             //Se la camera è libera
             if (cameraHelper.hasTarget() == false) {
+                //Attiva il player1
+                arena.player1.setMovementEnable(true);
                 //Puntala sul primo player
                 cameraHelper.setTarget(arena.player1);
                 Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
             } else if (cameraHelper.hasTarget() == true && cameraHelper.getTarget() == arena.player1) {
+                //Disattiva il player1
+                arena.player1.setMovementEnable(false);
+                //Attiva il player2
+                arena.player2.setMovementEnable(true);
                 //Se è già occupata dal primo player va al successivo
                 cameraHelper.setTarget(arena.player2);
             } else  if (cameraHelper.hasTarget() == true && cameraHelper.getTarget() == arena.player2){
+                //Disattiva player2
+                arena.player2.setMovementEnable(false);
                 //Se è già occupata puntala dal secondo player viene liberata
                 cameraHelper.setTarget(null);
             }
