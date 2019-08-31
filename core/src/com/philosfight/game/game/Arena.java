@@ -102,10 +102,12 @@ public class Arena {
                     obj.position.set(pixelX, pixelY);
                     if(FLAG_P == 0) {
                         player1 = (Player) obj;
+                        player1.setNamePlayer("Player1");
                         FLAG_P = 1;
                     }
                     else if(FLAG_P == 1){
                         player2 = (Player)obj;
+                        player2.setNamePlayer("Player2");
                     }
                 }
             }
