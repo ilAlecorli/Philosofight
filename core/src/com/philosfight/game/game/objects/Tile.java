@@ -12,6 +12,7 @@ public class Tile extends AbstractGameObject{
 
     private void init() {
         dimension.set(1f,1f);
+        origin.set(dimension.x / 2, dimension.y /2);
         tile = Assets.instance.tile.tile00;
     }
 
