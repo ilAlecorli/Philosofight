@@ -80,7 +80,7 @@ public class Arena {
 
                 }
 
-//                Wall
+//               Wall
                 else if (BLOCK_TYPE.WALL.sameColor(currentPixel)) {
                     obj = new Wall();
                     obj.position.set((float)pixelX, (float)pixelY);
