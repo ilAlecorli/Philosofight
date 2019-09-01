@@ -66,7 +66,6 @@ public class Player extends AbstractGameObject {
 
     private void init(){
         dimension.set(0.75f, 0.75f);
-        origin.set(dimension.x / 2, dimension.y /2);
         bounds.set(position.x, position.y, dimension.x, dimension.y);
         // Set physics values
         terminalVelocity.set(3.0f, 3.0f);   //3 è un valore medio
