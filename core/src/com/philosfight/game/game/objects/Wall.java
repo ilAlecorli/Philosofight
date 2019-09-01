@@ -13,7 +13,6 @@ public class Wall extends AbstractGameObject {
 
     private void init() {
         dimension.set(1f,1f);
-        origin.set(dimension.x / 2, dimension.y /2);
         bounds.set(position.x, position.y, dimension.x, dimension.y);
     }
 
