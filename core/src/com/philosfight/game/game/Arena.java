@@ -23,9 +23,10 @@ public class Arena {
     public Player player2;
 
     public enum BLOCK_TYPE {
-        TILE(0, 0, 0),     // black
-        WALL(255, 216, 0),  //yellow
-        SPAWN(255,255,255); //white
+        TILE(160, 160, 160),     //grey
+        WALL(255, 216, 0),      //yellow
+        SPAWN(255,255,255),     //white
+        EMPTY(0,0,0);           //black
 
         private int color;
 
@@ -74,7 +75,11 @@ public class Arena {
 //                point and create the corresponding game object if there is
 //                a match
 
-//                Empty space
+                if(BLOCK_TYPE.EMPTY.sameColor(currentPixel)){
+
+                }
+
+//                Tile
                 if (BLOCK_TYPE.TILE.sameColor(currentPixel)) {
                     obj = new Tile();
                     obj.position.set((float)pixelX, (float)pixelY);
@@ -86,11 +91,11 @@ public class Arena {
                 else if (BLOCK_TYPE.WALL.sameColor(currentPixel)) {
                     obj = new Wall();
                     obj.position.set((float)pixelX, (float)pixelY);
-                    if(pixelX > 0 && pixelX < (pixmap.getWidth() - 1))
+                    if(pixelX > 1 && pixelX < (pixmap.getWidth() - 2))
                         obj.ObjectAssets = Assets.instance.wall.nord;
-                    else if(pixelY > 0 && pixelY < (pixmap.getHeight() - 1))
+                    else if(pixelY > 1 && pixelY < (pixmap.getHeight() - 2))
                         obj.ObjectAssets = Assets.instance.wall.east;
-                    else {
+                    else{
                         obj.ObjectAssets = Assets.instance.wall.corner;
 //                           obj.rotation = -90;
                         }
@@ -103,11 +108,13 @@ public class Arena {
                     if(FLAG_P == 0) {
                         player1 = (Player) obj;
                         player1.setNamePlayer("Player1");
+                        player1.position.set(2f, 2f);
                         FLAG_P = 1;
                     }
                     else if(FLAG_P == 1){
                         player2 = (Player)obj;
                         player2.setNamePlayer("Player2");
+                        player2.position.set(7f, 11f);
                     }
                 }
             }
