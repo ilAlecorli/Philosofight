@@ -5,6 +5,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.philosfight.game.game.objects.AbstractGameObject;
 import com.philosfight.game.game.objects.Player;
 import com.philosfight.game.game.objects.Wall;
@@ -122,19 +123,20 @@ public class WorldController extends InputAdapter {
             if (player.position.x > wall.position.x) {
                 player.position.x = wall.position.x + wall.bounds.width;
             } else {
-                player.position.x = wall.position.x - player.bounds.width + 0.01f;
+                player.position.x = wall.position.x - player.bounds.width;
             }
         }
-       else if(search_collision_y < wall.bounds.height) {
+       if(search_collision_y < wall.bounds.height) {
             player.velocity.y = 0;
             if (player.position.y > wall.position.y) {
                 player.position.y = wall.position.y + wall.bounds.height;
             } else {
-                player.position.y = wall.position.y - player.bounds.y + 0.01f;
+                player.position.y = wall.position.y - player.bounds.height;
             }
         }
         return;
     }
+
 
     /**
      * Metodo per i comandi di debug
