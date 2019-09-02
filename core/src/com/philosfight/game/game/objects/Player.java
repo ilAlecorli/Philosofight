@@ -4,6 +4,7 @@ package com.philosfight.game.game.objects;
         import com.badlogic.gdx.Gdx;
         import com.badlogic.gdx.Input;
         import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+        import com.badlogic.gdx.math.MathUtils;
         import com.philosfight.game.game.Assets;
     
 
@@ -77,13 +78,47 @@ public class Player extends AbstractGameObject {
     @Override
     public void update (float deltaTime) {
         super.update(deltaTime);
-
     }
+
+
+    @Override
+    protected void updateMotionX (float deltaTime) {
+        if (velocity.x != 0) {
+            // Apply friction
+            if (velocity.x > 0) {
+                velocity.x =
+                        Math.max(velocity.x - friction.x * deltaTime, 0);
+            } else {
+                velocity.x =
+                        Math.min(velocity.x + friction.x * deltaTime, 0);
+            }
+        }
+        // Apply acceleration
+        velocity.x += acceleration.x * deltaTime;
+        // Make sure the object's velocity does not exceed the
+        // positive or negative terminal velocity
+        velocity.x = MathUtils.clamp(velocity.x,
+                -terminalVelocity.x, terminalVelocity.x);
+    }
+
 
     @Override
     protected void updateMotionY (float deltaTime) {
-        super.updateMotionY(deltaTime);
+        if (velocity.y != 0) {
+            // Apply friction
+            if (velocity.y > 0) {
+                velocity.y = Math.max(velocity.y - friction.y * deltaTime, 0);
+            } else {
+                velocity.y = Math.min(velocity.y + friction.y * deltaTime, 0);
+            }
+        }
+        // Apply acceleration
+        velocity.y += acceleration.y * deltaTime;
+        // Make sure the object's velocity does not exceed the
+        // positive or negative terminal velocity
+        velocity.y = MathUtils.clamp(velocity.y, -terminalVelocity.y, terminalVelocity.y);
     }
+
 
     @Override
     /**
