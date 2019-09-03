@@ -9,7 +9,10 @@ import com.philosfight.game.game.objects.AbstractGameObject;
 import com.philosfight.game.game.objects.Player;
 import com.philosfight.game.game.objects.Tile;
 import com.philosfight.game.game.objects.Wall;
+import com.philosfight.game.game.Effects.Bullet;
 import com.philosfight.game.game.Assets;
+
+import java.util.ArrayList;
 
 public class Arena {
     public static final String TAG = Arena.class.getName();
@@ -20,7 +23,9 @@ public class Arena {
     public Array<Wall> walls;
     public Array<Tile> floor;
     public Player player1;
+    public ArrayList<Bullet> bulletsLoader1;
     public Player player2;
+    public ArrayList<Bullet> bulletsLoader2;
 
     public enum BLOCK_TYPE {
         TILE(160, 160, 160),     //grey
@@ -52,20 +57,23 @@ public class Arena {
     }
 
     private void init(String filename) {
-//        Carica l'immagine che rappresenta il livello
+        //Carica l'immagine che rappresenta il livello
         pixmap = new Pixmap(Gdx.files.internal(filename));
 
-//      Tag che permette di cambiare la dimensione dei muri a seconda della loro posizione
+        //Tag che permette di cambiare la dimensione dei muri a seconda della loro posizione
         this.walls = new Array();
         this.floor = new Array();
+        //Inizializza anche i caricatori
+        this.bulletsLoader1 = new ArrayList<Bullet>();
+        this.bulletsLoader2 = new ArrayList<Bullet>();
 
         int lastPixel = -1;
-//        Scannerizza l'immagine dal pixel in basso a sinistra fino al pixel in alto a destra
+        //Scannerizza l'immagine dal pixel in basso a sinistra fino al pixel in alto a destra
         for (int pixelY = 0; pixelY < pixmap.getHeight(); pixelY++) {
             for (int pixelX = 0; pixelX < pixmap.getWidth(); pixelX++) {
                 AbstractGameObject obj = null;
                 float offsetHeight = 0;
-//                height grows from bottom to top
+                //height grows from bottom to top
                 float baseHeight = pixmap.getHeight() - pixelY;
 
 //                Trova il colore del pxel corrente in RGBA
@@ -79,7 +87,7 @@ public class Arena {
 
                 }
 
-//                Tile
+                //Tile
                 if (BLOCK_TYPE.TILE.sameColor(currentPixel)) {
                     obj = new Tile();
                     obj.position.set((float)pixelX, (float)pixelY);
@@ -87,7 +95,7 @@ public class Arena {
 
                 }
 
-//               Wall
+                //Wall
                 else if (BLOCK_TYPE.WALL.sameColor(currentPixel)) {
                     obj = new Wall();
                     obj.position.set((float)pixelX, (float)pixelY);
@@ -109,12 +117,18 @@ public class Arena {
                         player1 = (Player) obj;
                         player1.setNamePlayer("Player1");
                         player1.position.set(2f, 2f);
+                        //Dai al player il suo caricatore inizializzato
+                        player1.setLoader(bulletsLoader1);
+                        //Setta il flag per dire che il player1 è già stato inserito
                         FLAG_P = 1;
                     }
+                    //Se il player1 è già stato inserito
                     else if(FLAG_P == 1){
                         player2 = (Player)obj;
                         player2.setNamePlayer("Player2");
                         player2.position.set(7f, 11f);
+                        //Dai al player il suo caricatore inizializzato
+                        player2.setLoader(bulletsLoader2);
                     }
                 }
             }
@@ -123,6 +137,8 @@ public class Arena {
         pixmap.dispose();
         Gdx.app.debug(TAG, "Arena'" + filename + "' loaded");
     }
+
+    //Inserire qui gli elementi da visualizzare sullo schermo
     public void render(SpriteBatch batch){
         //Disegna il pavimento
         for(Tile tile : floor){
@@ -133,8 +149,10 @@ public class Arena {
             //Impostazioni di disegno dei muri
             wall.render(batch);
         }
-//            Disegna i giocatori
+        //Disegna i giocatori
         player1.render(batch);
         player2.render(batch);
+
+
     }
 }

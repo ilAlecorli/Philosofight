@@ -1,18 +1,22 @@
 package com.philosfight.game.game.objects;
 
-        import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Application;
         import com.badlogic.gdx.Gdx;
         import com.badlogic.gdx.Input;
         import com.badlogic.gdx.graphics.g2d.SpriteBatch;
         import com.badlogic.gdx.math.MathUtils;
         import com.philosfight.game.game.Assets;
-    
+import com.philosfight.game.game.Effects.Bullet;
+
+import java.util.ArrayList;
 
 
 public class Player extends AbstractGameObject {
 
     //Utile nelle exeptions per mostrare il nome dell'oggetto
     public static final String TAG = Player.class.getName();
+    //Massimi bullets al secondo
+    public  static final int MAX_BULLETS = 1;
 
     //Nome
     private String namePlayer;
@@ -25,7 +29,12 @@ public class Player extends AbstractGameObject {
     //Flag di movimento
     private boolean movementEnable = false;
 
+    //Flag di sparo
 
+    private boolean shootEnable = false;
+    //Caricatore dei proiettili
+    //Rimane "public" per l'update nel WorldController
+    public ArrayList<Bullet> loader;
     public void setNamePlayer(String namePlayer) {
         this.namePlayer = namePlayer;
     }
@@ -60,6 +69,18 @@ public class Player extends AbstractGameObject {
         this.meleeExtension = meleeExtension;
     }
 
+    public void setLoader(ArrayList<Bullet> loader) {
+        this.loader = loader;
+    }
+
+    public boolean isShootEnable() {
+        return shootEnable;
+    }
+
+    public void setShootEnable(boolean shootEnable) {
+        this.shootEnable = shootEnable;
+    }
+
     //Costruttore
     public Player() {
         init();
@@ -71,15 +92,28 @@ public class Player extends AbstractGameObject {
         // Set physics values
         terminalVelocity.set(3.0f, 3.0f);   //3 è un valore medio
         friction.set(12.0f, 12.0f);         //12 è un valore medio
-
         ObjectAssets = Assets.instance.player.pg;
 
     }
+
+    public boolean getMovementEnable(){
+        return  movementEnable;
+    }
+
+    /**
+     * Attiva il movimento del Player
+     * se @param movementEnable True = in movimento
+     * se @param movementEnable False = disabilitato
+     */
+    public void setMovementEnable(boolean movementEnable){
+        Gdx.app.debug(TAG, "Movement player set: " + movementEnable + " on Player: " + namePlayer);
+        this.movementEnable = movementEnable;
+    }
+
     @Override
     public void update (float deltaTime) {
         super.update(deltaTime);
     }
-
 
     @Override
     protected void updateMotionX (float deltaTime) {
@@ -119,6 +153,49 @@ public class Player extends AbstractGameObject {
         velocity.y = MathUtils.clamp(velocity.y, -terminalVelocity.y, terminalVelocity.y);
     }
 
+    public void movementCheck(float deltatime){
+        //se il movimento è possibilitato
+        if (!movementEnable)
+            return;
+        // Movimento player attivo sull'asse x
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            //movimento verso Ovest
+            Gdx.app.debug(TAG, namePlayer + " moving sx");
+            velocity.x = -terminalVelocity.x;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            //movimento verso Est
+            Gdx.app.debug(TAG, namePlayer + " moving dx");
+            velocity.x = terminalVelocity.x;
+        } else {
+            // Execute auto-forward movement on non-desktop platform
+            if (Gdx.app.getType() != Application.ApplicationType.Desktop) {
+                velocity.x = terminalVelocity.x;
+            }
+        }
+        // Movimento player attivo sull'asse Y
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            // movimento verso nord
+            Gdx.app.debug(TAG, namePlayer + " moving south");
+            velocity.y = -terminalVelocity.y;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            // movimento verso sud
+            Gdx.app.debug(TAG, namePlayer + " moving north");
+            velocity.y = terminalVelocity.y;
+        } else {
+            // Execute auto-forward movement on non-desktop platform
+            if (Gdx.app.getType() != Application.ApplicationType.Desktop) {
+                velocity.y = terminalVelocity.y;
+            }
+        }
+    }
+
+    public void shootAt(AbstractGameObject target){
+        //Se ha raggiunto la massima capacità di proiettili o è inabilitato a sparare
+        if(loader.size() == MAX_BULLETS || !isShootEnable()) return;
+        //Crea un nuovo proiettile
+        loader.add(new Bullet(this.position,target));
+
+    }
 
     @Override
     /**
@@ -136,51 +213,5 @@ public class Player extends AbstractGameObject {
         batch.draw(ObjectAssets.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, ObjectAssets.getRegionX(), ObjectAssets.getRegionY(), ObjectAssets.getRegionWidth(), ObjectAssets.getRegionHeight(), flipX, flipY);
     }
 
-
-    public void movementCheck(float deltatime){
-        //se il movimento è possibilitato
-        if (!movementEnable)
-            return;
-        // Movimento player attivo sull'asse x
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            //movimento verso Ovest
-            velocity.x = -terminalVelocity.x;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            //movimento verso Est
-            velocity.x = terminalVelocity.x;
-        } else {
-            // Execute auto-forward movement on non-desktop platform
-            if (Gdx.app.getType() != Application.ApplicationType.Desktop) {
-                velocity.x = terminalVelocity.x;
-            }
-        }
-        // Movimento player attivo sull'asse Y
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            // movimento verso nord
-            velocity.y = -terminalVelocity.y;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            // movimento verso sud
-            velocity.y = terminalVelocity.y;
-        } else {
-            // Execute auto-forward movement on non-desktop platform
-            if (Gdx.app.getType() != Application.ApplicationType.Desktop) {
-                velocity.y = terminalVelocity.y;
-            }
-        }
-    }
-
-    public boolean getMovementEnable(){
-        return  movementEnable;
-    }
-
-    /**
-     * Attiva il movimento del Player
-     * se @param movementEnable True = in movimento
-     * se @param movementEnable False = disabilitato
-    */
-    public void setMovementEnable(boolean movementEnable){
-        Gdx.app.debug(TAG, "Movement player set: " + movementEnable + " on Player: " + namePlayer);
-        this.movementEnable = movementEnable;
-    }
 
 }
