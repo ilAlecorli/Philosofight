@@ -43,6 +43,7 @@ public class WorldRenderer implements Disposable {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         worldController.arena.render(batch);
+        worldController.renderBullets(batch);
         batch.end();
     }
 

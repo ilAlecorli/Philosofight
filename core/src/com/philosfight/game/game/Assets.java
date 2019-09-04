@@ -19,7 +19,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public AssetWall wall;
     public AssetTile tile;
     public AssetPlayer player;
-
+    public AssetBullet bullet;
     /**
      * Singleton: Può esistere solo una sola istanza di Assets,
      * definendo un costruttore privato si previene che le altre
@@ -58,6 +58,7 @@ public class Assets implements Disposable, AssetErrorListener {
         wall = new AssetWall(atlas);
         tile = new AssetTile(atlas);
         player = new AssetPlayer(atlas);
+        bullet = new AssetBullet(atlas);
     }
 
 
@@ -91,6 +92,13 @@ public class Assets implements Disposable, AssetErrorListener {
         public AssetTile(TextureAtlas atlas) {
             tile00 = atlas.findRegion("floor");
         }
+    }
+    /**
+     * Asset del proiettile
+     */
+    public  class AssetBullet {
+        public final TextureAtlas.AtlasRegion bullet;
+        public AssetBullet(TextureAtlas atlas) { bullet = atlas.findRegion("bullet");}
     }
 
     /**
