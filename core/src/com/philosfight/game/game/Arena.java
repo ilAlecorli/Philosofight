@@ -74,15 +74,15 @@ public class Arena {
             for (int pixelX = 0; pixelX < pixmap.getWidth(); pixelX++) {
                 AbstractGameObject obj = null;
                 float offsetHeight = 0;
-//                height grows from bottom to top
+                //height grows from bottom to top
                 float baseHeight = pixmap.getHeight() - pixelY;
 
-//                Trova il colore del pxel corrente in RGBA
+                //Trova il colore del pxel corrente in RGBA
                 int currentPixel = pixmap.getPixel(pixelX, pixelY);
 
-//                find matching color value to identify block type at (x,y)
-//                point and create the corresponding game object if there is
-//                a match
+                //find matching color value to identify block type at (x,y)
+                //point and create the corresponding game object if there is
+                //a match
 
                 if(BLOCK_TYPE.EMPTY.sameColor(currentPixel)){
 

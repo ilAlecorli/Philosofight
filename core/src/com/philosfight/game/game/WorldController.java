@@ -52,7 +52,7 @@ public class WorldController extends InputAdapter {
                 arena.player1.loader) {
             e.update(deltaTime);
             //se il proiettile selezionato deve sparire verrà rimosso
-            if (e.shouldRemove()) arena.player1.loader.remove(e);
+            if (e.shouldRemove()) ;
         }
         CheckCollisions(arena.player1);
 
@@ -63,7 +63,7 @@ public class WorldController extends InputAdapter {
                 arena.player2.loader) {
             e.update(deltaTime);
             //se il proiettile selezionato deve sparire verrà rimosso
-            if (e.shouldRemove()) arena.player1.loader.remove(e);
+            if (e.shouldRemove()) ;
         }
         CheckCollisions(arena.player2);
         cameraHelper.update(deltaTime);
