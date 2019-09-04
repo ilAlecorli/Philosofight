@@ -1,5 +1,6 @@
 package com.philosfight.game.game.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -55,8 +56,10 @@ public abstract class AbstractGameObject {
         updateMotionX(deltaTime);
         updateMotionY(deltaTime);
         // Move to new position
+
         position.x += velocity.x * deltaTime;
         position.y += velocity.y * deltaTime;
+
     }
 
     protected void updateMotionX (float deltaTime){};

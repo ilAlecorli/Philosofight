@@ -10,7 +10,7 @@ public class WorldRenderer implements Disposable {
     private static String TAG = WorldRenderer.class.getName();
     private OrthographicCamera camera;
 
-//  batch permette di disegnare gli oggetti rispettando le impostazioni della telecamera
+    //batch permette di disegnare gli oggetti rispettando le impostazioni della telecamera
     private SpriteBatch batch;
     private WorldController worldController;
 
@@ -38,7 +38,7 @@ public class WorldRenderer implements Disposable {
 
 
     private void renderWorld (SpriteBatch batch) {
-//        Applica i setting di cameraHelper(WorldController) a camera
+        //Applica i setting di cameraHelper(WorldController) a camera
         worldController.cameraHelper.applyTo(camera);
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
