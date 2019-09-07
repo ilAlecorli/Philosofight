@@ -136,24 +136,17 @@ public class WorldController extends InputAdapter {
     }
 
     private void onCollisionPlayerWithWall(Player player, Wall wall) {
-        float search_collision_x = Math.abs((player.position.x + player.bounds.width) - (wall.position.x + wall.bounds.width));
-        float search_collision_y = Math.abs((player.position.y + player.bounds.height) - (wall.position.y + wall.bounds.height));
-
-        if(search_collision_x < wall.bounds.width) {
-            player.velocity.x = 0;
-            if (player.position.x > wall.position.x) {
-                player.position.x = wall.position.x + wall.bounds.width;
-            } else {
-                player.position.x = wall.position.x - player.bounds.width + 0.01f;
-            }
+        if(wall.position.y == 1) {
+            player.position.y = wall.position.y + wall.bounds.height;
         }
-       else if(search_collision_y < wall.bounds.height) {
-            player.velocity.y = 0;
-            if (player.position.y > wall.position.y) {
-                player.position.y = wall.position.y + wall.bounds.height;
-            } else {
-                player.position.y = wall.position.y - player.bounds.y + 0.01f;
-            }
+        else if(wall.position.y == (arena.pixmap.getHeight() - 2)) {
+            player.position.y = wall.position.y - player.bounds.height;
+        }
+        else if(wall.position.x == 1){
+            player.position.x = wall.position.x + wall.bounds.width;
+        }
+        else if(wall.position.x == (arena.pixmap.getWidth() - 2)){
+            player.position.x = wall.position.x - player.bounds.width;
         }
         return;
     }
