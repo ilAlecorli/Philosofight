@@ -99,43 +99,6 @@ public class WorldController extends InputAdapter {
     }
 
 
-
-    /**
-     * Funzione per controllare le collisioni fra oggetti generici
-     */
-    public void CheckCollisions(Player player) {
-        r1.set(player.position.x, player.position.y, player.bounds.width, player.bounds.height);
-        for(Wall wall : arena.walls) {
-            r2.set(wall.position.x, wall.position.y, wall.bounds.width, wall.bounds.height);
-            if (r1.overlaps(r2)) {
-                onCollisionPlayerWithWall(player, wall);
-            }
-        }
-    }
-
-    private void onCollisionPlayerWithWall(Player player, Wall wall) {
-        float search_collision_x = Math.abs((player.position.x + player.bounds.width) - (wall.position.x + wall.bounds.width));
-        float search_collision_y = Math.abs((player.position.y + player.bounds.height) - (wall.position.y + wall.bounds.height));
-
-        if(search_collision_x < wall.bounds.width) {
-            player.velocity.x = 0;
-            if (player.position.x > wall.position.x) {
-                player.position.x = wall.position.x + wall.bounds.width;
-            } else {
-                player.position.x = wall.position.x - player.bounds.width + 0.01f;
-            }
-        }
-       else if(search_collision_y < wall.bounds.height) {
-            player.velocity.y = 0;
-            if (player.position.y > wall.position.y) {
-                player.position.y = wall.position.y + wall.bounds.height;
-            } else {
-                player.position.y = wall.position.y - player.bounds.y + 0.01f;
-            }
-        }
-        return;
-    }
-
     /**
      * Metodo per i comandi di debug
      */
@@ -172,6 +135,38 @@ public class WorldController extends InputAdapter {
         }
         return false;
     }
+
+
+
+    /**
+     * Funzione per controllare le collisioni fra oggetti generici
+     */
+    public void CheckCollisions(Player player) {
+        r1.set(player.position.x, player.position.y, player.bounds.width, player.bounds.height);
+        for(Wall wall : arena.walls) {
+            r2.set(wall.position.x, wall.position.y, wall.bounds.width, wall.bounds.height);
+            if (r1.overlaps(r2)) {
+                onCollisionPlayerWithWall(player, wall);
+            }
+        }
+    }
+
+    private void onCollisionPlayerWithWall(Player player, Wall wall) {
+        if(wall.position.y == 1) {
+                player.position.y = wall.position.y + wall.bounds.height;
+        }
+        else if(wall.position.y == (arena.pixmap.getHeight() - 2)) {
+            player.position.y = wall.position.y - player.bounds.height;
+        }
+        else if(wall.position.x == 1){
+            player.position.x = wall.position.x + wall.bounds.width;
+        }
+        else if(wall.position.x == (arena.pixmap.getWidth() - 2)){
+            player.position.x = wall.position.x - player.bounds.width;
+        }
+        return;
+    }
+
 }
 
 

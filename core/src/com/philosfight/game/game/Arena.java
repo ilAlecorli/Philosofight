@@ -123,6 +123,22 @@ public class Arena {
         pixmap.dispose();
         Gdx.app.debug(TAG, "Arena'" + filename + "' loaded");
     }
+
+    public void generateProceduralWall(){
+        Wall wall;
+        double ran;
+        for(int i = 0; i < 5; i++){
+            wall =new Wall();
+            /* range 0.5 -> 2.0*/
+            ran = getRandomFloat(0.5f, 2.0f);
+            wall.dimension.set((float)ran, (float)ran);
+            wall.position.set(getRandomFloat(3f, 7f), getRandomFloat(3f ,12f));
+        }
+    }
+    float getRandomFloat(float min, float max) {
+        return (float)(Math.random() * (max - min) + min);
+    }
+
     public void render(SpriteBatch batch){
         //Disegna il pavimento
         for(Tile tile : floor){
