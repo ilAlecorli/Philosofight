@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.philosfight.game.game.Assets;
 import com.philosfight.game.game.Effects.Bullet;
 
@@ -191,8 +192,10 @@ public class Player extends AbstractGameObject {
     public void shootAt(AbstractGameObject target){
         //Se ha raggiunto la massima capacità di proiettili o è inabilitato a sparare
         if(loader.size() == MAX_BULLETS || !isShootEnable()) return;
+
+
         //Crea un nuovo proiettile
-        loader.add(new Bullet(this.position,target));
+        loader.add(new Bullet(new Vector2( 0,0),target));
 
     }
 

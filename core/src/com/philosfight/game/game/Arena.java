@@ -169,5 +169,16 @@ public class Arena {
         player1.render(batch);
         player2.render(batch);
 
+        //Disegna tutti i proiettili
+        for(Bullet b : bulletsLoader1)
+        {
+            b.render(batch);
+        }
+        for(Bullet b:  bulletsLoader2)
+
+        {
+            b.render(batch);
+        }
+
     }
 }
