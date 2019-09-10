@@ -13,7 +13,7 @@ public class Bullet extends AbstractGameObject {
 	//Vita proiettile
 	private float lifeTimer = 0;
 	//fine vita proiettile
-	private float lifeTime = 3;
+	private float lifeTime = 1;
 	//Target a cui è inviato
 	private AbstractGameObject target;
 	//flag di rimozione

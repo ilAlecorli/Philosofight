@@ -48,19 +48,21 @@ public class WorldController extends InputAdapter {
         arena.player1.movementCheck(deltaTime);
         arena.player1.update(deltaTime);
         //Anima ogni singolo proiettile:
-        for (Bullet e :
-                arena.player1.loader) {
+        for (Bullet e:
+             arena.bulletsLoader1) {
             e.update(deltaTime);
             //se il proiettile selezionato deve sparire verrà rimosso
-            if (e.shouldRemove()) ;
+            if (e.shouldRemove()) arena.bulletsLoader1.remove(e);
+
         }
+
         CheckCollisions(arena.player1);
 
         arena.player2.movementCheck(deltaTime);
         arena.player2.update(deltaTime);
         //Anima ogni singolo proiettile:
-        for (Bullet e :
-                arena.player2.loader) {
+        for (Bullet e:
+                arena.bulletsLoader2) {
             e.update(deltaTime);
             //se il proiettile selezionato deve sparire verrà rimosso
             if (e.shouldRemove()) ;
@@ -80,7 +82,16 @@ public class WorldController extends InputAdapter {
     private void handleDebugInput(float deltaTime) {
         if (Gdx.app.getType() != Application.ApplicationType.Desktop) return;
 
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) checkShooting();
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+            if (arena.player1.isShootEnable()){
+                Gdx.app.debug(TAG, arena.player1.getNamePlayer() + " is shooting");
+                arena.player1.shootAt(arena.player2);}
+            else if (arena.player2.isShootEnable()) {
+                Gdx.app.debug(TAG, arena.player2.getNamePlayer() + " is shooting");
+                arena.player2.shootAt(arena.player1);
+            }
+        }
+
         // Camera Controls (move)
         float camMoveSpeed = 5 * deltaTime;
         float camMoveSpeedAccelerationFactor = 5;
@@ -116,11 +127,6 @@ public class WorldController extends InputAdapter {
         cameraHelper.setPosition(x, y);
     }
 
-    //Fa un controllo degli spari dei players
-    private void checkShooting() {
-        arena.player1.shootAt(arena.player2);
-        arena.player2.shootAt(arena.player1);
-    }
 
     /**
      * Funzione per controllare le collisioni fra oggetti generici
@@ -150,20 +156,8 @@ public class WorldController extends InputAdapter {
         }
         return;
     }
-    //Metodo per renderizzare i proiettili in separata sede
-    public void renderBullets(SpriteBatch batch)
-    {
-        //Disegna tutti i proiettili
-        for(Bullet b : arena.player1.loader)
-        {
-            b.render(batch);
-        }
-        for(Bullet b: arena.player2.loader)
 
-        {
-            b.render(batch);
-        }
-    }
+
 
     /**
      * Metodo per i comandi di debug
