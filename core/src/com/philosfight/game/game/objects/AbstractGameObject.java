@@ -62,7 +62,7 @@ public abstract class AbstractGameObject {
 
     }
 
-    protected void updateMotionX (float deltaTime){};
-    protected void updateMotionY (float deltaTime){};
+    protected void updateMotionX (float deltaTime){}
+    protected void updateMotionY (float deltaTime){}
     public abstract void render (SpriteBatch batch);
 }

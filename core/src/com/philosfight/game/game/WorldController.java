@@ -14,11 +14,15 @@ import com.philosfight.game.utils.CameraHelper;
 import com.philosfight.game.utils.Constants;
 import com.badlogic.gdx.math.Rectangle;
 
+import java.util.ArrayList;
+
 
 public class WorldController extends InputAdapter {
     private static final String TAG = WorldController.class.getName();
     public CameraHelper cameraHelper;
     public Arena arena;
+    //Cestino per i proiettili che hanno esaurito il lifeTime:
+    public ArrayList<Bullet> bulletsDump;
 
     //Rettangoli per il riconoscimento delle collisioni
     private Rectangle r1 = new Rectangle();
@@ -38,6 +42,8 @@ public class WorldController extends InputAdapter {
         cameraHelper = new CameraHelper();
         cameraHelper.setPosition(arena.pixmap.getWidth() / 2, arena.pixmap.getHeight() / 2);
         cameraHelper.setZoom(2.5f);
+        //Inizializza cestino proiettili:
+        bulletsDump = new ArrayList<Bullet>();
     }
 
     /**
@@ -47,14 +53,17 @@ public class WorldController extends InputAdapter {
         handleDebugInput(deltaTime);
         arena.player1.movementCheck(deltaTime);
         arena.player1.update(deltaTime);
+
         //Anima ogni singolo proiettile:
         for (Bullet e:
              arena.bulletsLoader1) {
             e.update(deltaTime);
-            //se il proiettile selezionato deve sparire verrà rimosso
-            if (e.shouldRemove()) arena.bulletsLoader1.remove(e);
+            //se il proiettile selezionato deve sparire verrà aggiunto alla lista di proiettili da rimuovere
+            if (e.shouldRemove()) bulletsDump.add(e);
 
         }
+        //Rimuovi tutti i proiettili da buttare
+        arena.bulletsLoader1.removeAll(bulletsDump);
 
         CheckCollisions(arena.player1);
 
@@ -64,9 +73,13 @@ public class WorldController extends InputAdapter {
         for (Bullet e:
                 arena.bulletsLoader2) {
             e.update(deltaTime);
-            //se il proiettile selezionato deve sparire verrà rimosso
-            if (e.shouldRemove()) ;
+            //se il proiettile selezionato deve sparire verrà aggiunto alla lista di proiettili da rimuovere
+            if (e.shouldRemove()) bulletsDump.add(e);
+
         }
+        //Rimuovi tutti i proiettili da buttare
+        arena.bulletsLoader2.removeAll(bulletsDump);
+
         CheckCollisions(arena.player2);
         cameraHelper.update(deltaTime);
     }
