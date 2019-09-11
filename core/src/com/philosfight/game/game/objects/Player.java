@@ -16,7 +16,7 @@ public class Player extends AbstractGameObject {
     //Utile nelle exeptions per mostrare il nome dell'oggetto
     public static final String TAG = Player.class.getName();
     //Massimi bullets al secondo
-    public  static final int MAX_BULLETS = 1;
+    public  static final int MAX_BULLETS = 3;
 
     //Nome
     private String namePlayer;
@@ -160,11 +160,11 @@ public class Player extends AbstractGameObject {
         // Movimento player attivo sull'asse x
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             //movimento verso Ovest
-            Gdx.app.debug(TAG, namePlayer + " moving sx");
+            //Gdx.app.debug(TAG, namePlayer + " moving sx");
             velocity.x = -terminalVelocity.x;
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             //movimento verso Est
-            Gdx.app.debug(TAG, namePlayer + " moving dx");
+            //Gdx.app.debug(TAG, namePlayer + " moving dx");
             velocity.x = terminalVelocity.x;
         } else {
             // Execute auto-forward movement on non-desktop platform
@@ -175,11 +175,11 @@ public class Player extends AbstractGameObject {
         // Movimento player attivo sull'asse Y
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             // movimento verso nord
-            Gdx.app.debug(TAG, namePlayer + " moving south");
+            //Gdx.app.debug(TAG, namePlayer + " moving south");
             velocity.y = -terminalVelocity.y;
         } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             // movimento verso sud
-            Gdx.app.debug(TAG, namePlayer + " moving north");
+            //Gdx.app.debug(TAG, namePlayer + " moving north");
             velocity.y = terminalVelocity.y;
         } else {
             // Execute auto-forward movement on non-desktop platform
@@ -195,7 +195,7 @@ public class Player extends AbstractGameObject {
 
 
         //Crea un nuovo proiettile
-        loader.add(new Bullet(new Vector2( 0,0),target));
+        loader.add(new Bullet(new Vector2( 0,0),target.position));
 
     }
 
