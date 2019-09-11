@@ -11,6 +11,7 @@ import com.philosfight.game.game.objects.AbstractGameObject;
 import com.philosfight.game.game.objects.Player;
 import com.philosfight.game.game.objects.Wall;
 import com.philosfight.game.utils.CameraHelper;
+import com.philosfight.game.utils.CheckCollision;
 import com.philosfight.game.utils.Constants;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -48,26 +49,25 @@ public class WorldController extends InputAdapter {
         arena.player1.movementCheck(deltaTime);
         arena.player1.update(deltaTime);
         //Anima ogni singolo proiettile:
-        for (Bullet e:
-             arena.bulletsLoader1) {
+        for (Bullet e : arena.bulletsLoader1) {
             e.update(deltaTime);
-            //se il proiettile selezionato deve sparire verrà rimosso
-            if (e.shouldRemove()) arena.bulletsLoader1.remove(e);
+            //Se il proiettile selezionato deve sparire verrà rimosso
+            if (e.shouldRemove());
 
         }
-
         CheckCollisions(arena.player1);
 
         arena.player2.movementCheck(deltaTime);
         arena.player2.update(deltaTime);
         //Anima ogni singolo proiettile:
-        for (Bullet e:
-                arena.bulletsLoader2) {
+        for (Bullet e: arena.bulletsLoader2) {
             e.update(deltaTime);
             //se il proiettile selezionato deve sparire verrà rimosso
             if (e.shouldRemove()) ;
         }
+
         CheckCollisions(arena.player2);
+//        arena = new CheckCollision(arena);
         cameraHelper.update(deltaTime);
     }
 
@@ -129,7 +129,7 @@ public class WorldController extends InputAdapter {
 
 
     /**
-     * Funzione per controllare le collisioni fra oggetti generici
+     * Funzione per controllare le collisioni fra gli oggetti.
      */
     public void CheckCollisions(Player player) {
         r1.set(player.position.x, player.position.y, player.bounds.width, player.bounds.height);

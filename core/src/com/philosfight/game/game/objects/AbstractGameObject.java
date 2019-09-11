@@ -55,14 +55,17 @@ public abstract class AbstractGameObject {
     public void update (float deltaTime) {
         updateMotionX(deltaTime);
         updateMotionY(deltaTime);
-        // Move to new position
 
+        // Move to new position
         position.x += velocity.x * deltaTime;
         position.y += velocity.y * deltaTime;
 
     }
 
+
+
     protected void updateMotionX (float deltaTime){};
     protected void updateMotionY (float deltaTime){};
+
     public abstract void render (SpriteBatch batch);
 }

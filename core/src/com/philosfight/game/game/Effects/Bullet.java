@@ -75,4 +75,9 @@ public class Bullet extends AbstractGameObject {
 	public void render(SpriteBatch batch) {
 		batch.draw(ObjectAssets.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, ObjectAssets.getRegionX(), ObjectAssets.getRegionY(), ObjectAssets.getRegionWidth(), ObjectAssets.getRegionHeight(), flipX, flipY);
 	}
+
+	public void dispose(){
+
+	}
+
 }
