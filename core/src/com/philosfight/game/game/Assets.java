@@ -15,11 +15,13 @@ public class Assets implements Disposable, AssetErrorListener {
     public static final Assets instance = new Assets();
     private AssetManager assetManager;
 
-    //Definisco gli assets di gioco
+    //Assets di gioco
     public AssetWall wall;
     public AssetTile tile;
     public AssetPlayer player;
     public AssetBullet bullet;
+
+
     /**
      * Singleton: Può esistere solo una sola istanza di Assets,
      * definendo un costruttore privato si previene che le altre
@@ -37,10 +39,14 @@ public class Assets implements Disposable, AssetErrorListener {
         this.assetManager = assetManager;
         // Imposta l'error handler dell'asset manager
         assetManager.setErrorListener(this);
+
         // Carica le texture atlas dell'arena
         assetManager.load(Constants.TEXTURE_ATLAS_ARENA, TextureAtlas.class);
+
         //Inizia il caricamento degli assets ed aspetta che abbiano finito
         assetManager.finishLoading();
+
+        //Messaggi di debug
         Gdx.app.debug(TAG, "# of assets loaded: " + assetManager.getAssetNames().size);
         for (String a : assetManager.getAssetNames()) {
             Gdx.app.debug(TAG, "asset: " + a);
@@ -61,7 +67,9 @@ public class Assets implements Disposable, AssetErrorListener {
         bullet = new AssetBullet(atlas);
     }
 
-
+    /**
+     * Asset dei giocatori
+     */
     public class AssetPlayer{
         public final TextureAtlas.AtlasRegion pg;
         public AssetPlayer(TextureAtlas atlas){
@@ -93,8 +101,9 @@ public class Assets implements Disposable, AssetErrorListener {
             tile00 = atlas.findRegion("floor");
         }
     }
+
     /**
-     * Asset del proiettile
+     * Asset dei proiettili
      */
     public  class AssetBullet {
         public final TextureAtlas.AtlasRegion bullet;

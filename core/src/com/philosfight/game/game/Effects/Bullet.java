@@ -22,7 +22,7 @@ public class Bullet extends AbstractGameObject {
 	//flag di rimozione
 	private boolean remove = false;
 
-	public Bullet(Vector2 position, Vector2 targetPosition) {
+	public Bullet(Vector2 position, AbstractGameObject targetPosition) {
 		this.position = position;
 		this.targetPosition = targetPosition;
 		dimension.set(0.1f, 0.1f);

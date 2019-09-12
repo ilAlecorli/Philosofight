@@ -15,9 +15,19 @@ public class Player extends AbstractGameObject {
 
     //Utile nelle exeptions per mostrare il nome dell'oggetto
     public static final String TAG = Player.class.getName();
-    //Massimi bullets al secondo
-    public  static final int MAX_BULLETS = 3;
 
+
+    /**
+     * Flags
+     */
+    //Flag di movimento
+    private boolean movementEnable = false;
+    //Flag di sparo
+    private boolean shootEnable = false;
+
+    /**
+     * Caratteristiche del giocatore
+     */
     //Nome
     private String namePlayer;
     //Vita del Player
@@ -26,15 +36,13 @@ public class Player extends AbstractGameObject {
     private float mana;
     //Estensione dell'area Melee con la quale il Player attacca fisicamente;
     private float meleeExtension;
-    //Flag di movimento
-    private boolean movementEnable = false;
-
-    //Flag di sparo
-
-    private boolean shootEnable = false;
     //Caricatore dei proiettili
     //Rimane "public" per l'update nel WorldController
     public ArrayList<Bullet> loader;
+    //Massimi bullets al secondo
+    public  static final int MAX_BULLETS = 1;
+
+
     public void setNamePlayer(String namePlayer) {
         this.namePlayer = namePlayer;
     }
@@ -89,11 +97,11 @@ public class Player extends AbstractGameObject {
     private void init(){
         dimension.set(0.75f, 0.75f);
         bounds.set(position.x, position.y, dimension.x, dimension.y);
+
         // Set physics values
         terminalVelocity.set(3.0f, 3.0f);   //3 è un valore medio
         friction.set(12.0f, 12.0f);         //12 è un valore medio
         ObjectAssets = Assets.instance.player.pg;
-
     }
 
     public boolean getMovementEnable(){
@@ -102,8 +110,8 @@ public class Player extends AbstractGameObject {
 
     /**
      * Attiva il movimento del Player
-     * se @param movementEnable True = in movimento
-     * se @param movementEnable False = disabilitato
+     * se @param movementEnable True = movimento abilitato
+     * se @param movementEnable False = movimento disabilitato
      */
     public void setMovementEnable(boolean movementEnable){
         Gdx.app.debug(TAG, "Movement player set: " + movementEnable + " on Player: " + namePlayer);
@@ -160,11 +168,11 @@ public class Player extends AbstractGameObject {
         // Movimento player attivo sull'asse x
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             //movimento verso Ovest
-            //Gdx.app.debug(TAG, namePlayer + " moving sx");
+            Gdx.app.debug(TAG, namePlayer + " moving sx");
             velocity.x = -terminalVelocity.x;
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             //movimento verso Est
-            //Gdx.app.debug(TAG, namePlayer + " moving dx");
+            Gdx.app.debug(TAG, namePlayer + " moving dx");
             velocity.x = terminalVelocity.x;
         } else {
             // Execute auto-forward movement on non-desktop platform
@@ -175,11 +183,11 @@ public class Player extends AbstractGameObject {
         // Movimento player attivo sull'asse Y
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             // movimento verso nord
-            //Gdx.app.debug(TAG, namePlayer + " moving south");
+            Gdx.app.debug(TAG, namePlayer + " moving south");
             velocity.y = -terminalVelocity.y;
         } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             // movimento verso sud
-            //Gdx.app.debug(TAG, namePlayer + " moving north");
+            Gdx.app.debug(TAG, namePlayer + " moving north");
             velocity.y = terminalVelocity.y;
         } else {
             // Execute auto-forward movement on non-desktop platform
@@ -193,25 +201,26 @@ public class Player extends AbstractGameObject {
         //Se ha raggiunto la massima capacità di proiettili o è inabilitato a sparare
         if(loader.size() == MAX_BULLETS || !isShootEnable()) return;
 
-
         //Crea un nuovo proiettile
-        loader.add(new Bullet(new Vector2( 0,0),target.position));
-
+        loader.add(new Bullet(new Vector2( 0,0),target));
     }
 
     @Override
     /**
-     * texture rappresenta la texture dell'oggetto e quindi l'immagine da prendere in considerazione
-     * x e y servono a disegnare il rettangolo a determinate coordinate
-     * originX ed originY servono a dichiarare l'origine dell'oggetto, (0,0) implica l'origine nell'angolo in basso a sinistra.
-     * width e height definiscono la dimensione dell'imagine da visualizzare
-     * scaleX e scaleY definiscono la scala del rettangolo intorno all'origine
-     * rotation definisce di quanti gradi ruotare l'immagine
-     * srcX e scrY servono a "tagliare" un rettangolo, dalla texture o dal texture atlas
-     * srcHeight e srcWidth
-     * flipX e flipY specchiano l'immagine sui relativi assi.
-     * */
+     * Renderizzazione del giocatore
+     */
     public void render(SpriteBatch batch) {
+        /**
+         * texture rappresenta la texture dell'oggetto e quindi l'immagine da prendere in considerazione
+         * x e y servono a disegnare il rettangolo a determinate coordinate
+         * originX ed originY servono a dichiarare l'origine dell'oggetto, (0,0) implica l'origine nell'angolo in basso a sinistra.
+         * width e height definiscono la dimensione dell'imagine da visualizzare
+         * scaleX e scaleY definiscono la scala del rettangolo intorno all'origine
+         * rotation definisce di quanti gradi ruotare l'immagine
+         * srcX e scrY servono a "tagliare" un rettangolo, dalla texture o dal texture atlas
+         * srcHeight e srcWidth
+         * flipX e flipY specchiano l'immagine sui relativi assi.
+         * */
         batch.draw(ObjectAssets.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, ObjectAssets.getRegionX(), ObjectAssets.getRegionY(), ObjectAssets.getRegionWidth(), ObjectAssets.getRegionHeight(), flipX, flipY);
     }
 

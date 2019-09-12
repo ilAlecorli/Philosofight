@@ -5,29 +5,20 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.philosfight.game.game.Effects.Bullet;
-import com.philosfight.game.game.objects.AbstractGameObject;
 import com.philosfight.game.game.objects.Player;
 import com.philosfight.game.game.objects.Wall;
 import com.philosfight.game.utils.CameraHelper;
 import com.philosfight.game.utils.Constants;
 import com.badlogic.gdx.math.Rectangle;
 
-import java.util.ArrayList;
-
-
+/**
+ * Classe che si occupa di gestire l'aggiornamento del mondo di gioco.
+ */
 public class WorldController extends InputAdapter {
     private static final String TAG = WorldController.class.getName();
     public CameraHelper cameraHelper;
     public Arena arena;
-    //Cestino per i proiettili che hanno esaurito il lifeTime:
-    public ArrayList<Bullet> bulletsDump;
-
-    //Rettangoli per il riconoscimento delle collisioni
-    private Rectangle r1 = new Rectangle();
-    private Rectangle r2 = new Rectangle();
-
 
     public WorldController() {
         init();
@@ -42,45 +33,40 @@ public class WorldController extends InputAdapter {
         cameraHelper = new CameraHelper();
         cameraHelper.setPosition(arena.pixmap.getWidth() / 2, arena.pixmap.getHeight() / 2);
         cameraHelper.setZoom(2.5f);
-        //Inizializza cestino proiettili:
-        bulletsDump = new ArrayList<Bullet>();
     }
 
     /**
      * Metodo per l'aggiornamento degli oggetti durante l'esecuzione
      */
-    public void update(float deltaTime) {
+    private void update(float deltaTime) {
+        //Ricezione dei comandi
         handleDebugInput(deltaTime);
+
         arena.player1.movementCheck(deltaTime);
         arena.player1.update(deltaTime);
-
         //Anima ogni singolo proiettile:
         for (Bullet e:
-             arena.bulletsLoader1) {
+                arena.bulletsLoader1) {
             e.update(deltaTime);
-            //se il proiettile selezionato deve sparire verrà aggiunto alla lista di proiettili da rimuovere
-            if (e.shouldRemove()) bulletsDump.add(e);
+            //se il proiettile selezionato deve sparire verrà rimosso
+            if (e.shouldRemove()) arena.bulletsLoader1.remove(e);
 
         }
-        //Rimuovi tutti i proiettili da buttare
-        arena.bulletsLoader1.removeAll(bulletsDump);
-
-        CheckCollisions(arena.player1);
-
         arena.player2.movementCheck(deltaTime);
         arena.player2.update(deltaTime);
         //Anima ogni singolo proiettile:
         for (Bullet e:
                 arena.bulletsLoader2) {
             e.update(deltaTime);
-            //se il proiettile selezionato deve sparire verrà aggiunto alla lista di proiettili da rimuovere
-            if (e.shouldRemove()) bulletsDump.add(e);
-
+            //se il proiettile selezionato deve sparire verrà rimosso
+            if (e.shouldRemove()) ;
         }
-        //Rimuovi tutti i proiettili da buttare
-        arena.bulletsLoader2.removeAll(bulletsDump);
 
-        CheckCollisions(arena.player2);
+        //Controllo delle collisioni dell'arena
+        arena.checkCollisions();
+
+        //Aggiornamento della telecamera
+
         cameraHelper.update(deltaTime);
     }
 
@@ -139,37 +125,6 @@ public class WorldController extends InputAdapter {
         y += cameraHelper.getPosition().y;
         cameraHelper.setPosition(x, y);
     }
-
-
-    /**
-     * Funzione per controllare le collisioni fra oggetti generici
-     */
-    public void CheckCollisions(Player player) {
-        r1.set(player.position.x, player.position.y, player.bounds.width, player.bounds.height);
-        for(Wall wall : arena.walls) {
-            r2.set(wall.position.x, wall.position.y, wall.bounds.width, wall.bounds.height);
-            if (r1.overlaps(r2)) {
-                onCollisionPlayerWithWall(player, wall);
-            }
-        }
-    }
-
-    private void onCollisionPlayerWithWall(Player player, Wall wall) {
-        if(wall.position.y == 1) {
-            player.position.y = wall.position.y + wall.bounds.height;
-        }
-        else if(wall.position.y == (arena.pixmap.getHeight() - 2)) {
-            player.position.y = wall.position.y - player.bounds.height;
-        }
-        else if(wall.position.x == 1){
-            player.position.x = wall.position.x + wall.bounds.width;
-        }
-        else if(wall.position.x == (arena.pixmap.getWidth() - 2)){
-            player.position.x = wall.position.x - player.bounds.width;
-        }
-        return;
-    }
-
 
 
     /**

@@ -16,23 +16,25 @@ import java.util.ArrayList;
 
 public class Arena {
     public static final String TAG = Arena.class.getName();
-    private int FLAG_P = 0;
+    private int FLAG_SPAWN_PLAYERS = 0;
     public Pixmap pixmap;
 
-    //Oggetti
+    //Oggetti di gioco
     public Array<Wall> walls;
     public Array<Tile> floor;
     public Player player1;
-    public ArrayList<Bullet> bulletsLoader1;
     public Player player2;
+    public ArrayList<Bullet> bulletsLoader1;
     public ArrayList<Bullet> bulletsLoader2;
 
+    /**
+     *  Classe che crea le costanti legate agli oggetti di gioco tramite i colori
+     */
     public enum BLOCK_TYPE {
-        TILE(160, 160, 160),     //grey
+        TILE(160, 160, 160),    //grey
         WALL(255, 216, 0),      //yellow
         SPAWN(255,255,255),     //white
         EMPTY(0,0,0);           //black
-
         private int color;
 
         private BLOCK_TYPE(int r, int g, int b) {
@@ -51,11 +53,18 @@ public class Arena {
     }
 
 
-
+    /**
+     *Costruttore della classe
+     * @param filename posizione e nome del file che rappresenta l'arena
+     */
     public Arena(String filename) {
         init(filename);
     }
 
+    /**
+     * Metodo di inizializzazione dell'arena
+     * @param filename
+     */
     private void init(String filename) {
         //Carica l'immagine che rappresenta il livello
         pixmap = new Pixmap(Gdx.files.internal(filename));
@@ -63,7 +72,8 @@ public class Arena {
         //Tag che permette di cambiare la dimensione dei muri a seconda della loro posizione
         this.walls = new Array();
         this.floor = new Array();
-        //Inizializza anche i caricatori
+
+        //Inizializza anche i caricatori per i proiettili
         this.bulletsLoader1 = new ArrayList<Bullet>();
         this.bulletsLoader2 = new ArrayList<Bullet>();
 
@@ -74,20 +84,19 @@ public class Arena {
             for (int pixelX = 0; pixelX < pixmap.getWidth(); pixelX++) {
                 AbstractGameObject obj = null;
                 float offsetHeight = 0;
+
                 //height grows from bottom to top
                 float baseHeight = pixmap.getHeight() - pixelY;
 
                 //Trova il colore del pxel corrente in RGBA
                 int currentPixel = pixmap.getPixel(pixelX, pixelY);
 
-                //find matching color value to identify block type at (x,y)
-                //point and create the corresponding game object if there is
-                //a match
 
+                //Check per determinare l'oggetto nella posizione che si sta trattando tramite il
+                // colore sulla pixmap.
                 if(BLOCK_TYPE.EMPTY.sameColor(currentPixel)){
 
                 }
-
 //                Tile
                 if (BLOCK_TYPE.TILE.sameColor(currentPixel)) {
                     obj = new Tile();
@@ -99,32 +108,35 @@ public class Arena {
 //               Wall
                 else if (BLOCK_TYPE.WALL.sameColor(currentPixel)) {
                     obj = new Wall();
+
+                    //Impostazioni dei muri
                     obj.position.set((float)pixelX, (float)pixelY);
+                    obj.bounds.setPosition(obj.position.x, obj.position.y);
+
+                    //Cambiamento degli Asset a seconda della posizione
                     if(pixelX > 1 && pixelX < (pixmap.getWidth() - 2))
                         obj.ObjectAssets = Assets.instance.wall.nord;
                     else if(pixelY > 1 && pixelY < (pixmap.getHeight() - 2))
                         obj.ObjectAssets = Assets.instance.wall.east;
                     else{
                         obj.ObjectAssets = Assets.instance.wall.corner;
-//                           obj.rotation = -90;
-                        }
+                    }
                     this.walls.add((Wall)obj);
                 }
-
                 else if(BLOCK_TYPE.SPAWN.sameColor(currentPixel)){
                     obj = new Player();
                     obj.position.set(pixelX, pixelY);
-                    if(FLAG_P == 0) {
+                    if(FLAG_SPAWN_PLAYERS == 0) {
                         player1 = (Player) obj;
                         player1.setNamePlayer("Player1");
                         player1.position.set(2f, 2f);
                         //Dai al player il suo caricatore inizializzato
                         player1.setLoader(bulletsLoader1);
                         //Setta il flag per dire che il player1 è già stato inserito
-                        FLAG_P = 1;
+                        FLAG_SPAWN_PLAYERS = 1;
                     }
                     //Se il player1 è già stato inserito
-                    else if(FLAG_P == 1){
+                    else if(FLAG_SPAWN_PLAYERS == 1){
                         player2 = (Player)obj;
                         player2.setNamePlayer("Player2");
                         player2.position.set(7f, 11f);
@@ -139,6 +151,9 @@ public class Arena {
         Gdx.app.debug(TAG, "Arena'" + filename + "' loaded");
     }
 
+    /**
+     * Metodo sperimentale per la creazione procedurale dell'arena
+     */
     public void generateProceduralWall(){
         Wall wall;
         double ran;
@@ -154,7 +169,10 @@ public class Arena {
         return (float)(Math.random() * (max - min) + min);
     }
 
-    //Inserire qui gli elementi da visualizzare sullo schermo
+    /**
+     * Metodo per la renderizzazione degli oggetti di gioco
+     * @param batch
+     */
     public void render(SpriteBatch batch){
         //Disegna il pavimento
         for(Tile tile : floor){
@@ -162,23 +180,74 @@ public class Arena {
         }
         //Disegna i muri
         for(Wall wall : walls) {
-            //Impostazioni di disegno dei muri
             wall.render(batch);
         }
         //Disegna i giocatori
         player1.render(batch);
         player2.render(batch);
-
         //Disegna tutti i proiettili
-        for(Bullet b : bulletsLoader1)
-        {
+        for(Bullet b : bulletsLoader1){
             b.render(batch);
         }
-        for(Bullet b:  bulletsLoader2)
+        for(Bullet b:  bulletsLoader2){
+            b.render(batch);
+        }
+    }
 
-        {
-            b.render(batch);
+    /**
+     * Metodo per il controllo delle collisioni (Richiamato in: WorldController.update())
+     */
+    public void checkCollisions() {
+        player1.bounds.setPosition(player1.position.x, player1.position.y);
+        player2.bounds.setPosition(player2.position.x, player2.position.y);
+
+        for(Wall wall : walls) {
+            if (player1.bounds.overlaps(wall.bounds)) {
+                onCollisionPlayerWithWall(player1, wall);
+            }
+            if(player2.bounds.overlaps(wall.bounds)){
+                onCollisionPlayerWithWall(player2, wall);
+            }
         }
+
+        for(Bullet bullet : bulletsLoader1){
+            bullet.bounds.setPosition(bullet.position.x, bullet.position.y);
+            if (player1.bounds.overlaps(bullet.bounds)) {
+                onCollisionBulletWithPlayer(player1, bullet);
+            }
+            if(player2.bounds.overlaps(bullet.bounds)){
+                onCollisionBulletWithPlayer(player2, bullet);
+            }
+        }
+    }
+
+
+    /**
+     * Metodo per le collisioni dei giocatori con i muri
+     * @param player
+     * @param wall
+     */
+    private void onCollisionPlayerWithWall(Player player, Wall wall) {
+        if(wall.position.y == 1) {
+            player.position.y = wall.position.y + wall.bounds.height;
+        }
+        else if(wall.position.y == (pixmap.getHeight() - 2)) {
+            player.position.y = wall.position.y - player.bounds.height;
+        }
+        else if(wall.position.x == 1){
+            player.position.x = wall.position.x + wall.bounds.width;
+        }
+        else if(wall.position.x == (pixmap.getWidth() - 2)){
+            player.position.x = wall.position.x - player.bounds.width;
+        }
+    }
+
+    /**
+     * Metodo per le collisioni dei proiettili con i giocatori
+     * @param player
+     * @param bullet
+     */
+    private void onCollisionBulletWithPlayer(Player player, Bullet bullet){
 
     }
 }
