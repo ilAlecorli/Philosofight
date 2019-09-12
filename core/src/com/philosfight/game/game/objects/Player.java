@@ -226,7 +226,7 @@ public class Player extends AbstractGameObject {
 		 * srcHeight e srcWidth
 		 * flipX e flipY specchiano l'immagine sui relativi assi.
 		 * */
-		if (namePlayer == "Player1")Gdx.app.debug(TAG, namePlayer + " position: " + "(" + position.x + "," + position.y + ")");
+		if (movementEnable)Gdx.app.debug(TAG, namePlayer + " position: " + "(" + position.x + "," + position.y + ")");
 		batch.draw(ObjectAssets.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, ObjectAssets.getRegionX(), ObjectAssets.getRegionY(), ObjectAssets.getRegionWidth(), ObjectAssets.getRegionHeight(), flipX, flipY);
 	}
 
