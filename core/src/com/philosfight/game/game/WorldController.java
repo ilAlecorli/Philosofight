@@ -5,12 +5,16 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.math.Vector2;
 import com.philosfight.game.game.Effects.Bullet;
+import com.philosfight.game.game.objects.AbstractGameObject;
 import com.philosfight.game.game.objects.Player;
 import com.philosfight.game.game.objects.Wall;
 import com.philosfight.game.utils.CameraHelper;
 import com.philosfight.game.utils.Constants;
 import com.badlogic.gdx.math.Rectangle;
+
+import java.util.ArrayList;
 
 /**
  * Classe che si occupa di gestire l'aggiornamento del mondo di gioco.
@@ -19,6 +23,9 @@ public class WorldController extends InputAdapter {
     private static final String TAG = WorldController.class.getName();
     public CameraHelper cameraHelper;
     public Arena arena;
+
+    //Cestino bullet:
+    public ArrayList<Bullet> bulletsDump;
 
     public WorldController() {
         init();
@@ -33,40 +40,45 @@ public class WorldController extends InputAdapter {
         cameraHelper = new CameraHelper();
         cameraHelper.setPosition(arena.pixmap.getWidth() / 2, arena.pixmap.getHeight() / 2);
         cameraHelper.setZoom(2.5f);
+        bulletsDump = new ArrayList<Bullet>();
     }
 
     /**
      * Metodo per l'aggiornamento degli oggetti durante l'esecuzione
      */
-    private void update(float deltaTime) {
+    public void update(float deltaTime) {
         //Ricezione dei comandi
         handleDebugInput(deltaTime);
-
         arena.player1.movementCheck(deltaTime);
         arena.player1.update(deltaTime);
         //Anima ogni singolo proiettile:
         for (Bullet e:
                 arena.bulletsLoader1) {
             e.update(deltaTime);
-            //se il proiettile selezionato deve sparire verrà rimosso
-            if (e.shouldRemove()) arena.bulletsLoader1.remove(e);
+            //Se il proiettile selezionato deve sparire verrà buttato in un array da rimuovere:
+            if (e.shouldRemove()) bulletsDump.add(e);
 
         }
+        //Rimuovi tutti i proiettili da rimuovere:
+        arena.bulletsLoader1.removeAll(bulletsDump);
+
         arena.player2.movementCheck(deltaTime);
         arena.player2.update(deltaTime);
         //Anima ogni singolo proiettile:
         for (Bullet e:
                 arena.bulletsLoader2) {
             e.update(deltaTime);
-            //se il proiettile selezionato deve sparire verrà rimosso
-            if (e.shouldRemove()) ;
+            //Se il proiettile selezionato deve sparire verrà buttato in un array da rimuovere:
+            if (e.shouldRemove()) bulletsDump.add(e);
+
         }
+        //Rimuovi tutti i proiettili da rimuovere:
+        arena.bulletsLoader2.removeAll(bulletsDump);
 
         //Controllo delle collisioni dell'arena
         arena.checkCollisions();
 
         //Aggiornamento della telecamera
-
         cameraHelper.update(deltaTime);
     }
 
@@ -132,7 +144,7 @@ public class WorldController extends InputAdapter {
      */
     @Override
     public boolean keyUp(int keycode) {
-//    Resetta il mondo di gioco
+        //Resetta il mondo di gioco
         if (keycode == Input.Keys.R) {
             init();
             Gdx.app.debug(TAG, "Game world resetted");
@@ -167,6 +179,8 @@ public class WorldController extends InputAdapter {
         }
         return false;
     }
+
+
 }
 
 
