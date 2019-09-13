@@ -1,5 +1,6 @@
 package com.philosfight.game.game;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.philosfight.game.game.Effects.Bullet;
 import com.philosfight.game.game.WorldController;
 import com.badlogic.gdx.Gdx;
@@ -199,7 +200,7 @@ public class Arena {
     /**
      * Metodo per il controllo delle collisioni (Richiamato in: WorldController.update())
      */
-    public void checkCollisions() {
+    public void checkCollisions(float deltaTime) {
         player1.bounds.setPosition(player1.position.x, player1.position.y);
         player2.bounds.setPosition(player2.position.x, player2.position.y);
 
@@ -234,6 +235,10 @@ public class Arena {
                 }
             }
         }
+
+        if(player1.bounds.overlaps(player2.bounds)){
+           onCollsionPlayerWithPlayer(deltaTime);
+        }
     }
 
 
@@ -264,4 +269,20 @@ public class Arena {
     private void onCollisionBulletWithObject(Bullet bullet){
         bulletsDump.add(bullet);
     }
+    private void onCollsionPlayerWithPlayer(float deltaTime){
+        /* Angolo fra le posizioni dei due giocatori*/
+        float degree = MathUtils.atan2(
+                (player2.position.y + player2.dimension.y / 2) - (player1.position.y + player1.dimension.y / 2),
+                (player2.position.x + player2.dimension.x / 2) - (player1.position.x + player1.dimension.x / 2)
+        );
+
+        player1.position.x = player1.position.x + 5f * MathUtils.cos(degree + MathUtils.PI) * deltaTime;
+        player1.position.y = player1.position.y + 5f * MathUtils.sin(degree + MathUtils.PI) * deltaTime;
+
+        player2.position.y = player2.position.y + 5f * MathUtils.sin(degree) * deltaTime;
+        player2.position.x = player2.position.x + 5f * MathUtils.cos(degree) * deltaTime;
+
+
+    }
+
 }

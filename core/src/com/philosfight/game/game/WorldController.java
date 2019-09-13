@@ -57,7 +57,7 @@ public class WorldController extends InputAdapter {
 		for (Bullet bullet : arena.player2.loader) { bullet.update(deltaTime); }
 
 		//Controllo delle collisioni dell'arena (Muri e proiettili)
-		arena.checkCollisions();
+		arena.checkCollisions(deltaTime);
 
 		//Rimozione dei proiettili
 		arena.player1.loader.removeAll(arena.bulletsDump);
@@ -137,25 +137,25 @@ public class WorldController extends InputAdapter {
 		else if (keycode == Input.Keys.ENTER) {
 			//Se la camera è libera
 			if (cameraHelper.hasTarget() == false) {
-				//Attiva il player1
+//				//Attiva il player1
 				arena.player1.setMovementEnable(true);
-				arena.player1.setShootEnable(true);
+//				arena.player1.setShootEnable(true);
 				//Puntala sul primo player
 				cameraHelper.setTarget(arena.player1);
 				Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
 			} else if (cameraHelper.hasTarget() == true && cameraHelper.getTarget() == arena.player1) {
-				//Disattiva il player1
+//				//Disattiva il player1
 				arena.player1.setMovementEnable(false);
-				arena.player1.setShootEnable(false);
+//				arena.player1.setShootEnable(false);
 				//Attiva il player2
 				arena.player2.setMovementEnable(true);
-				arena.player2.setShootEnable(true);
+//				arena.player2.setShootEnable(true);
 				//Se è già occupata dal primo player va al successivo
 				cameraHelper.setTarget(arena.player2);
 			} else  if (cameraHelper.hasTarget() == true && cameraHelper.getTarget() == arena.player2){
 				//Disattiva player2
 				arena.player2.setMovementEnable(false);
-				arena.player2.setShootEnable(false);
+//				arena.player2.setShootEnable(false);
 				//Se è già occupata puntala dal secondo player viene liberata
 				cameraHelper.setTarget(null);
 			}

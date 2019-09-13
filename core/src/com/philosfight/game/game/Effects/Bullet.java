@@ -10,13 +10,11 @@ import com.philosfight.game.game.objects.AbstractGameObject;
 public class Bullet extends AbstractGameObject {
 
 	//Velocità proiettili
-	public static final float SPEED_BULLET = 3f;
+	public static final float SPEED_BULLET = 2.5f;
 	//Vita proiettile
 	private float lifeTimer = 0;
 	//fine vita proiettile
 	private float lifeTime = 5f;
-	//vettore di direzione verso il target
-	public Vector2 VersorDirection;
 	//Target a cui è inviato
 	private Vector2 targetPosition;
 	//flag di rimozione

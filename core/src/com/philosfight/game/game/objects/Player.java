@@ -3,6 +3,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.philosfight.game.game.Assets;
@@ -23,7 +24,8 @@ public class Player extends AbstractGameObject {
 	//Flag di movimento
 	private boolean movementEnable = false;
 	//Flag di sparo
-	private boolean shootEnable = false;
+	private boolean shootEnable = true;
+
 
 	/**
 	 * Caratteristiche del giocatore
@@ -41,7 +43,27 @@ public class Player extends AbstractGameObject {
 	public ArrayList<Bullet> loader;
 	//Massimi bullets al secondo
 	public  static final int MAX_BULLETS = 15;
+	//Raggio del melee
+	public Circle rangeMelee;
 
+
+	/**
+	 * Costruttore
+	 */
+	public Player() {
+		init();
+	}
+
+	private void init(){
+		dimension.set(0.75f, 0.75f);
+		rangeMelee = new Circle(new Vector2(position.x + dimension.x / 2, position.y + dimension.y / 2), dimension.x * (3/2));
+		bounds.set(position.x, position.y, dimension.x, dimension.y);
+
+		// Set physics values
+		terminalVelocity.set(3.0f, 3.0f);   //3 è un valore medio
+		friction.set(12.0f, 12.0f);         //12 è un valore medio
+		ObjectAssets = Assets.instance.player.pg;
+	}
 
 	/**
 	 * Set nome player
@@ -100,23 +122,6 @@ public class Player extends AbstractGameObject {
 
 	public boolean isShootEnable() {
 		return shootEnable;
-	}
-
-	/**
-	 * Costruttore
-	 */
-	public Player() {
-		init();
-	}
-
-	private void init(){
-		dimension.set(0.75f, 0.75f);
-		bounds.set(position.x, position.y, dimension.x, dimension.y);
-
-		// Set physics values
-		terminalVelocity.set(3.0f, 3.0f);   //3 è un valore medio
-		friction.set(12.0f, 12.0f);         //12 è un valore medio
-		ObjectAssets = Assets.instance.player.pg;
 	}
 
 	/**
@@ -225,7 +230,7 @@ public class Player extends AbstractGameObject {
 		Vector2 startPoint;
 
 		//Se ha raggiunto la massima capacità di proiettili o è inabilitato a sparare
-		if(loader.size() == MAX_BULLETS /*|| !isShootEnable()*/) return;
+		if(loader.size() == MAX_BULLETS || !isShootEnable()) return;
 		degree = MathUtils.atan2(
                 (target.position.y + target. dimension.y / 2) - (position.y + dimension.y / 2),
                 (target.position.x + target. dimension.x / 2) - (position.x + dimension.x / 2)
