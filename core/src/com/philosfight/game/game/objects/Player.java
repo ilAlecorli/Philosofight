@@ -59,6 +59,7 @@ public class Player extends AbstractGameObject {
 		dimension.set(0.75f, 0.75f);
 		rangeMelee = new Circle(new Vector2(position.x + dimension.x / 2, position.y + dimension.y / 2), dimension.x * (3/2));
 		bounds.set(position.x, position.y, dimension.x, dimension.y);
+		origin.set(dimension.x / 2, dimension.y / 2);
 
 		// Set physics values
 		terminalVelocity.set(3.0f, 3.0f);   //3 è un valore medio

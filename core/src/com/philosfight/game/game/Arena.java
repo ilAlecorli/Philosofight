@@ -280,24 +280,25 @@ public class Arena {
 
         /* Angolo fra le posizioni dei due giocatori*/
         float angle = MathUtils.atan2(distance.y, distance.x);
+        float radius = (float)Math.sqrt(Math.pow(player1.dimension.x / 2, 2) + Math.pow(player2.dimension.x / 2, 2));
 
 
         if(player1.velocity.x != 0) {
             player1.velocity.x = 0;
-            player1.position.x = (player1.position.x) + (player1.dimension.x + player2.dimension.x) * MathUtils.cos(angle);
+            player1.position.x = (player1.position.x) + radius * MathUtils.cos(angle);
         }
         if(player1.velocity.y != 0) {
             player1.velocity.y = 0;
-            player1.position.y = (player1.position.y) + (player1.dimension.y + player2.dimension.y) * MathUtils.sin(angle);
+            player1.position.y = (player1.position.y) + radius * MathUtils.sin(angle);
         }
 
         if(player2.velocity.x != 0) {
             player2.velocity.x = 0;
-            player2.position.x = (player2.position.x) + (player2.dimension.x + player2.dimension.x) * MathUtils.cos(angle);
+            player2.position.x = (player2.position.x) + radius * MathUtils.cos(angle);
         }
         if(player2.velocity.y != 0) {
             player2.velocity.y = 0;
-            player2.position.y = (player2.position.y) + (player2.dimension.y + player2.dimension.y) * MathUtils.sin(angle);
+            player2.position.y = (player2.position.y) + radius * MathUtils.sin(angle);
         }
 
     }
