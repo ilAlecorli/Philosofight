@@ -6,9 +6,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Disposable;
 
 
-public abstract class AbstractGameObject {
+public abstract class AbstractGameObject{
 
     //This is the object's current speed in m/s.
     public Vector2 velocity;
@@ -65,4 +66,7 @@ public abstract class AbstractGameObject {
     protected void updateMotionX (float deltaTime){}
     protected void updateMotionY (float deltaTime){}
     public abstract void render (SpriteBatch batch);
+    public void dispose(){
+
+    }
 }

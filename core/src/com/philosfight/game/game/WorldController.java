@@ -24,9 +24,6 @@ public class WorldController extends InputAdapter {
 	public CameraHelper cameraHelper;
 	public Arena arena;
 
-	//Cestino bullet:
-	public ArrayList<Bullet> bulletsDump;
-
 	public WorldController() {
 		init();
 	}
@@ -40,7 +37,6 @@ public class WorldController extends InputAdapter {
 		cameraHelper = new CameraHelper();
 		cameraHelper.setPosition(arena.pixmap.getWidth() / 2, arena.pixmap.getHeight() / 2);
 		cameraHelper.setZoom(2.5f);
-		bulletsDump = new ArrayList<Bullet>();
 	}
 
 	/**
@@ -49,34 +45,23 @@ public class WorldController extends InputAdapter {
 	public void update(float deltaTime) {
 		//Ricezione dei comandi
 		handleDebugInput(deltaTime);
+
+		//Aggiornamento del movimento dei giocatori
 		arena.player1.movementCheck(deltaTime);
 		arena.player1.update(deltaTime);
-		//Anima ogni singolo proiettile:
-		for (Bullet e:
-				arena.bulletsLoader1) {
-			e.update(deltaTime);
-			//Se il proiettile selezionato deve sparire verrà buttato in un array da rimuovere:
-			if (e.shouldRemove()) bulletsDump.add(e);
-
-		}
-		//Rimuovi tutti i proiettili da rimuovere:
-		arena.bulletsLoader1.removeAll(bulletsDump);
-
 		arena.player2.movementCheck(deltaTime);
 		arena.player2.update(deltaTime);
-		//Anima ogni singolo proiettile:
-		for (Bullet e:
-				arena.bulletsLoader2) {
-			e.update(deltaTime);
-			//Se il proiettile selezionato deve sparire verrà buttato in un array da rimuovere:
-			if (e.shouldRemove()) bulletsDump.add(e);
 
-		}
-		//Rimuovi tutti i proiettili da rimuovere:
-		arena.bulletsLoader2.removeAll(bulletsDump);
+		//Aggiornamento del movimento dei proiettili
+		for (Bullet bullet : arena.player1.loader) { bullet.update(deltaTime); }
+		for (Bullet bullet : arena.player2.loader) { bullet.update(deltaTime); }
 
-		//Controllo delle collisioni dell'arena
+		//Controllo delle collisioni dell'arena (Muri e proiettili)
 		arena.checkCollisions();
+
+		//Rimozione dei proiettili
+		arena.player1.loader.removeAll(arena.bulletsDump);
+		arena.player2.loader.removeAll(arena.bulletsDump);
 
 		//Aggiornamento della telecamera
 		cameraHelper.update(deltaTime);
@@ -88,19 +73,18 @@ public class WorldController extends InputAdapter {
 
 
 	/**
-	 * Metodo che contiene i comandi della telecamera e di alcuni oggetti
+	 * Metodo contenente la ricezione dei comandi
 	 */
 	private void handleDebugInput(float deltaTime) {
 		if (Gdx.app.getType() != Application.ApplicationType.Desktop) return;
 
-		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-			if (arena.player1.isShootEnable()){
-				Gdx.app.debug(TAG, arena.player1.getNamePlayer() + " is shooting");
-				arena.player1.shootAt(arena.player2);}
-			else if (arena.player2.isShootEnable()) {
-				Gdx.app.debug(TAG, arena.player2.getNamePlayer() + " is shooting");
-				arena.player2.shootAt(arena.player1);
-			}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
+			Gdx.app.debug(TAG, arena.player1.getNamePlayer() + " is shooting");
+			arena.player1.shootAt(arena.player2);
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
+			Gdx.app.debug(TAG, arena.player2.getNamePlayer() + " is shooting");
+			arena.player2.shootAt(arena.player1);
 		}
 
 		// Camera Controls (move)

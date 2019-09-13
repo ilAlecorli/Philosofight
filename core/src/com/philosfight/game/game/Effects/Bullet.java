@@ -1,6 +1,7 @@
 package com.philosfight.game.game.Effects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.philosfight.game.game.Assets;
 import com.philosfight.game.game.objects.AbstractGameObject;
@@ -9,23 +10,24 @@ import com.philosfight.game.game.objects.AbstractGameObject;
 public class Bullet extends AbstractGameObject {
 
 	//Velocità proiettili
-	public static final float SPEED_BULLET = 0.01f;
+	public static final float SPEED_BULLET = 3f;
 	//Vita proiettile
 	private float lifeTimer = 0;
 	//fine vita proiettile
 	private float lifeTime = 5f;
 	//vettore di direzione verso il target
-	private Vector2 VectorDirection;
+	public Vector2 VersorDirection;
 	//Target a cui è inviato
 	private Vector2 targetPosition;
 	//flag di rimozione
 	private boolean remove = false;
+	//angolo del bullet
+	private float degree;
 
 
-	public Bullet(Vector2 position, Vector2 targetPosition) {
+	public Bullet(Vector2 position, float degree) {
 		this.position = position;
-		this.targetPosition = targetPosition;
-		VectorDirection = new Vector2(this.targetPosition.x - this.position.x,this.targetPosition.y - this.position.y);
+		this.degree = degree;
 		dimension.set(0.1f, 0.1f);
 		ObjectAssets = Assets.instance.bullet.bullet;
 	}
@@ -52,7 +54,7 @@ public class Bullet extends AbstractGameObject {
 	protected void updateMotionX(float deltaTime) {
 		//Mantiene la traiettoria su cui è posto (no attrito)
 		//Traiettoria calcolata in base al target e alla posizione di spawn
-		this.velocity.x = (VectorDirection.x) * SPEED_BULLET;
+		this.position.x = position.x + SPEED_BULLET * MathUtils.cos(degree) * deltaTime;
 	}
 
 
@@ -60,7 +62,7 @@ public class Bullet extends AbstractGameObject {
 	protected void updateMotionY(float deltaTime) {
 		//Mantiene la traiettoria su cui è posto (no attrito)
 		//Traiettoria calcolata in base al target e alla posizione di spawn
-		this.velocity.y = (VectorDirection.y) * SPEED_BULLET;
+		this.position.y = position.y + SPEED_BULLET * MathUtils.sin(degree) * deltaTime;
 	}
 
 	@Override

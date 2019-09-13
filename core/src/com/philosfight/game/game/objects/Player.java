@@ -40,36 +40,43 @@ public class Player extends AbstractGameObject {
 	//Rimane "public" per l'update nel WorldController
 	public ArrayList<Bullet> loader;
 	//Massimi bullets al secondo
-	public  static final int MAX_BULLETS = 5;
+	public  static final int MAX_BULLETS = 15;
 
 
+	/**
+	 * Set nome player
+	 * @param namePlayer
+	 */
 	public void setNamePlayer(String namePlayer) {
 		this.namePlayer = namePlayer;
 	}
 
+	/**
+	 * Get nome player
+	 * @return
+	 */
 	public String getNamePlayer() {
 		return namePlayer;
+	}
+
+
+	public void setLifePlayer(float lifePlayer) {
+		this.lifePlayer = lifePlayer;
 	}
 
 	public float getLifePlayer() {
 		return lifePlayer;
 	}
 
-	public void setLifePlayer(float lifePlayer) {
-		this.lifePlayer = lifePlayer;
+
+	public void setMana(float mana) {
+		this.mana = mana;
 	}
 
 	public float getMana() {
 		return mana;
 	}
 
-	public void setMana(float mana) {
-		this.mana = mana;
-	}
-
-	public float getMeleeExtension() {
-		return meleeExtension;
-	}
 
 	public void setMeleeExtension(float meleeExtension) {
 		//La meleeExtension non sarà mai negativa
@@ -77,19 +84,27 @@ public class Player extends AbstractGameObject {
 		this.meleeExtension = meleeExtension;
 	}
 
+	public float getMeleeExtension() {
+		return meleeExtension;
+	}
+
+
 	public void setLoader(ArrayList<Bullet> loader) {
 		this.loader = loader;
+	}
+
+
+	public void setShootEnable(boolean shootEnable) {
+		this.shootEnable = shootEnable;
 	}
 
 	public boolean isShootEnable() {
 		return shootEnable;
 	}
 
-	public void setShootEnable(boolean shootEnable) {
-		this.shootEnable = shootEnable;
-	}
-
-	//Costruttore
+	/**
+	 * Costruttore
+	 */
 	public Player() {
 		init();
 	}
@@ -104,10 +119,6 @@ public class Player extends AbstractGameObject {
 		ObjectAssets = Assets.instance.player.pg;
 	}
 
-	public boolean getMovementEnable(){
-		return  movementEnable;
-	}
-
 	/**
 	 * Attiva il movimento del Player
 	 * se @param movementEnable True = movimento abilitato
@@ -116,6 +127,10 @@ public class Player extends AbstractGameObject {
 	public void setMovementEnable(boolean movementEnable){
 		Gdx.app.debug(TAG, "Movement player set: " + movementEnable + " on Player: " + namePlayer);
 		this.movementEnable = movementEnable;
+	}
+
+	public boolean getMovementEnable(){
+		return  movementEnable;
 	}
 
 	@Override
@@ -142,7 +157,6 @@ public class Player extends AbstractGameObject {
 		velocity.x = MathUtils.clamp(velocity.x,
 				-terminalVelocity.x, terminalVelocity.x);
 	}
-
 
 	@Override
 	protected void updateMotionY (float deltaTime) {
@@ -198,16 +212,32 @@ public class Player extends AbstractGameObject {
 		}
 	}
 
+
 	/**
 	 * Sistema di shooting da parte del player verso un obiettivo
 	 * @param target Obiettivo a cui mira
 	 */
 	public void shootAt(AbstractGameObject target){
+		//Angolo fra le posizioni dei due player
+		float degree;
+
+		//Posizioni di partenza del proiettile
+		Vector2 startPoint;
+
 		//Se ha raggiunto la massima capacità di proiettili o è inabilitato a sparare
-		if(loader.size() == MAX_BULLETS || !isShootEnable()) return;
-		Bullet b = new Bullet(this.position,target.position);
+		if(loader.size() == MAX_BULLETS /*|| !isShootEnable()*/) return;
+		degree = MathUtils.atan2(
+                (target.position.y + target. dimension.y / 2) - (position.y + dimension.y / 2),
+                (target.position.x + target. dimension.x / 2) - (position.x + dimension.x / 2)
+				);
+
+		startPoint 	= new Vector2(	(position.x + dimension.x / 2) + ((dimension.x / 2) * MathUtils.cos(degree)),
+									(position.y + dimension.y / 2) + ((dimension.x/2)   * MathUtils.sin(degree)));
+
+		Bullet bullet = new Bullet(startPoint, degree);
+
 		//Crea un nuovo proiettile
-		loader.add(b);
+		loader.add(bullet);
 	}
 
 	@Override
@@ -226,7 +256,7 @@ public class Player extends AbstractGameObject {
 		 * srcHeight e srcWidth
 		 * flipX e flipY specchiano l'immagine sui relativi assi.
 		 * */
-		if (movementEnable)Gdx.app.debug(TAG, namePlayer + " position: " + "(" + position.x + "," + position.y + ")");
+//		if (movementEnable)Gdx.app.debug(TAG, namePlayer + " position: " + "(" + position.x + "," + position.y + ")");
 		batch.draw(ObjectAssets.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, ObjectAssets.getRegionX(), ObjectAssets.getRegionY(), ObjectAssets.getRegionWidth(), ObjectAssets.getRegionHeight(), flipX, flipY);
 	}
 

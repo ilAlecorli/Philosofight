@@ -13,6 +13,7 @@ import com.philosfight.game.game.objects.Wall;
 import com.philosfight.game.game.Assets;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Arena {
     public static final String TAG = Arena.class.getName();
@@ -22,10 +23,13 @@ public class Arena {
     //Oggetti di gioco
     public Array<Wall> walls;
     public Array<Tile> floor;
+
     public Player player1;
     public Player player2;
+
     public ArrayList<Bullet> bulletsLoader1;
     public ArrayList<Bullet> bulletsLoader2;
+    public List<Bullet> bulletsDump = new ArrayList<Bullet>();
 
     /**
      *  Classe che crea le costanti legate agli oggetti di gioco tramite i colori
@@ -108,13 +112,11 @@ public class Arena {
 //               Wall
                 else if (BLOCK_TYPE.WALL.sameColor(currentPixel)) {
                     obj = new Wall();
-
                     //Impostazioni dei muri
-                    obj.position.set((float)pixelX, (float)pixelY);
+                    obj.position.set((float) pixelX, (float) pixelY);
                     obj.bounds.setPosition(obj.position.x, obj.position.y);
-
                     //Cambiamento degli Asset a seconda della posizione
-                    if(pixelX > 1 && pixelX < (pixmap.getWidth() - 2))
+                    if (pixelX > 1 && pixelX < (pixmap.getWidth() - 2))
                         obj.ObjectAssets = Assets.instance.wall.nord;
                     else if(pixelY > 1 && pixelY < (pixmap.getHeight() - 2))
                         obj.ObjectAssets = Assets.instance.wall.east;
@@ -186,11 +188,11 @@ public class Arena {
         player1.render(batch);
         player2.render(batch);
         //Disegna tutti i proiettili
-        for(Bullet b : player1.loader){
-            b.render(batch);
+        for(Bullet bullet : player1.loader){
+            bullet.render(batch);
         }
-        for(Bullet b:  player2.loader){
-            b.render(batch);
+        for(Bullet bullet:  player2.loader){
+            bullet.render(batch);
         }
     }
 
@@ -210,13 +212,26 @@ public class Arena {
             }
         }
 
-        for(Bullet bullet : bulletsLoader1){
+        for(Bullet bullet : player1.loader){
             bullet.bounds.setPosition(bullet.position.x, bullet.position.y);
-            if (player1.bounds.overlaps(bullet.bounds)) {
-                onCollisionBulletWithPlayer(player1, bullet);
+            if (bullet.bounds.overlaps(player2.bounds)){
+                onCollisionBulletWithObject(bullet);
+            }for(Wall wall : walls){
+                if(bullet.bounds.overlaps(wall.bounds)){
+                    onCollisionBulletWithObject(bullet);
+                }
             }
-            if(player2.bounds.overlaps(bullet.bounds)){
-                onCollisionBulletWithPlayer(player2, bullet);
+        }
+
+        for(Bullet bullet : player2.loader){
+            bullet.bounds.setPosition(bullet.position.x, bullet.position.y);
+            if (bullet.bounds.overlaps(player1.bounds)) {
+                onCollisionBulletWithObject(bullet);
+            }
+            for(Wall wall : walls){
+                if(bullet.bounds.overlaps(wall.bounds)){
+                    onCollisionBulletWithObject(bullet);
+                }
             }
         }
     }
@@ -244,10 +259,9 @@ public class Arena {
 
     /**
      * Metodo per le collisioni dei proiettili con i giocatori
-     * @param player
      * @param bullet
      */
-    private void onCollisionBulletWithPlayer(Player player, Bullet bullet){
-
+    private void onCollisionBulletWithObject(Bullet bullet){
+        bulletsDump.add(bullet);
     }
 }

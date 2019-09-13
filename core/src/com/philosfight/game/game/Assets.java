@@ -111,7 +111,7 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
     /**
-     * Dispose degli assets.
+     * Dispose di tutti gli assets.
      */
     @Override
     public void dispose() {
