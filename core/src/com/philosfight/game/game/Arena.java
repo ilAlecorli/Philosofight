@@ -1,6 +1,7 @@
 package com.philosfight.game.game;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.philosfight.game.game.Effects.Bullet;
 import com.philosfight.game.game.WorldController;
 import com.badlogic.gdx.Gdx;
@@ -273,18 +274,31 @@ public class Arena {
         bulletsDump.add(bullet);
     }
     private void onCollsionPlayerWithPlayer(float deltaTime){
+        /*Distanza fra i due giocatori*/
+        Vector2 distance = new Vector2( (player2.position.y + player2.dimension.y / 2) - (player1.position.y + player1.dimension.y / 2),
+                                        (player2.position.x + player2.dimension.x / 2) - (player1.position.x + player1.dimension.x / 2));
+
         /* Angolo fra le posizioni dei due giocatori*/
-        float degree = MathUtils.atan2(
-                (player2.position.y + player2.dimension.y / 2) - (player1.position.y + player1.dimension.y / 2),
-                (player2.position.x + player2.dimension.x / 2) - (player1.position.x + player1.dimension.x / 2)
-        );
+        float angle = MathUtils.atan2(distance.y, distance.x);
 
-        player1.position.x += 5f * MathUtils.cos(degree + MathUtils.PI) * deltaTime;
-        player1.position.y += 5f * MathUtils.sin(degree + MathUtils.PI) * deltaTime;
 
-        player2.position.y += 5f * MathUtils.sin(degree) * deltaTime;
-        player2.position.x += 5f * MathUtils.cos(degree) * deltaTime;
+        if(player1.velocity.x != 0) {
+            player1.velocity.x = 0;
+            player1.position.x = (player1.position.x) + (player1.dimension.x + player2.dimension.x) * MathUtils.cos(angle);
+        }
+        if(player1.velocity.y != 0) {
+            player1.velocity.y = 0;
+            player1.position.y = (player1.position.y) + (player1.dimension.y + player2.dimension.y) * MathUtils.sin(angle);
+        }
 
+        if(player2.velocity.x != 0) {
+            player2.velocity.x = 0;
+            player2.position.x = (player2.position.x) + (player2.dimension.x + player2.dimension.x) * MathUtils.cos(angle);
+        }
+        if(player2.velocity.y != 0) {
+            player2.velocity.y = 0;
+            player2.position.y = (player2.position.y) + (player2.dimension.y + player2.dimension.y) * MathUtils.sin(angle);
+        }
 
     }
 

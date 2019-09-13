@@ -228,22 +228,22 @@ public class Player extends AbstractGameObject {
 	 */
 	public void shootAt(AbstractGameObject target){
 		//Angolo fra le posizioni dei due player
-		float degree;
+		float angle;
 
-		//Posizioni di partenza del proiettile
+		//Posizione di partenza del proiettile
 		Vector2 startPoint;
 
 		//Se ha raggiunto la massima capacità di proiettili o è inabilitato a sparare
 		if(loader.size() == MAX_BULLETS || !isShootEnable()) return;
-		degree = MathUtils.atan2(
+		angle = MathUtils.atan2(
                 (target.position.y + target. dimension.y / 2) - (position.y + dimension.y / 2),
                 (target.position.x + target. dimension.x / 2) - (position.x + dimension.x / 2)
 				);
 
-		startPoint 	= new Vector2(	(position.x + dimension.x / 2) + ((dimension.x / 2) * MathUtils.cos(degree)),
-									(position.y + dimension.y / 2) + ((dimension.x/2)   * MathUtils.sin(degree)));
+		startPoint 	= new Vector2(	(position.x + dimension.x / 2) + ((dimension.x / 2) * MathUtils.cos(angle)),
+									(position.y + dimension.y / 2) + ((dimension.x/2)   * MathUtils.sin(angle)));
 
-		Bullet bullet = new Bullet(startPoint, degree);
+		Bullet bullet = new Bullet(startPoint, angle);
 
 		//Crea un nuovo proiettile
 		loader.add(bullet);

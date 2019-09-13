@@ -20,12 +20,12 @@ public class Bullet extends AbstractGameObject {
 	//flag di rimozione
 	private boolean remove = false;
 	//angolo del bullet
-	private float degree;
+	private float angle;
 
 
-	public Bullet(Vector2 position, float degree) {
+	public Bullet(Vector2 position, float angle) {
 		this.position = position;
-		this.degree = degree;
+		this.angle = angle;
 		dimension.set(0.1f, 0.1f);
 		ObjectAssets = Assets.instance.bullet.bullet;
 	}
@@ -52,7 +52,7 @@ public class Bullet extends AbstractGameObject {
 	protected void updateMotionX(float deltaTime) {
 		//Mantiene la traiettoria su cui è posto (no attrito)
 		//Traiettoria calcolata in base al target e alla posizione di spawn
-		this.position.x += SPEED_BULLET * MathUtils.cos(degree) * deltaTime;
+		this.position.x += SPEED_BULLET * MathUtils.cos(angle) * deltaTime;
 	}
 
 
@@ -60,7 +60,7 @@ public class Bullet extends AbstractGameObject {
 	protected void updateMotionY(float deltaTime) {
 		//Mantiene la traiettoria su cui è posto (no attrito)
 		//Traiettoria calcolata in base al target e alla posizione di spawn
-		this.position.y += SPEED_BULLET * MathUtils.sin(degree) * deltaTime;
+		this.position.y += SPEED_BULLET * MathUtils.sin(angle) * deltaTime;
 	}
 
 	@Override
