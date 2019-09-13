@@ -1,4 +1,5 @@
 package com.philosfight.game.game.objects;
+
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -33,7 +34,7 @@ public class Player extends AbstractGameObject {
 	//Nome
 	private String namePlayer;
 	//Vita del Player
-	private float lifePlayer;
+	private float healthPlayer;
 	//Mana del Player
 	private float mana;
 	//Estensione dell'area Melee con la quale il Player attacca fisicamente;
@@ -63,6 +64,9 @@ public class Player extends AbstractGameObject {
 		terminalVelocity.set(3.0f, 3.0f);   //3 è un valore medio
 		friction.set(12.0f, 12.0f);         //12 è un valore medio
 		ObjectAssets = Assets.instance.player.pg;
+
+		//Player charatteristics
+		setHealthPlayer(70);
 	}
 
 	/**
@@ -82,12 +86,12 @@ public class Player extends AbstractGameObject {
 	}
 
 
-	public void setLifePlayer(float lifePlayer) {
-		this.lifePlayer = lifePlayer;
+	public void setHealthPlayer(float healthPlayer) {
+		this.healthPlayer = healthPlayer;
 	}
 
-	public float getLifePlayer() {
-		return lifePlayer;
+	public float getHealthPlayer() {
+		return healthPlayer;
 	}
 
 

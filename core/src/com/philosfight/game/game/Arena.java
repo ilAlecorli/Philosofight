@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Arena {
+
     public static final String TAG = Arena.class.getName();
     private int FLAG_SPAWN_PLAYERS = 0;
     public Pixmap pixmap;
@@ -216,6 +217,7 @@ public class Arena {
         for(Bullet bullet : player1.loader){
             bullet.bounds.setPosition(bullet.position.x, bullet.position.y);
             if (bullet.bounds.overlaps(player2.bounds)){
+                Gdx.app.debug(TAG, player2.getNamePlayer() + " hit");
                 onCollisionBulletWithObject(bullet);
             }for(Wall wall : walls){
                 if(bullet.bounds.overlaps(wall.bounds)){
@@ -227,6 +229,7 @@ public class Arena {
         for(Bullet bullet : player2.loader){
             bullet.bounds.setPosition(bullet.position.x, bullet.position.y);
             if (bullet.bounds.overlaps(player1.bounds)) {
+                Gdx.app.debug(TAG, player1.getNamePlayer() + " hit");
                 onCollisionBulletWithObject(bullet);
             }
             for(Wall wall : walls){
@@ -276,11 +279,11 @@ public class Arena {
                 (player2.position.x + player2.dimension.x / 2) - (player1.position.x + player1.dimension.x / 2)
         );
 
-        player1.position.x = player1.position.x + 5f * MathUtils.cos(degree + MathUtils.PI) * deltaTime;
-        player1.position.y = player1.position.y + 5f * MathUtils.sin(degree + MathUtils.PI) * deltaTime;
+        player1.position.x += 5f * MathUtils.cos(degree + MathUtils.PI) * deltaTime;
+        player1.position.y += 5f * MathUtils.sin(degree + MathUtils.PI) * deltaTime;
 
-        player2.position.y = player2.position.y + 5f * MathUtils.sin(degree) * deltaTime;
-        player2.position.x = player2.position.x + 5f * MathUtils.cos(degree) * deltaTime;
+        player2.position.y += 5f * MathUtils.sin(degree) * deltaTime;
+        player2.position.x += 5f * MathUtils.cos(degree) * deltaTime;
 
 
     }

@@ -41,10 +41,10 @@ public class PhilosofightMain implements ApplicationListener {
 	}
 
 	/**
- *	La fase di render ha due compiti fondamentali:
- *	1) Aggiornare il modello del mondo (world controller),
- *	2) Disegnare le scene con gli oggetti già aggiornati (world renderer).
- */
+ 	* La fase di render ha due compiti fondamentali:
+ 	*	1) Aggiornare il modello del mondo (world controller),
+ 	*	2) Disegnare le scene con gli oggetti già aggiornati (world renderer).
+ 	*/
 	@Override
 	public void render () {
 		if(!paused) {

@@ -10,7 +10,7 @@ import com.philosfight.game.game.objects.AbstractGameObject;
 public class Bullet extends AbstractGameObject {
 
 	//Velocità proiettili
-	public static final float SPEED_BULLET = 2.5f;
+	public static final float SPEED_BULLET = 5f;
 	//Vita proiettile
 	private float lifeTimer = 0;
 	//fine vita proiettile
@@ -52,7 +52,7 @@ public class Bullet extends AbstractGameObject {
 	protected void updateMotionX(float deltaTime) {
 		//Mantiene la traiettoria su cui è posto (no attrito)
 		//Traiettoria calcolata in base al target e alla posizione di spawn
-		this.position.x = position.x + SPEED_BULLET * MathUtils.cos(degree) * deltaTime;
+		this.position.x += SPEED_BULLET * MathUtils.cos(degree) * deltaTime;
 	}
 
 
@@ -60,7 +60,7 @@ public class Bullet extends AbstractGameObject {
 	protected void updateMotionY(float deltaTime) {
 		//Mantiene la traiettoria su cui è posto (no attrito)
 		//Traiettoria calcolata in base al target e alla posizione di spawn
-		this.position.y = position.y + SPEED_BULLET * MathUtils.sin(degree) * deltaTime;
+		this.position.y += SPEED_BULLET * MathUtils.sin(degree) * deltaTime;
 	}
 
 	@Override
