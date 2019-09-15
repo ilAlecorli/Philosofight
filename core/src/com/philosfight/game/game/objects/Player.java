@@ -26,6 +26,8 @@ public class Player extends AbstractGameObject {
 	private boolean movementEnable = false;
 	//Flag di sparo
 	private boolean shootEnable = true;
+	//Flag della vita
+	private boolean alive = true;
 
 
 	/**
@@ -33,6 +35,7 @@ public class Player extends AbstractGameObject {
 	 */
 	//Nome
 	private String namePlayer;
+
 	//Vita del Player
 	private float healthPlayer;
 	//Mana del Player
@@ -46,7 +49,6 @@ public class Player extends AbstractGameObject {
 	public  static final int MAX_BULLETS = 15;
 	//Raggio del melee
 	public Circle rangeMelee;
-
 
 	/**
 	 * Costruttore
@@ -88,6 +90,11 @@ public class Player extends AbstractGameObject {
 
 
 	public void setHealthPlayer(float healthPlayer) {
+		//La vita non può andare sotto zero
+		if (healthPlayer  < 0) {
+			setAlive(false);
+			healthPlayer = 0;
+		}
 		this.healthPlayer = healthPlayer;
 	}
 
@@ -141,6 +148,16 @@ public class Player extends AbstractGameObject {
 
 	public boolean getMovementEnable(){
 		return  movementEnable;
+	}
+
+	public boolean isAlive() {
+		return alive;
+	}
+
+	public void setAlive(boolean alive) {
+		if(!alive)
+			Gdx.app.debug(TAG, getNamePlayer() + " is dead.");
+		this.alive = alive;
 	}
 
 	@Override
