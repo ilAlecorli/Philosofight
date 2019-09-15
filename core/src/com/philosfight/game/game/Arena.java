@@ -239,9 +239,8 @@ public class Arena {
                 }
             }
         }
-
         if(player1.bounds.overlaps(player2.bounds)){
-           onCollsionPlayerWithPlayer(deltaTime);
+           onCollsionPlayerWithPlayer();
         }
     }
 
@@ -273,34 +272,38 @@ public class Arena {
     private void onCollisionBulletWithObject(Bullet bullet){
         bulletsDump.add(bullet);
     }
-    private void onCollsionPlayerWithPlayer(float deltaTime){
+
+
+    private void onCollsionPlayerWithPlayer(){
         /*Distanza fra i due giocatori*/
-        Vector2 distance = new Vector2( (player2.position.y + player2.dimension.y / 2) - (player1.position.y + player1.dimension.y / 2),
-                                        (player2.position.x + player2.dimension.x / 2) - (player1.position.x + player1.dimension.x / 2));
+        Vector2 distance = new Vector2( (player2.position.x + player2.dimension.x / 2) - (player1.position.x + player1.dimension.x / 2),
+                                        (player2.position.y + player2.dimension.y / 2) - (player1.position.y + player1.dimension.y / 2)
+        );
+//        Vector2 distance = new Vector2( (player1.position.x + player1.dimension.x / 2) - (player2.position.x + player2.dimension.x / 2),
+//                                        (player1.position.y + player1.dimension.y / 2) - (player2.position.y + player2.dimension.y / 2)
+//        );
 
         /* Angolo fra le posizioni dei due giocatori*/
         float angle = MathUtils.atan2(distance.y, distance.x);
         float radius = (float)Math.sqrt(Math.pow(player1.dimension.x / 2, 2) + Math.pow(player2.dimension.x / 2, 2));
 
 
-        if(player1.velocity.x != 0) {
-            player1.velocity.x = 0;
-            player1.position.x = (player1.position.x) + radius * MathUtils.cos(angle);
+        if(angle > (Math.PI * (1/4)) && angle < (Math.PI * (3/4))) {
+            player1.setMovementEnable(true,false,true,true);
+            player2.setMovementEnable(false,true,true,true);
         }
-        if(player1.velocity.y != 0) {
-            player1.velocity.y = 0;
-            player1.position.y = (player1.position.y) + radius * MathUtils.sin(angle);
+        else if(angle > (Math.PI * (3/4) ) && angle < (Math.PI * (5/4))) {
+            player1.setMovementEnable(true,true,true,false);
+            player2.setMovementEnable(true,true,false,true);
         }
-
-        if(player2.velocity.x != 0) {
-            player2.velocity.x = 0;
-            player2.position.x = (player2.position.x) + radius * MathUtils.cos(angle);
+        else if(angle > (Math.PI * (5/4) ) && angle < (Math.PI * (7/4))) {
+            player1.setMovementEnable(false,true,true,true);
+            player2.setMovementEnable(true,false,true,true);
         }
-        if(player2.velocity.y != 0) {
-            player2.velocity.y = 0;
-            player2.position.y = (player2.position.y) + radius * MathUtils.sin(angle);
+        else if(angle > (Math.PI * (7/4) ) && angle < (Math.PI * (1/4))) {
+            player1.setMovementEnable(true,true,false,true);
+            player2.setMovementEnable(true,true,true,false);
         }
-
     }
 
 }
