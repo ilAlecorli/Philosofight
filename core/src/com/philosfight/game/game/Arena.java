@@ -254,6 +254,30 @@ public class Arena {
      * @param wall
      */
     private void onCollisionPlayerWithWall(Player player, Wall wall) {
+//        Vector2 distance = new Vector2( (player.position.x + player.dimension.x / 2) - (wall.position.x + wall.dimension.x / 2),
+//                                        (player.position.y + player.dimension.y / 2) - (wall.position.y + wall.dimension.y / 2)
+//        );
+//
+//        /* Angolo fra le posizioni del giocatore e del muro*/
+//        float angle = MathUtils.atan2(distance.y, distance.x);
+//
+//        if(angle > (-Math.PI * (0.25)) && angle < (Math.PI * (0.25))){
+//            player.velocity.x = 0;
+//            player.setMovementEnableEast(false);
+//        }
+//        else if(angle > (Math.PI * (0.25)) && angle < (Math.PI * (0.75))) {
+//            player.velocity.y = 0;
+//            player.setMovementEnableNord(false);
+//        }
+//        else if(angle < (-Math.PI * (0.25)) && angle > (-Math.PI * (0.75))) {
+//            player.velocity.y = 0;
+//            player.setMovementEnableSud(false);
+//        }
+//        else if(Math.abs(angle) > (Math.PI * (0.75)) && Math.abs(angle) < (Math.PI)) {
+//            player.velocity.x = 0;
+//            player.setMovementEnableOvest(false);
+//        }
+
         if(wall.position.y == 1) {
             player.setMovementEnableSud(player.getMovementEnableSud() & false);
             player.position.y = wall.position.y + wall.bounds.height;
@@ -302,7 +326,7 @@ public class Arena {
             player1.setMovementEnableNord(false);
             player2.setMovementEnableSud(false);
         }
-        else if(angle < (-Math.PI * (0.25) ) && angle > (-Math.PI * (0.75))) {
+        else if(angle < (-Math.PI * (0.25)) && angle > (-Math.PI * (0.75))) {
             player1.velocity.y = 0;
             player2.velocity.y = 0;
             player1.setMovementEnableSud(false);
@@ -314,7 +338,5 @@ public class Arena {
             player1.setMovementEnableOvest(false);
             player2.setMovementEnableEast(false);
         }
-
     }
-
 }
