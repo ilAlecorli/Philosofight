@@ -190,6 +190,8 @@ public class Arena {
         //Disegna i giocatori
         player1.render(batch);
         player2.render(batch);
+
+
         //Disegna tutti i proiettili
         for(Bullet bullet : player1.loader){
             bullet.render(batch);
@@ -221,10 +223,14 @@ public class Arena {
             onCollsionPlayerWithPlayer();
         }
 
+        //Interazioni Bullet del 1° player
         for(Bullet bullet : player1.loader){
             bullet.bounds.setPosition(bullet.position.x, bullet.position.y);
             if (bullet.bounds.overlaps(player2.bounds)){
                 Gdx.app.debug(TAG, player2.getNamePlayer() + " hit");
+                //Controlla i danni fatti al player
+                if(player2.isAlive())
+                   player2.takeDamage(bullet);
                 onCollisionBulletWithObject(bullet);
             }for(Wall wall : walls){
                 if(bullet.bounds.overlaps(wall.bounds)){
@@ -233,10 +239,14 @@ public class Arena {
             }
         }
 
+        //Interazioni Bullet del 2° player
         for(Bullet bullet : player2.loader){
             bullet.bounds.setPosition(bullet.position.x, bullet.position.y);
             if (bullet.bounds.overlaps(player1.bounds)) {
                 Gdx.app.debug(TAG, player1.getNamePlayer() + " hit");
+                //Controlla i danni fatti al player
+                if(player1.isAlive())
+                    player1.takeDamage(bullet);
                 onCollisionBulletWithObject(bullet);
             }
             for(Wall wall : walls){

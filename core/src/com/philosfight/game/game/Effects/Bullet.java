@@ -21,7 +21,8 @@ public class Bullet extends AbstractGameObject {
 	private boolean remove = false;
 	//angolo del bullet
 	private float angle;
-
+	//Danno del bullet;
+	private float damage = 1;
 
 	public Bullet(Vector2 position, float angle) {
 		this.position = position;
@@ -46,7 +47,14 @@ public class Bullet extends AbstractGameObject {
 		this.remove = remove;
 	}
 
+	public float getDamage() {
+		return damage;
+	}
 
+	public void setDamage(float damage) {
+		if (damage < 0) damage = 0;
+		this.damage = damage;
+	}
 
 	@Override
 	protected void updateMotionX(float deltaTime) {

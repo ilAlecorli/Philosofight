@@ -3,7 +3,9 @@ package com.philosfight.game.game.objects;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -12,10 +14,17 @@ import com.philosfight.game.game.Effects.Bullet;
 
 import java.util.ArrayList;
 
+import javax.swing.text.html.HTML;
+
 
 public class Player extends AbstractGameObject {
     //Utile nelle exeptions per mostrare il nome dell'oggetto
     public static final String TAG = Player.class.getName();
+
+    ShapeRenderer rendererCircleMelee;
+    //Raggio e posizione:
+    float x;
+    float r;
 
 
     /**
@@ -26,7 +35,6 @@ public class Player extends AbstractGameObject {
     private boolean movementEnableEast = false;
     private boolean movementEnableNord = false;
     private boolean movementEnableSud = false;
-
     //Flag di sparo
     private boolean shootEnable = true;
     //Flag della vita
@@ -81,6 +89,10 @@ public class Player extends AbstractGameObject {
         friction.set(12.0f, 12.0f);         //12 è un valore medio
         ObjectAssets = Assets.instance.player.pg;
 
+        rendererCircleMelee = new ShapeRenderer();
+        r = 30;
+        x = r;
+
         //Player charatteristics
         setHealthPlayer(70);
     }
@@ -96,7 +108,7 @@ public class Player extends AbstractGameObject {
     /**
      * Get nome player
      *
-     * @return
+     * @return nome Player
      */
     public String getNamePlayer() {
         return namePlayer;
@@ -105,8 +117,9 @@ public class Player extends AbstractGameObject {
 
     public void setHealthPlayer(float healthPlayer) {
         //La vita non può andare sotto zero
-        if (healthPlayer < 0) {
-            setAlive(false);
+        if (healthPlayer <= 0) {
+            if (isAlive())
+                setAlive(false);
             healthPlayer = 0;
         }
         this.healthPlayer = healthPlayer;
@@ -308,6 +321,16 @@ public class Player extends AbstractGameObject {
         loader.add(bullet);
     }
 
+    /**
+     * Funzione che calcola il danno che il player subisce
+     * @param b Proiettile da cui estrarre il danno
+     */
+    public void takeDamage(Bullet b){
+        setHealthPlayer(getHealthPlayer() - b.getDamage());
+        Gdx.app.debug(TAG, getNamePlayer() + " has taken " + b.getDamage() + " damage point.");
+        Gdx.app.debug(TAG, getNamePlayer() + " health is " + getHealthPlayer() + ".");
+    }
+
     @Override
     /**
      * Renderizzazione del giocatore
@@ -324,7 +347,15 @@ public class Player extends AbstractGameObject {
          * srcHeight e srcWidth
          * flipX e flipY specchiano l'immagine sui relativi assi.
          * */
-//		if (movementEnable)Gdx.app.debug(TAG, namePlayer + " position: " + "(" + position.x + "," + position.y + ")");
+
+        /*
+        rendererCircleMelee.begin(ShapeRenderer.ShapeType.Filled);
+        rendererCircleMelee.setColor(Color.CYAN);
+        rendererCircleMelee.circle(x, 20, r);
+        rendererCircleMelee.end();
+        */
+
+        //if (movementEnable)Gdx.app.debug(TAG, namePlayer + " position: " + "(" + position.x + "," + position.y + ")");
         batch.draw(ObjectAssets.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, ObjectAssets.getRegionX(), ObjectAssets.getRegionY(), ObjectAssets.getRegionWidth(), ObjectAssets.getRegionHeight(), flipX, flipY);
     }
 
