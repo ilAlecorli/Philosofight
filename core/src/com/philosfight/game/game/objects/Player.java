@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 
 public class Player extends AbstractGameObject {
-
     //Utile nelle exeptions per mostrare il nome dell'oggetto
     public static final String TAG = Player.class.getName();
 
@@ -23,15 +22,24 @@ public class Player extends AbstractGameObject {
      * Flags
      */
     //Flag di movimento
-    private boolean movementEnableXO = false;
-    private boolean movementEnableXE = false;
-    private boolean movementEnableYN = false;
-    private boolean movementEnableYS = false;
+    private boolean movementEnableOvest = false;
+    private boolean movementEnableEast = false;
+    private boolean movementEnableNord = false;
+    private boolean movementEnableSud = false;
 
     //Flag di sparo
     private boolean shootEnable = true;
     //Flag della vita
     private boolean alive = true;
+
+    /**
+     * Comandi del giocatore
+     */
+    private int key_Up;
+    private int key_Down;
+    private int key_Left;
+    private int key_Right;
+    public int key_Shoot;
 
 
     /**
@@ -39,7 +47,6 @@ public class Player extends AbstractGameObject {
      */
     //Nome
     private String namePlayer;
-
     //Vita del Player
     private float healthPlayer;
     //Mana del Player
@@ -53,6 +60,8 @@ public class Player extends AbstractGameObject {
     public static final int MAX_BULLETS = 15;
     //Raggio del melee
     public Circle rangeMelee;
+
+
 
     /**
      * Costruttore
@@ -84,7 +93,6 @@ public class Player extends AbstractGameObject {
     public void setNamePlayer(String namePlayer) {
         this.namePlayer = namePlayer;
     }
-
     /**
      * Get nome player
      *
@@ -103,7 +111,6 @@ public class Player extends AbstractGameObject {
         }
         this.healthPlayer = healthPlayer;
     }
-
     public float getHealthPlayer() {
         return healthPlayer;
     }
@@ -112,7 +119,6 @@ public class Player extends AbstractGameObject {
     public void setMana(float mana) {
         this.mana = mana;
     }
-
     public float getMana() {
         return mana;
     }
@@ -123,7 +129,6 @@ public class Player extends AbstractGameObject {
         if (meleeExtension < 0) meleeExtension = 0;
         this.meleeExtension = meleeExtension;
     }
-
     public float getMeleeExtension() {
         return meleeExtension;
     }
@@ -143,43 +148,57 @@ public class Player extends AbstractGameObject {
     }
 
     /**
-     * Attiva il movimento del Player
-     * se @param movementEnable True = movimento abilitato
-     * se @param movementEnable False = movimento disabilitato
+     * Assegnamento dei comandi
      */
-    public void setMovementEnable(boolean movementEnableXO, boolean movementEnableXE, boolean movementEnableYN, boolean movementEnableYS) {
-        Gdx.app.debug(TAG, "Movement player set east: " + movementEnableXE + " on Player: " + namePlayer);
-        Gdx.app.debug(TAG, "Movement player set ovest: " + movementEnableXO + " on Player: " + namePlayer);
-        Gdx.app.debug(TAG, "Movement player set nord: " + movementEnableYN + " on Player: " + namePlayer);
-        Gdx.app.debug(TAG, "Movement player set sud: " + movementEnableYS + " on Player: " + namePlayer);
-
-        this.movementEnableXE = movementEnableXE;
-        this.movementEnableXO = movementEnableXO;
-        this.movementEnableYN = movementEnableYN;
-        this.movementEnableYS = movementEnableYS;
+    public void setControls(int key_Up, int key_Down, int key_Left, int key_Right, int key_Shoot){
+        this.key_Up = key_Up;
+        this.key_Down = key_Down;
+        this.key_Left = key_Left;
+        this.key_Right = key_Right;
+        this.key_Shoot = key_Shoot;
     }
 
-    public boolean getMovementEastEnable() {
-        return movementEnableXE;
+    /**
+     * Metodi di set/get per l'attivazione/disattivazione del movimento
+     * */
+    public void setMovementEnable(boolean state) {
+        //Gdx.app.debug(TAG, "Movement player set: " + movementEnableEast + " on Player: " + namePlayer);
+
+        this.movementEnableEast = state;
+        this.movementEnableOvest = state;
+        this.movementEnableNord = state;
+        this.movementEnableSud = state;
+    }
+    public void setMovementEnableOvest(boolean movementEnableOvest) {
+        this.movementEnableOvest = movementEnableOvest;
+    }
+    public void setMovementEnableEast(boolean movementEnableEast) {
+        this.movementEnableEast = movementEnableEast;
+    }
+    public void setMovementEnableNord(boolean movementEnableNord) {
+        this.movementEnableNord = movementEnableNord;
+    }
+    public void setMovementEnableSud(boolean movementEnableSud) {
+        this.movementEnableSud = movementEnableSud;
     }
 
-    public boolean getMovementOvestEnable() {
-        return movementEnableXO;
+    public boolean getMovementEnableEast() {
+        return movementEnableEast;
     }
-
-    public boolean getMovementNordEnable() {
-        return movementEnableYN;
+    public boolean getMovementEnableOvest() {
+        return movementEnableOvest;
     }
-
-    public boolean getMovementSudEnable() {
-        return movementEnableYS;
+    public boolean getMovementEnableNord() {
+        return movementEnableNord;
+    }
+    public boolean getMovementEnableSud() {
+        return movementEnableSud;
     }
 
 
     public boolean isAlive() {
         return alive;
     }
-
     public void setAlive(boolean alive) {
         if (!alive)
             Gdx.app.debug(TAG, getNamePlayer() + " is dead.");
@@ -228,31 +247,30 @@ public class Player extends AbstractGameObject {
         velocity.y = MathUtils.clamp(velocity.y, -terminalVelocity.y, terminalVelocity.y);
     }
 
-    public void movementCheck(float deltatime) {
-        // Movimento player attivo sull'asse x
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && movementEnableXO == true) {
+    public void movementCheck(float deltaTime) {
+        if (Gdx.input.isKeyPressed(key_Left) && movementEnableOvest == true) {
             //movimento verso Ovest
             //Gdx.app.debug(TAG, namePlayer + " moving sx");
             velocity.x = -terminalVelocity.x;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && movementEnableXE == true) {
+        if (Gdx.input.isKeyPressed(key_Right) && movementEnableEast == true) {
             //movimento verso Est
             //Gdx.app.debug(TAG, namePlayer + " moving dx");
             velocity.x = terminalVelocity.x;
         }
-        // Execute auto-forward movement on non-desktop platform
-        if (Gdx.app.getType() != Application.ApplicationType.Desktop) {
-            velocity.x = terminalVelocity.x;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S) && movementEnableYN == true) {
+        if (Gdx.input.isKeyPressed(key_Down) && movementEnableSud == true) {
             // movimento verso nord
             //Gdx.app.debug(TAG, namePlayer + " moving south");
             velocity.y = -terminalVelocity.y;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.W) && movementEnableYS == true) {
+        if (Gdx.input.isKeyPressed(key_Up) && movementEnableNord == true) {
             // movimento verso sud
             //Gdx.app.debug(TAG, namePlayer + " moving north");
             velocity.y = terminalVelocity.y;
+        }
+        // Execute auto-forward movement on non-desktop platform
+        if (Gdx.app.getType() != Application.ApplicationType.Desktop) {
+            velocity.x = terminalVelocity.x;
         }
         // Execute auto-forward movement on non-desktop platform
         if (Gdx.app.getType() != Application.ApplicationType.Desktop) {
@@ -273,8 +291,9 @@ public class Player extends AbstractGameObject {
         //Posizione di partenza del proiettile
         Vector2 startPoint;
 
-        //Se ha raggiunto la massima capacità di proiettili o è inabilitato a sparare
+        //Se ha raggiunto la massima capacità di proiettili in gioco o è inabilitato a sparare esce
         if (loader.size() == MAX_BULLETS || !isShootEnable()) return;
+
         angle = MathUtils.atan2(
                 (target.position.y + target.dimension.y / 2) - (position.y + dimension.y / 2),
                 (target.position.x + target.dimension.x / 2) - (position.x + dimension.x / 2)

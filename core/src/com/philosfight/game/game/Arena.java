@@ -203,6 +203,8 @@ public class Arena {
      * Metodo per il controllo delle collisioni (Richiamato in: WorldController.update())
      */
     public void checkCollisions(float deltaTime) {
+        player1.setMovementEnable(true);
+        player2.setMovementEnable(true);
         player1.bounds.setPosition(player1.position.x, player1.position.y);
         player2.bounds.setPosition(player2.position.x, player2.position.y);
 
@@ -213,6 +215,10 @@ public class Arena {
             if(player2.bounds.overlaps(wall.bounds)){
                 onCollisionPlayerWithWall(player2, wall);
             }
+        }
+
+        if(player1.bounds.overlaps(player2.bounds)){
+            onCollsionPlayerWithPlayer();
         }
 
         for(Bullet bullet : player1.loader){
@@ -239,9 +245,6 @@ public class Arena {
                 }
             }
         }
-        if(player1.bounds.overlaps(player2.bounds)){
-           onCollsionPlayerWithPlayer();
-        }
     }
 
 
@@ -252,15 +255,19 @@ public class Arena {
      */
     private void onCollisionPlayerWithWall(Player player, Wall wall) {
         if(wall.position.y == 1) {
+            player.setMovementEnableSud(player.getMovementEnableSud() & false);
             player.position.y = wall.position.y + wall.bounds.height;
         }
         else if(wall.position.y == (pixmap.getHeight() - 2)) {
+            player.setMovementEnableNord(player.getMovementEnableNord() & false);
             player.position.y = wall.position.y - player.bounds.height;
         }
         else if(wall.position.x == 1){
+            player.setMovementEnableEast(player.getMovementEnableEast() & false);
             player.position.x = wall.position.x + wall.bounds.width;
         }
         else if(wall.position.x == (pixmap.getWidth() - 2)){
+            player.setMovementEnableOvest(player.getMovementEnableOvest() & false);
             player.position.x = wall.position.x - player.bounds.width;
         }
     }
@@ -279,31 +286,35 @@ public class Arena {
         Vector2 distance = new Vector2( (player2.position.x + player2.dimension.x / 2) - (player1.position.x + player1.dimension.x / 2),
                                         (player2.position.y + player2.dimension.y / 2) - (player1.position.y + player1.dimension.y / 2)
         );
-//        Vector2 distance = new Vector2( (player1.position.x + player1.dimension.x / 2) - (player2.position.x + player2.dimension.x / 2),
-//                                        (player1.position.y + player1.dimension.y / 2) - (player2.position.y + player2.dimension.y / 2)
-//        );
 
         /* Angolo fra le posizioni dei due giocatori*/
         float angle = MathUtils.atan2(distance.y, distance.x);
-        float radius = (float)Math.sqrt(Math.pow(player1.dimension.x / 2, 2) + Math.pow(player2.dimension.x / 2, 2));
 
+        if(angle > (-Math.PI * (0.25)) && angle < (Math.PI * (0.25))){
+            player1.velocity.x = 0;
+            player2.velocity.x = 0;
+            player1.setMovementEnableEast(false);
+            player2.setMovementEnableOvest(false);
+        }
+        else if(angle > (Math.PI * (0.25)) && angle < (Math.PI * (0.75))) {
+            player1.velocity.y = 0;
+            player2.velocity.y = 0;
+            player1.setMovementEnableNord(false);
+            player2.setMovementEnableSud(false);
+        }
+        else if(angle < (-Math.PI * (0.25) ) && angle > (-Math.PI * (0.75))) {
+            player1.velocity.y = 0;
+            player2.velocity.y = 0;
+            player1.setMovementEnableSud(false);
+            player2.setMovementEnableNord(false);
+            }
+        else if(Math.abs(angle) > (Math.PI * (0.75)) && Math.abs(angle) < (Math.PI)) {
+            player1.velocity.x = 0;
+            player2.velocity.x = 0;
+            player1.setMovementEnableOvest(false);
+            player2.setMovementEnableEast(false);
+        }
 
-        if(angle > (Math.PI * (1/4)) && angle < (Math.PI * (3/4))) {
-            player1.setMovementEnable(true,false,true,true);
-            player2.setMovementEnable(false,true,true,true);
-        }
-        else if(angle > (Math.PI * (3/4) ) && angle < (Math.PI * (5/4))) {
-            player1.setMovementEnable(true,true,true,false);
-            player2.setMovementEnable(true,true,false,true);
-        }
-        else if(angle > (Math.PI * (5/4) ) && angle < (Math.PI * (7/4))) {
-            player1.setMovementEnable(false,true,true,true);
-            player2.setMovementEnable(true,false,true,true);
-        }
-        else if(angle > (Math.PI * (7/4) ) && angle < (Math.PI * (1/4))) {
-            player1.setMovementEnable(true,true,false,true);
-            player2.setMovementEnable(true,true,true,false);
-        }
     }
 
 }

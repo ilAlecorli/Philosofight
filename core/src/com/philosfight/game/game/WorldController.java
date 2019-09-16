@@ -5,16 +5,9 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.math.Vector2;
 import com.philosfight.game.game.Effects.Bullet;
-import com.philosfight.game.game.objects.AbstractGameObject;
-import com.philosfight.game.game.objects.Player;
-import com.philosfight.game.game.objects.Wall;
 import com.philosfight.game.utils.CameraHelper;
 import com.philosfight.game.utils.Constants;
-import com.badlogic.gdx.math.Rectangle;
-
-import java.util.ArrayList;
 
 /**
  * Classe che si occupa di gestire l'aggiornamento del mondo di gioco.
@@ -29,7 +22,7 @@ public class WorldController extends InputAdapter {
 	}
 
 	/**
-	 * Metodo di inizializzazione degli oggetti del game world
+	 * Metodo generale di inizializzazione degli oggetti del game world
 	 */
 	private void init() {
 		Gdx.input.setInputProcessor(this);
@@ -39,18 +32,24 @@ public class WorldController extends InputAdapter {
 		cameraHelper.setZoom(2.5f);
 	}
 
+	private void initArena(){
+		arena = new Arena(Constants.ARENA_00);
+
+		//Assegnamento dei comandi
+		//		GIOCATORE		|		SU			GIU'		SINISTRA		DESTRA		SHOOT
+		arena.player1.setControls(Input.Keys.W, Input.Keys.S, Input.Keys.A, Input.Keys.D, Input.Keys.NUM_1);
+		arena.player2.setControls(Input.Keys.I, Input.Keys.K, Input.Keys.J, Input.Keys.L, Input.Keys.NUM_2);
+	}
+
+
+
 	/**
 	 * Metodo per l'aggiornamento degli oggetti durante l'esecuzione
 	 */
 	public void update(float deltaTime) {
+
 		//Ricezione dei comandi
 		handleDebugInput(deltaTime);
-
-		//Aggiornamento del movimento dei giocatori
-		arena.player1.movementCheck(deltaTime);
-		arena.player1.update(deltaTime);
-		arena.player2.movementCheck(deltaTime);
-		arena.player2.update(deltaTime);
 
 		//Aggiornamento del movimento dei proiettili
 		for (Bullet bullet : arena.player1.loader) { bullet.update(deltaTime); }
@@ -67,22 +66,26 @@ public class WorldController extends InputAdapter {
 		cameraHelper.update(deltaTime);
 	}
 
-	private void initArena(){
-		arena = new Arena(Constants.ARENA_00);
-	}
-
-
 	/**
 	 * Metodo contenente la ricezione dei comandi
 	 */
 	private void handleDebugInput(float deltaTime) {
 		if (Gdx.app.getType() != Application.ApplicationType.Desktop) return;
 
-		//Comandi di shooting dei Player
-		if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
+		//Comandi dei Player
+		//Aggiornamento del movimento dei giocatori
+
+		//Player 1
+		arena.player1.movementCheck(deltaTime);
+		arena.player1.update(deltaTime);
+		if (Gdx.input.isKeyJustPressed(arena.player1.key_Shoot)){
 			arena.player1.shootAt(arena.player2);
 		}
-		if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
+
+		//Player 2
+		arena.player2.movementCheck(deltaTime);
+		arena.player2.update(deltaTime);
+		if (Gdx.input.isKeyJustPressed(arena.player2.key_Shoot)) {
 			arena.player2.shootAt(arena.player1);
 		}
 
@@ -135,22 +138,22 @@ public class WorldController extends InputAdapter {
 		// Toggle camera follow
 		else if (keycode == Input.Keys.ENTER) {
 			//Se la camera è libera
-			if (cameraHelper.hasTarget() == false) {
+			if (!cameraHelper.hasTarget()) {
 				//Attiva il player1
-				arena.player1.setMovementEnable(true,true,true,true);
+				arena.player1.setMovementEnable(true);
 				//Puntala sul primo player
 				cameraHelper.setTarget(arena.player1);
 				Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
-			} else if (cameraHelper.hasTarget() == true && cameraHelper.getTarget() == arena.player1) {
+			} else if (cameraHelper.hasTarget() && cameraHelper.getTarget() == arena.player1) {
 				//Disattiva il player1
-				arena.player1.setMovementEnable(false,false,false,false);
+				arena.player1.setMovementEnable(false);
 				//Attiva il player2
-				arena.player2.setMovementEnable(true,true,true,true);
+				arena.player2.setMovementEnable(true);
 				//Se è già occupata dal primo player va al successivo
 				cameraHelper.setTarget(arena.player2);
-			} else  if (cameraHelper.hasTarget() == true && cameraHelper.getTarget() == arena.player2){
+			} else  if (cameraHelper.hasTarget() && cameraHelper.getTarget() == arena.player2){
 				//Disattiva player2
-				arena.player2.setMovementEnable(false,false,false,false);
+				arena.player2.setMovementEnable(false);
 				//Se è già occupata puntala dal secondo player viene liberata
 				cameraHelper.setTarget(null);
 			}
