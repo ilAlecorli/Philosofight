@@ -104,7 +104,7 @@ public class Arena {
                 if(BLOCK_TYPE.EMPTY.sameColor(currentPixel)){
 
                 }
-//                Tile
+                //Tile
                 if (BLOCK_TYPE.TILE.sameColor(currentPixel)) {
                     obj = new Tile();
                     obj.position.set((float)pixelX, (float)pixelY);
@@ -112,7 +112,7 @@ public class Arena {
 
                 }
 
-//               Wall
+                //Wall
                 else if (BLOCK_TYPE.WALL.sameColor(currentPixel)) {
                     obj = new Wall();
                     //Impostazioni dei muri
@@ -191,7 +191,6 @@ public class Arena {
         player1.render(batch);
         player2.render(batch);
 
-
         //Disegna tutti i proiettili
         for(Bullet bullet : player1.loader){
             bullet.render(batch);
@@ -199,6 +198,8 @@ public class Arena {
         for(Bullet bullet:  player2.loader){
             bullet.render(batch);
         }
+
+
     }
 
     /**

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.philosfight.game.game.Assets;
 import com.philosfight.game.game.Effects.Bullet;
+import com.philosfight.game.game.Effects.MeleeCircle;
 
 import java.util.ArrayList;
 
@@ -20,12 +22,6 @@ import javax.swing.text.html.HTML;
 public class Player extends AbstractGameObject {
     //Utile nelle exeptions per mostrare il nome dell'oggetto
     public static final String TAG = Player.class.getName();
-
-    ShapeRenderer rendererCircleMelee;
-    //Raggio e posizione:
-    float x;
-    float r;
-
 
     /**
      * Flags
@@ -60,7 +56,7 @@ public class Player extends AbstractGameObject {
     //Mana del Player
     private float mana;
     //Estensione dell'area Melee con la quale il Player attacca fisicamente;
-    private float meleeExtension;
+    private MeleeCircle melee;
     //Caricatore dei proiettili
     //Rimane "public" per l'update nel WorldController
     public ArrayList<Bullet> loader;
@@ -88,10 +84,6 @@ public class Player extends AbstractGameObject {
         terminalVelocity.set(3.0f, 3.0f);   //3 è un valore medio
         friction.set(12.0f, 12.0f);         //12 è un valore medio
         ObjectAssets = Assets.instance.player.pg;
-
-        rendererCircleMelee = new ShapeRenderer();
-        r = 30;
-        x = r;
 
         //Player charatteristics
         setHealthPlayer(70);
@@ -134,16 +126,6 @@ public class Player extends AbstractGameObject {
     }
     public float getMana() {
         return mana;
-    }
-
-
-    public void setMeleeExtension(float meleeExtension) {
-        //La meleeExtension non sarà mai negativa
-        if (meleeExtension < 0) meleeExtension = 0;
-        this.meleeExtension = meleeExtension;
-    }
-    public float getMeleeExtension() {
-        return meleeExtension;
     }
 
 
@@ -331,6 +313,7 @@ public class Player extends AbstractGameObject {
         Gdx.app.debug(TAG, getNamePlayer() + " health is " + getHealthPlayer() + ".");
     }
 
+
     @Override
     /**
      * Renderizzazione del giocatore
@@ -348,12 +331,7 @@ public class Player extends AbstractGameObject {
          * flipX e flipY specchiano l'immagine sui relativi assi.
          * */
 
-        /*
-        rendererCircleMelee.begin(ShapeRenderer.ShapeType.Filled);
-        rendererCircleMelee.setColor(Color.CYAN);
-        rendererCircleMelee.circle(x, 20, r);
-        rendererCircleMelee.end();
-        */
+
 
         //if (movementEnable)Gdx.app.debug(TAG, namePlayer + " position: " + "(" + position.x + "," + position.y + ")");
         batch.draw(ObjectAssets.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, ObjectAssets.getRegionX(), ObjectAssets.getRegionY(), ObjectAssets.getRegionWidth(), ObjectAssets.getRegionHeight(), flipX, flipY);
