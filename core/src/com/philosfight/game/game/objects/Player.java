@@ -15,6 +15,7 @@ import com.philosfight.game.game.Effects.Bullet;
 import com.philosfight.game.game.Effects.MeleeCircle;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 import javax.swing.text.html.HTML;
 
@@ -22,6 +23,8 @@ import javax.swing.text.html.HTML;
 public class Player extends AbstractGameObject {
     //Utile nelle exeptions per mostrare il nome dell'oggetto
     public static final String TAG = Player.class.getName();
+    //Timer per Mana
+    private Timer timer;
 
     /**
      * Flags
@@ -79,6 +82,7 @@ public class Player extends AbstractGameObject {
         rangeMelee = new Circle(new Vector2(position.x + dimension.x / 2, position.y + dimension.y / 2), dimension.x * (3 / 2));
         bounds.set(position.x, position.y, dimension.x, dimension.y);
         origin.set(dimension.x / 2, dimension.y / 2);
+        timer = new Timer();
 
         // Set physics values
         terminalVelocity.set(3.0f, 3.0f);   //3 è un valore medio
@@ -87,6 +91,7 @@ public class Player extends AbstractGameObject {
 
         //Player charatteristics
         setHealthPlayer(70);
+        setMana(10);
     }
 
     /**
@@ -122,12 +127,16 @@ public class Player extends AbstractGameObject {
 
 
     public void setMana(float mana) {
+        if (mana <= 0) mana = 0;
         this.mana = mana;
     }
     public float getMana() {
         return mana;
     }
 
+    public void updateMana(float deltaTime){
+        setMana((getMana() + 1));
+    }
 
     public void setLoader(ArrayList<Bullet> loader) {
         this.loader = loader;
@@ -203,6 +212,7 @@ public class Player extends AbstractGameObject {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        updateMana(deltaTime);
     }
 
     @Override
@@ -280,14 +290,18 @@ public class Player extends AbstractGameObject {
      * @param target Obiettivo a cui mira
      */
     public void shootAt(AbstractGameObject target) {
+        //Se ha raggiunto la massima capacità di proiettili in gioco o è inabilitato a sparare esce
+        if (loader.size() == MAX_BULLETS || !isShootEnable()) return;
+
+        if(getMana() <= 0) {
+            Gdx.app.debug(TAG, getNamePlayer() + " ha finito il mana");
+            return;
+        }
         //Angolo fra le posizioni dei due player
         float angle;
 
         //Posizione di partenza del proiettile
         Vector2 startPoint;
-
-        //Se ha raggiunto la massima capacità di proiettili in gioco o è inabilitato a sparare esce
-        if (loader.size() == MAX_BULLETS || !isShootEnable()) return;
 
         angle = MathUtils.atan2(
                 (target.position.y + target.dimension.y / 2) - (position.y + dimension.y / 2),
@@ -297,9 +311,13 @@ public class Player extends AbstractGameObject {
         startPoint = new Vector2((position.x + dimension.x / 2) + ((dimension.x / 2) * MathUtils.cos(angle)),
                 (position.y + dimension.y / 2) + ((dimension.x / 2) * MathUtils.sin(angle)));
 
-        Bullet bullet = new Bullet(startPoint, angle);
+        //Cala il mana
+        setMana(getMana() - 1);
 
         //Crea un nuovo proiettile
+        Bullet bullet = new Bullet(startPoint, angle);
+
+        //Aggiungilo al caricatore
         loader.add(bullet);
     }
 
