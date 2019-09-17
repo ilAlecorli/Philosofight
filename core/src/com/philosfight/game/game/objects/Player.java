@@ -127,7 +127,9 @@ public class Player extends AbstractGameObject {
 
 
     public void setMana(float mana) {
-        if (mana <= 0) mana = 0;
+        if (mana <= 0) {mana = 0;
+            Gdx.app.debug(TAG, getNamePlayer() + " ha finito il mana");
+        }
         this.mana = mana;
     }
     public float getMana() {
@@ -135,6 +137,7 @@ public class Player extends AbstractGameObject {
     }
 
     public void updateMana(float deltaTime){
+
         setMana((getMana() + 1));
     }
 
@@ -212,7 +215,7 @@ public class Player extends AbstractGameObject {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        updateMana(deltaTime);
+        //updateMana(deltaTime);
     }
 
     @Override
@@ -293,10 +296,9 @@ public class Player extends AbstractGameObject {
         //Se ha raggiunto la massima capacità di proiettili in gioco o è inabilitato a sparare esce
         if (loader.size() == MAX_BULLETS || !isShootEnable()) return;
 
-        if(getMana() <= 0) {
-            Gdx.app.debug(TAG, getNamePlayer() + " ha finito il mana");
-            return;
-        }
+        //Se il mana è finito non sparo
+        if(getMana() <= 0) return;
+
         //Angolo fra le posizioni dei due player
         float angle;
 
