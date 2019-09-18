@@ -69,7 +69,6 @@ public class Player extends AbstractGameObject {
     public Circle rangeMelee;
 
 
-
     /**
      * Costruttore
      */
@@ -102,6 +101,7 @@ public class Player extends AbstractGameObject {
     public void setNamePlayer(String namePlayer) {
         this.namePlayer = namePlayer;
     }
+
     /**
      * Get nome player
      *
@@ -110,7 +110,6 @@ public class Player extends AbstractGameObject {
     public String getNamePlayer() {
         return namePlayer;
     }
-
 
     public void setHealthPlayer(float healthPlayer) {
         //La vita non può andare sotto zero
@@ -121,10 +120,10 @@ public class Player extends AbstractGameObject {
         }
         this.healthPlayer = healthPlayer;
     }
+
     public float getHealthPlayer() {
         return healthPlayer;
     }
-
 
     public void setMana(float mana) {
         if (mana <= 0) {mana = 0;
@@ -132,10 +131,10 @@ public class Player extends AbstractGameObject {
         }
         this.mana = mana;
     }
+
     public float getMana() {
         return mana;
     }
-
     public void updateMana(float deltaTime){
 
         setMana((getMana() + 1));
@@ -176,6 +175,7 @@ public class Player extends AbstractGameObject {
         this.movementEnableNord = state;
         this.movementEnableSud = state;
     }
+
     public void setMovementEnableOvest(boolean movementEnableOvest) {
         this.movementEnableOvest = movementEnableOvest;
     }
@@ -188,10 +188,10 @@ public class Player extends AbstractGameObject {
     public void setMovementEnableSud(boolean movementEnableSud) {
         this.movementEnableSud = movementEnableSud;
     }
-
     public boolean getMovementEnableEast() {
         return movementEnableEast;
     }
+
     public boolean getMovementEnableOvest() {
         return movementEnableOvest;
     }
@@ -202,14 +202,22 @@ public class Player extends AbstractGameObject {
         return movementEnableSud;
     }
 
-
     public boolean isAlive() {
         return alive;
     }
+
     public void setAlive(boolean alive) {
         if (!alive)
             Gdx.app.debug(TAG, getNamePlayer() + " is dead.");
         this.alive = alive;
+    }
+
+    public MeleeCircle getMelee() {
+        return melee;
+    }
+
+    public void setMelee(MeleeCircle melee) {
+        this.melee = melee;
     }
 
     @Override
