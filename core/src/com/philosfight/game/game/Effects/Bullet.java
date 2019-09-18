@@ -17,12 +17,13 @@ public class Bullet extends AbstractGameObject {
 	private float lifeTime = 5f;
 	//Target a cui è inviato
 	private Vector2 targetPosition;
-	//flag di rimozione
-	private boolean remove = false;
 	//angolo del bullet
 	private float angle;
 	//Danno del bullet;
 	private float damage = 1;
+
+	//flag di rimozione
+	private boolean remove = false;
 
 	public Bullet(Vector2 position, float angle) {
 		this.position = position;

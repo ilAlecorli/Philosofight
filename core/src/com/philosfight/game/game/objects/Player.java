@@ -2,22 +2,16 @@ package com.philosfight.game.game.objects;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.philosfight.game.game.Assets;
 import com.philosfight.game.game.Effects.Bullet;
-import com.philosfight.game.game.Effects.MeleeCircle;
+import com.philosfight.game.game.Effects.MeleeArea;
 
 import java.util.ArrayList;
 import java.util.Timer;
-
-import javax.swing.text.html.HTML;
 
 
 public class Player extends AbstractGameObject {
@@ -58,16 +52,18 @@ public class Player extends AbstractGameObject {
     private float healthPlayer;
     //Mana del Player
     private float mana;
-    //Estensione dell'area Melee con la quale il Player attacca fisicamente;
-    private MeleeCircle melee;
-    //Caricatore dei proiettili
-    //Rimane "public" per l'update nel WorldController
+    //Area Melee con la quale il Player attacca fisicamente
+    private MeleeArea meleeArea;
+
+    //Estenzione dell'area Melee
+
+    private float meleeValue;
+    //Caricatore dei proiettili, rimane "public" per l'update nel WorldController
     public ArrayList<Bullet> loader;
     //Massimi bullets al secondo
     public static final int MAX_BULLETS = 15;
     //Raggio del melee
     public Circle rangeMelee;
-
 
     /**
      * Costruttore
@@ -91,6 +87,8 @@ public class Player extends AbstractGameObject {
         //Player charatteristics
         setHealthPlayer(70);
         setMana(10);
+        setMeleeValue(2);
+        meleeArea = new MeleeArea(this.position,getMeleeValue());
     }
 
     /**
@@ -135,9 +133,18 @@ public class Player extends AbstractGameObject {
     public float getMana() {
         return mana;
     }
+
     public void updateMana(float deltaTime){
 
         setMana((getMana() + 1));
+    }
+
+    public float getMeleeValue() {
+        return meleeValue;
+    }
+
+    public void setMeleeValue(float meleeValue) {
+        this.meleeValue = meleeValue;
     }
 
     public void setLoader(ArrayList<Bullet> loader) {
@@ -212,18 +219,12 @@ public class Player extends AbstractGameObject {
         this.alive = alive;
     }
 
-    public MeleeCircle getMelee() {
-        return melee;
-    }
-
-    public void setMelee(MeleeCircle melee) {
-        this.melee = melee;
-    }
-
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
         //updateMana(deltaTime);
+        meleeArea.setPlayerPosition(position);
+        meleeArea.update(deltaTime);
     }
 
     @Override

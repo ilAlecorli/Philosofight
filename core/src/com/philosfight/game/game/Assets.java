@@ -20,6 +20,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public AssetTile tile;
     public AssetPlayer player;
     public AssetBullet bullet;
+    public AssetMelee circle;
 
 
     /**
@@ -65,6 +66,7 @@ public class Assets implements Disposable, AssetErrorListener {
         tile = new AssetTile(atlas);
         player = new AssetPlayer(atlas);
         bullet = new AssetBullet(atlas);
+        circle = new AssetMelee(atlas);
     }
 
     /**
@@ -108,6 +110,14 @@ public class Assets implements Disposable, AssetErrorListener {
     public  class AssetBullet {
         public final TextureAtlas.AtlasRegion bullet;
         public AssetBullet(TextureAtlas atlas) { bullet = atlas.findRegion("bullet");}
+    }
+
+    /**
+     * Asset dell'area Melee
+     */
+    public  class AssetMelee {
+        public final TextureAtlas.AtlasRegion melee;
+        public AssetMelee(TextureAtlas atlas) { melee = atlas.findRegion("melee");}
     }
 
     /**
