@@ -35,13 +35,12 @@ public class Arena {
     public List<Bullet> bulletsDump = new ArrayList<Bullet>();
 
     /**
-     *  Classe che crea le costanti legate agli oggetti di gioco tramite i colori
+     * Classe che crea le costanti legate agli oggetti di gioco tramite i colori
      */
     public enum BLOCK_TYPE {
         TILE(160, 160, 160),    //grey
         WALL(255, 216, 0),      //yellow
-        SPAWN(255,255,255),     //white
-        EMPTY(0,0,0);           //black
+        EMPTY(0, 0, 0);           //black
         private int color;
 
         private BLOCK_TYPE(int r, int g, int b) {
@@ -61,7 +60,8 @@ public class Arena {
 
 
     /**
-     *Costruttore della classe
+     * Costruttore della classe
+     *
      * @param filename posizione e nome del file che rappresenta l'arena
      */
     public Arena(String filename) {
@@ -70,6 +70,7 @@ public class Arena {
 
     /**
      * Metodo di inizializzazione dell'arena
+     *
      * @param filename
      */
     private void init(String filename) {
@@ -101,14 +102,14 @@ public class Arena {
 
                 //Check per determinare l'oggetto nella posizione che si sta trattando tramite il
                 // colore sulla pixmap.
-                if(BLOCK_TYPE.EMPTY.sameColor(currentPixel)){
+                if (BLOCK_TYPE.EMPTY.sameColor(currentPixel)) {
 
                 }
                 //Tile
                 if (BLOCK_TYPE.TILE.sameColor(currentPixel)) {
                     obj = new Tile();
-                    obj.position.set((float)pixelX, (float)pixelY);
-                    this.floor.add((Tile)obj);
+                    obj.position.set((float) pixelX, (float) pixelY);
+                    this.floor.add((Tile) obj);
 
                 }
 
@@ -117,74 +118,89 @@ public class Arena {
                     obj = new Wall();
                     //Impostazioni dei muri
                     obj.position.set((float) pixelX, (float) pixelY);
-                    obj.bounds.setPosition(obj.position.x, obj.position.y);
+                    obj.bounds.set(obj.position.x, obj.position.y, obj.dimension.x, obj.dimension.y);
+
                     //Cambiamento degli Asset a seconda della posizione
-                    if (pixelX > 1 && pixelX < (pixmap.getWidth() - 2))
-                        obj.ObjectAssets = Assets.instance.wall.nord;
-                    else if(pixelY > 1 && pixelY < (pixmap.getHeight() - 2))
-                        obj.ObjectAssets = Assets.instance.wall.east;
-                    else{
-                        obj.ObjectAssets = Assets.instance.wall.corner;
+                    //Muri nord
+                    if (pixelY == pixmap.getHeight() - 1 && pixelX != 0 && pixelX != pixmap.getWidth() - 1) {
+                        obj.ObjectAssets = Assets.instance.wall.front;
+                        obj.bounds.set(obj.position.x, obj.position.y + (obj.dimension.y / 2), obj.dimension.x, obj.dimension.y / 2);
                     }
-                    this.walls.add((Wall)obj);
-                }
-                else if(BLOCK_TYPE.SPAWN.sameColor(currentPixel)){
-                    obj = new Player();
-                    obj.position.set(pixelX, pixelY);
-                    if(FLAG_SPAWN_PLAYERS == 0) {
-                        player1 = (Player) obj;
-                        player1.setNamePlayer("Player1");
-                        player1.position.set(2f, 2f);
-                        //Dai al player il suo caricatore inizializzato
-                        player1.setLoader(bulletsLoader1);
-                        //Setta il flag per dire che il player1 è già stato inserito
-                        FLAG_SPAWN_PLAYERS = 1;
+                    //Muri est
+                    else if (pixelY > 0 && pixelX == 0) {
+                        obj.ObjectAssets = Assets.instance.wall.side;
+                        obj.origin.set(obj.dimension.x / 2, obj.dimension.y / 2);
+                        obj.rotation = -90;
                     }
-                    //Se il player1 è già stato inserito
-                    else if(FLAG_SPAWN_PLAYERS == 1){
-                        player2 = (Player)obj;
-                        player2.setNamePlayer("Player2");
-                        player2.position.set(7f, 11f);
-                        //Dai al player il suo caricatore inizializzato
-                        player2.setLoader(bulletsLoader2);
+                    //Muri ovest
+                    else if (pixelY > 0 && pixelX == pixmap.getWidth() - 1) {
+                        obj.ObjectAssets = Assets.instance.wall.side;
+                        obj.origin.set(obj.dimension.x / 2, obj.dimension.y / 2);
+                        obj.rotation = 90;
                     }
+                    //Muri sud
+                    else if (pixelY == 0){
+                        obj.ObjectAssets = Assets.instance.wall.back;
+                    }
+                    //Muri centrali
+                    else {
+                        obj.ObjectAssets = Assets.instance.wall.front;
+                        obj.bounds.set(obj.position.x, obj.position.y + (obj.dimension.y / 2), obj.dimension.x, obj.dimension.y / 2);
+                    }
+                    this.walls.add((Wall) obj);
                 }
             }
         }
+
+        player1 = new Player();
+        player1.setNamePlayer("Player1");
+        player1.ObjectAssets = Assets.instance.player.pg1;
+        player1.position.set(2f, 2f);
+        //Dai al player il suo caricatore inizializzato
+        player1.setLoader(bulletsLoader1);
+
+        player2 = new Player();
+        player2.setNamePlayer("Player2");
+        player2.ObjectAssets = Assets.instance.player.pg2;
+        player2.position.set(7f, 11f);
+        //Dai al player il suo caricatore inizializzato
+        player2.setLoader(bulletsLoader2);
         //free memory
         pixmap.dispose();
-        Gdx.app.debug(TAG, "Arena'" + filename + "' loaded");
-    }
+                Gdx.app.debug(TAG,"Arena'"+filename+"' loaded");
+}
 
     /**
      * Metodo sperimentale per la creazione procedurale dell'arena
      */
-    public void generateProceduralWall(){
+    public void generateProceduralWall() {
         Wall wall;
         double ran;
-        for(int i = 0; i < 5; i++){
-            wall =new Wall();
+        for (int i = 0; i < 5; i++) {
+            wall = new Wall();
             /* range 0.5 -> 2.0*/
             ran = getRandomFloat(0.5f, 2.0f);
-            wall.dimension.set((float)ran, (float)ran);
-            wall.position.set(getRandomFloat(3f, 7f), getRandomFloat(3f ,12f));
+            wall.dimension.set((float) ran, (float) ran);
+            wall.position.set(getRandomFloat(3f, 7f), getRandomFloat(3f, 12f));
         }
     }
+
     float getRandomFloat(float min, float max) {
-        return (float)(Math.random() * (max - min) + min);
+        return (float) (Math.random() * (max - min) + min);
     }
 
     /**
      * Metodo per la renderizzazione degli oggetti di gioco
+     *
      * @param batch
      */
-    public void render(SpriteBatch batch){
+    public void render(SpriteBatch batch) {
         //Disegna il pavimento
-        for(Tile tile : floor){
+        for (Tile tile : floor) {
             tile.render(batch);
         }
         //Disegna i muri
-        for(Wall wall : walls) {
+        for (Wall wall : walls) {
             wall.render(batch);
         }
         //Disegna i giocatori
@@ -192,10 +208,10 @@ public class Arena {
         player2.render(batch);
 
         //Disegna tutti i proiettili
-        for(Bullet bullet : player1.loader){
+        for (Bullet bullet : player1.loader) {
             bullet.render(batch);
         }
-        for(Bullet bullet:  player2.loader){
+        for (Bullet bullet : player2.loader) {
             bullet.render(batch);
         }
 
@@ -211,47 +227,48 @@ public class Arena {
         player1.bounds.setPosition(player1.position.x, player1.position.y);
         player2.bounds.setPosition(player2.position.x, player2.position.y);
 
-        for(Wall wall : walls) {
+        for (Wall wall : walls) {
             if (player1.bounds.overlaps(wall.bounds)) {
                 onCollisionPlayerWithWall(player1, wall);
             }
-            if(player2.bounds.overlaps(wall.bounds)){
+            if (player2.bounds.overlaps(wall.bounds)) {
                 onCollisionPlayerWithWall(player2, wall);
             }
         }
 
-        if(player1.bounds.overlaps(player2.bounds)){
+        if (player1.bounds.overlaps(player2.bounds)) {
             onCollsionPlayerWithPlayer();
         }
 
         //Interazioni Bullet del 1° player
-        for(Bullet bullet : player1.loader){
+        for (Bullet bullet : player1.loader) {
             bullet.bounds.setPosition(bullet.position.x, bullet.position.y);
-            if (bullet.bounds.overlaps(player2.bounds)){
+            if (bullet.bounds.overlaps(player2.bounds)) {
                 Gdx.app.debug(TAG, player2.getNamePlayer() + " hit");
                 //Controlla i danni fatti al player
-                if(player2.isAlive())
-                   player2.takeDamage(bullet);
+                if (player2.isAlive())
+                    player2.takeDamage(bullet);
                 onCollisionBulletWithObject(bullet);
-            }for(Wall wall : walls){
-                if(bullet.bounds.overlaps(wall.bounds)){
+            }
+            for (Wall wall : walls) {
+                if (bullet.bounds.overlaps(wall.bounds)) {
                     onCollisionBulletWithObject(bullet);
                 }
             }
         }
 
         //Interazioni Bullet del 2° player
-        for(Bullet bullet : player2.loader){
+        for (Bullet bullet : player2.loader) {
             bullet.bounds.setPosition(bullet.position.x, bullet.position.y);
             if (bullet.bounds.overlaps(player1.bounds)) {
                 Gdx.app.debug(TAG, player1.getNamePlayer() + " hit");
                 //Controlla i danni fatti al player
-                if(player1.isAlive())
+                if (player1.isAlive())
                     player1.takeDamage(bullet);
                 onCollisionBulletWithObject(bullet);
             }
-            for(Wall wall : walls){
-                if(bullet.bounds.overlaps(wall.bounds)){
+            for (Wall wall : walls) {
+                if (bullet.bounds.overlaps(wall.bounds)) {
                     onCollisionBulletWithObject(bullet);
                 }
             }
@@ -261,89 +278,103 @@ public class Arena {
 
     /**
      * Metodo per le collisioni dei giocatori con i muri
+     *
      * @param player
      * @param wall
      */
     private void onCollisionPlayerWithWall(Player player, Wall wall) {
-//        Vector2 distance = new Vector2( (player.position.x + player.dimension.x / 2) - (wall.position.x + wall.dimension.x / 2),
-//                                        (player.position.y + player.dimension.y / 2) - (wall.position.y + wall.dimension.y / 2)
-//        );
-//
-//        /* Angolo fra le posizioni del giocatore e del muro*/
-//        float angle = MathUtils.atan2(distance.y, distance.x);
-//
-//        if(angle > (-Math.PI * (0.25)) && angle < (Math.PI * (0.25))){
-//            player.velocity.x = 0;
-//            player.setMovementEnableEast(false);
-//        }
-//        else if(angle > (Math.PI * (0.25)) && angle < (Math.PI * (0.75))) {
-//            player.velocity.y = 0;
-//            player.setMovementEnableNord(false);
-//        }
-//        else if(angle < (-Math.PI * (0.25)) && angle > (-Math.PI * (0.75))) {
-//            player.velocity.y = 0;
-//            player.setMovementEnableSud(false);
-//        }
-//        else if(Math.abs(angle) > (Math.PI * (0.75)) && Math.abs(angle) < (Math.PI)) {
-//            player.velocity.x = 0;
-//            player.setMovementEnableOvest(false);
-//        }
 
-        if(wall.position.y == 1) {
-            player.setMovementEnableSud(player.getMovementEnableSud() & false);
+        //Muri Sud
+        if (wall.position.y == 0) {
+            player.setMovementEnableSud(false);
             player.position.y = wall.position.y + wall.bounds.height;
         }
-        else if(wall.position.y == (pixmap.getHeight() - 2)) {
-            player.setMovementEnableNord(player.getMovementEnableNord() & false);
-            player.position.y = wall.position.y - player.bounds.height;
+
+        // Muri Nord
+        else if (wall.position.y == (pixmap.getHeight() - 1)) {
+            player.setMovementEnableNord(false);
+            player.position.y = wall.position.y + (wall.dimension.y / 2) - player.bounds.height;
         }
-        else if(wall.position.x == 1){
-            player.setMovementEnableEast(player.getMovementEnableEast() & false);
+        //Muri est
+        else if (wall.position.x == 0) {
+            player.setMovementEnableEast(false);
             player.position.x = wall.position.x + wall.bounds.width;
         }
-        else if(wall.position.x == (pixmap.getWidth() - 2)){
-            player.setMovementEnableOvest(player.getMovementEnableOvest() & false);
+        //Muri ovest
+        else if (wall.position.x == (pixmap.getWidth() - 1)) {
+            player.setMovementEnableOvest(false);
             player.position.x = wall.position.x - player.bounds.width;
+
+            //Muri centrali
+        } else {
+            Vector2 distance = new Vector2((player.position.x + player.dimension.x / 2) - (wall.position.x + wall.dimension.x / 2),
+                    (player.position.y + player.dimension.y / 2) - (wall.position.y + wall.dimension.y / 2)
+            );
+            /* Angolo fra le posizioni del giocatore e del muro*/
+            float angle = MathUtils.atan2(distance.y, distance.x);
+
+            //Player a Est del muro
+            if (angle > (-Math.PI * (0.25)) && angle < (Math.PI * (0.25))) {
+                player.velocity.x = 0;
+                player.position.x = wall.position.x + wall.dimension.x;
+                player.setMovementEnableEast(false);
+            }
+            //Player a Nord del muro
+            else if (angle > (Math.PI * (0.25)) && angle < (Math.PI * (0.75))) {
+                player.velocity.y = 0;
+                player.position.y = wall.position.y + wall.dimension.y;
+                player.setMovementEnableSud(false);
+            }
+            //Player a Sud del muro
+            else if (angle < (-Math.PI * (0.25)) && angle > (-Math.PI * (0.75))) {
+                player.velocity.y = 0;
+                player.position.y = wall.bounds.y - player.dimension.y;
+                player.setMovementEnableNord(false);
+            }
+            //Player a Ovest del muro
+            else if (Math.abs(angle) > (Math.PI * (0.75)) && Math.abs(angle) < (Math.PI)) {
+                player.velocity.x = 0;
+                player.position.x = wall.position.x - player.dimension.x;
+                player.setMovementEnableOvest(false);
+            }
         }
     }
 
     /**
      * Metodo per le collisioni dei proiettili con i giocatori
+     *
      * @param bullet
      */
-    private void onCollisionBulletWithObject(Bullet bullet){
+    private void onCollisionBulletWithObject(Bullet bullet) {
         bulletsDump.add(bullet);
     }
 
 
-    private void onCollsionPlayerWithPlayer(){
+    private void onCollsionPlayerWithPlayer() {
         /*Distanza fra i due giocatori*/
-        Vector2 distance = new Vector2( (player2.position.x + player2.dimension.x / 2) - (player1.position.x + player1.dimension.x / 2),
-                                        (player2.position.y + player2.dimension.y / 2) - (player1.position.y + player1.dimension.y / 2)
+        Vector2 distance = new Vector2((player2.position.x + player2.dimension.x / 2) - (player1.position.x + player1.dimension.x / 2),
+                (player2.position.y + player2.dimension.y / 2) - (player1.position.y + player1.dimension.y / 2)
         );
 
         /* Angolo fra le posizioni dei due giocatori*/
         float angle = MathUtils.atan2(distance.y, distance.x);
 
-        if(angle > (-Math.PI * (0.25)) && angle < (Math.PI * (0.25))){
+        if (angle > (-Math.PI * (0.25)) && angle < (Math.PI * (0.25))) {
             player1.velocity.x = 0;
             player2.velocity.x = 0;
             player1.setMovementEnableEast(false);
             player2.setMovementEnableOvest(false);
-        }
-        else if(angle > (Math.PI * (0.25)) && angle < (Math.PI * (0.75))) {
+        } else if (angle > (Math.PI * (0.25)) && angle < (Math.PI * (0.75))) {
             player1.velocity.y = 0;
             player2.velocity.y = 0;
             player1.setMovementEnableNord(false);
             player2.setMovementEnableSud(false);
-        }
-        else if(angle < (-Math.PI * (0.25)) && angle > (-Math.PI * (0.75))) {
+        } else if (angle < (-Math.PI * (0.25)) && angle > (-Math.PI * (0.75))) {
             player1.velocity.y = 0;
             player2.velocity.y = 0;
             player1.setMovementEnableSud(false);
             player2.setMovementEnableNord(false);
-            }
-        else if(Math.abs(angle) > (Math.PI * (0.75)) && Math.abs(angle) < (Math.PI)) {
+        } else if (Math.abs(angle) > (Math.PI * (0.75)) && Math.abs(angle) < (Math.PI)) {
             player1.velocity.x = 0;
             player2.velocity.x = 0;
             player1.setMovementEnableOvest(false);

@@ -73,9 +73,11 @@ public class Assets implements Disposable, AssetErrorListener {
      * Asset dei giocatori
      */
     public class AssetPlayer{
-        public final TextureAtlas.AtlasRegion pg;
+        public final TextureAtlas.AtlasRegion pg1;
+        public final TextureAtlas.AtlasRegion pg2;
         public AssetPlayer(TextureAtlas atlas){
-            pg = atlas.findRegion("player");
+            pg1 = atlas.findRegion("PG1_front1");
+            pg2 = atlas.findRegion("PG2_front1");
         }
     }
 
@@ -83,13 +85,13 @@ public class Assets implements Disposable, AssetErrorListener {
      * Asset dei muri dell'arena.
      */
     public class AssetWall {
-        public final TextureAtlas.AtlasRegion east;
-        public final TextureAtlas.AtlasRegion nord;
-        public final TextureAtlas.AtlasRegion corner;
+        public final TextureAtlas.AtlasRegion front;
+        public final TextureAtlas.AtlasRegion back;
+        public final TextureAtlas.AtlasRegion side;
         public AssetWall(TextureAtlas atlas) {
-            east = atlas.findRegion("wall0");
-            nord = atlas.findRegion("wall2");
-            corner = atlas.findRegion("wall1");
+            front = atlas.findRegion("wall_front");
+            back = atlas.findRegion("wall_back");
+            side= atlas.findRegion("wall_side");
         }
     }
 
@@ -100,7 +102,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final TextureAtlas.AtlasRegion tile00;
 
         public AssetTile(TextureAtlas atlas) {
-            tile00 = atlas.findRegion("floor");
+            tile00 = atlas.findRegion("tile");
         }
     }
 

@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.philosfight.game.game.Assets;
 import com.philosfight.game.game.Effects.Bullet;
-import com.philosfight.game.game.Effects.MeleeArea;
+//import com.philosfight.game.game.Effects.MeleeArea;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -53,7 +53,7 @@ public class Player extends AbstractGameObject {
     //Mana del Player
     private float mana;
     //Area Melee con la quale il Player attacca fisicamente
-    private MeleeArea meleeArea;
+//    private MeleeArea meleeArea;
 
     //Estenzione dell'area Melee
 
@@ -73,22 +73,21 @@ public class Player extends AbstractGameObject {
     }
 
     private void init() {
-        dimension.set(0.75f, 0.75f);
+        dimension.set(0.55f, 1f);
         rangeMelee = new Circle(new Vector2(position.x + dimension.x / 2, position.y + dimension.y / 2), dimension.x * (3 / 2));
-        bounds.set(position.x, position.y, dimension.x, dimension.y);
+        bounds.set(position.x, position.y, dimension.x, dimension.y * (float)0.75);
         origin.set(dimension.x / 2, dimension.y / 2);
         timer = new Timer();
 
         // Set physics values
         terminalVelocity.set(3.0f, 3.0f);   //3 è un valore medio
         friction.set(12.0f, 12.0f);         //12 è un valore medio
-        ObjectAssets = Assets.instance.player.pg;
 
         //Player charatteristics
         setHealthPlayer(70);
         setMana(10);
         setMeleeValue(2);
-        meleeArea = new MeleeArea(this.position,getMeleeValue());
+//        meleeArea = new MeleeArea(this.position,getMeleeValue());
     }
 
     /**
@@ -223,8 +222,8 @@ public class Player extends AbstractGameObject {
     public void update(float deltaTime) {
         super.update(deltaTime);
         //updateMana(deltaTime);
-        meleeArea.setPlayerPosition(position);
-        meleeArea.update(deltaTime);
+//        meleeArea.setPlayerPosition(position);
+//        meleeArea.update(deltaTime);
     }
 
     @Override
