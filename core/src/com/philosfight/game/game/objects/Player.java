@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.philosfight.game.game.Assets;
 import com.philosfight.game.game.Effects.Bullet;
+import com.philosfight.game.game.Effects.MeleeArea;
 //import com.philosfight.game.game.Effects.MeleeArea;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class Player extends AbstractGameObject {
     //Mana del Player
     private float mana;
     //Area Melee con la quale il Player attacca fisicamente
-//    private MeleeArea meleeArea;
+    private MeleeArea meleeArea;
 
     //Estenzione dell'area Melee
 
@@ -87,7 +88,7 @@ public class Player extends AbstractGameObject {
         setHealthPlayer(70);
         setMana(10);
         setMeleeValue(2);
-//        meleeArea = new MeleeArea(this.position,getMeleeValue());
+        meleeArea = new MeleeArea(this.position,getMeleeValue());
     }
 
     /**
@@ -222,8 +223,8 @@ public class Player extends AbstractGameObject {
     public void update(float deltaTime) {
         super.update(deltaTime);
         //updateMana(deltaTime);
-//        meleeArea.setPlayerPosition(position);
-//        meleeArea.update(deltaTime);
+        meleeArea.setPlayerPosition(position);
+        meleeArea.update(deltaTime);
     }
 
     @Override
