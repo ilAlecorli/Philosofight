@@ -223,8 +223,8 @@ public class Player extends AbstractGameObject {
     public void update(float deltaTime) {
         super.update(deltaTime);
         //updateMana(deltaTime);
-        meleeArea.setPlayerPosition(position);
-        meleeArea.update(deltaTime);
+        //meleeArea.setPlayerPosition(position);
+        //meleeArea.update(deltaTime);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class CameraHelper {
     private AbstractGameObject target;
     public CameraHelper () {
         position = new Vector2();
-        zoom = 1.0f;
+        zoom = 3.8311014f;
     }
     public void update (float deltaTime) {
         if (!hasTarget()) return;
