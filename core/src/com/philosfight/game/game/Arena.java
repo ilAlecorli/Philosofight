@@ -1,5 +1,6 @@
 package com.philosfight.game.game;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.philosfight.game.game.Effects.Bullet;
@@ -27,12 +28,15 @@ public class Arena {
     public Array<Wall> walls;
     public Array<Tile> floor;
 
+    //Players
     public Player player1;
     public Player player2;
 
+    //caricatori bullets
     public ArrayList<Bullet> bulletsLoader1;
     public ArrayList<Bullet> bulletsLoader2;
     public List<Bullet> bulletsDump = new ArrayList<Bullet>();
+
 
     /**
      * Classe che crea le costanti legate agli oggetti di gioco tramite i colori
@@ -165,6 +169,8 @@ public class Arena {
         player2.position.set(7f, 11f);
         //Dai al player il suo caricatore inizializzato
         player2.setLoader(bulletsLoader2);
+
+
         //free memory
         pixmap.dispose();
                 Gdx.app.debug(TAG,"Arena'"+filename+"' loaded");
@@ -214,7 +220,6 @@ public class Arena {
         for (Bullet bullet : player2.loader) {
             bullet.render(batch);
         }
-
 
     }
 

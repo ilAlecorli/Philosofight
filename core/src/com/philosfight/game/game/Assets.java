@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Disposable;
@@ -21,6 +22,9 @@ public class Assets implements Disposable, AssetErrorListener {
     public AssetPlayer player;
     public AssetBullet bullet;
     public AssetMelee circle;
+    public AssetFonts fonts;
+    public AssetBlankPixel blank;
+
 
 
     /**
@@ -67,6 +71,38 @@ public class Assets implements Disposable, AssetErrorListener {
         player = new AssetPlayer(atlas);
         bullet = new AssetBullet(atlas);
         circle = new AssetMelee(atlas);
+        fonts = new AssetFonts();
+        blank = new AssetBlankPixel(atlas);
+	}
+
+	/**
+	 * Asset per il Font Arial
+	 */
+    public class AssetFonts {
+        public final BitmapFont defaultSmall;
+        public final BitmapFont defaultNormal;
+        public final BitmapFont defaultBig;
+
+        public AssetFonts () {
+            // create three fonts using Libgdx's 15px bitmap font
+            defaultSmall = new BitmapFont(
+                    Gdx.files.internal("images/arial-15.fnt"), true);
+            defaultNormal = new BitmapFont(
+                    Gdx.files.internal("images/arial-15.fnt"), true);
+            defaultBig = new BitmapFont(
+                    Gdx.files.internal("images/arial-15.fnt"), true);
+            // set font sizes
+            defaultSmall.getData().setScale(0.75f);
+            defaultNormal.getData().setScale(1.0f);
+            defaultBig.getData().setScale(2.0f);
+            // enable linear texture filtering for smooth fonts
+            defaultSmall.getRegion().getTexture().setFilter(
+                    Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            defaultNormal.getRegion().getTexture().setFilter(
+                    Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            defaultBig.getRegion().getTexture().setFilter(
+                    Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
     }
 
     /**
@@ -122,12 +158,24 @@ public class Assets implements Disposable, AssetErrorListener {
         public AssetMelee(TextureAtlas atlas) { melee = atlas.findRegion("melee");}
     }
 
+	/**
+	 * Asset pixel bianco da colorare
+	 */
+	public class AssetBlankPixel {
+		public final TextureAtlas.AtlasRegion blank;
+		public AssetBlankPixel(TextureAtlas atlas) { blank= atlas.findRegion("blank");}
+
+	}
+
     /**
      * Dispose di tutti gli assets.
      */
     @Override
     public void dispose() {
         assetManager.dispose();
+        fonts.defaultSmall.dispose();
+        fonts.defaultNormal.dispose();
+        fonts.defaultBig.dispose();
     }
 
     public void error(String filename, Class type, Throwable throwable) {
