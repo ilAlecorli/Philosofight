@@ -19,7 +19,8 @@ public class WorldController extends InputAdapter {
 	public Arena arena;
 	//Posizione centrale dell'arena:
 	public Vector2 centerArena;
-
+	//Zoom predefinito
+	private float zoomDefault = 0.023829965f;
 	public WorldController() {
 		init();
 	}
@@ -34,8 +35,10 @@ public class WorldController extends InputAdapter {
 		cameraHelper = new CameraHelper();
 		//misura il centro dell'arena:
 		centerArena = new Vector2(arena.pixmap.getWidth() / 2f, arena.pixmap.getHeight() / 2f);
+		//Posizione iniziale telecamera
 		cameraHelper.setPosition(centerArena);
-		cameraHelper.setZoom(0.01f/*3.8311014f*/);
+		//Distanza iniziale telecamera
+		cameraHelper.setZoom(zoomDefault);
 	}
 
 	private void initArena(){
@@ -113,7 +116,8 @@ public class WorldController extends InputAdapter {
 		*/
 
 		// Camera Controls (zoom)
-		float camZoomSpeed = 1 * deltaTime;
+		float velocity = 0.005f;	//velocità zoom
+		float camZoomSpeed = velocity * deltaTime;
 		float camZoomSpeedAccelerationFactor = 5;
 		if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))
 			camZoomSpeed *= camZoomSpeedAccelerationFactor;
@@ -126,7 +130,7 @@ public class WorldController extends InputAdapter {
 			Gdx.app.debug(TAG, "Zoom: " + cameraHelper.getZoom());
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.COMMA))
-			cameraHelper.setZoom(3.8311014f);
+			cameraHelper.setZoom(zoomDefault);
 	}
 
 	private void moveCamera(float x, float y) {

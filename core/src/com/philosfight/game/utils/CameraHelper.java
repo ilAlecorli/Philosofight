@@ -7,14 +7,14 @@ import com.philosfight.game.game.objects.AbstractGameObject;
 
 public class CameraHelper {
     private static final String TAG = CameraHelper.class.getName();
-    private final float MAX_ZOOM_IN = 0.25f;
+    private final float MAX_ZOOM_IN = 0.01f;
     private final float MAX_ZOOM_OUT = 10.0f;
     private Vector2 position;
     private float zoom;
     private AbstractGameObject target;
     public CameraHelper () {
         position = new Vector2();
-        zoom = 3.8311014f;
+        zoom = 0;
     }
     public void update (float deltaTime) {
         if (!hasTarget()) return;

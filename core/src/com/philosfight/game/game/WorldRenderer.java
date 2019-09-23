@@ -47,7 +47,7 @@ public class WorldRenderer implements Disposable {
      */
     public void render(){
         renderWorld(batch);
-       //renderGui(batch);
+       renderGui(batch);
     }
 
 
@@ -70,7 +70,7 @@ public class WorldRenderer implements Disposable {
         batch.setProjectionMatrix(cameraGUI.combined);
         batch.begin();
         //Disegna la vita dei players
-        renderHealth(batch);
+        //renderHealth(batch);
         // draw FPS text
         renderGuiFpsCounter(batch);
         batch.end();
