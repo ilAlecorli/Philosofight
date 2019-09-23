@@ -15,6 +15,11 @@ public class Wall extends AbstractGameObject {
         dimension.set(1f,1f);
     }
 
+
+    public void setObjectAssetsWallNord() {
+        ObjectAssets = Assets.instance.wall.front;
+    }
+
     @Override
     public void render(SpriteBatch batch) {
         /**

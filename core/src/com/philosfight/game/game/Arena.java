@@ -21,7 +21,8 @@ import java.util.List;
 public class Arena {
 
     public static final String TAG = Arena.class.getName();
-    private int FLAG_SPAWN_PLAYERS = 0;
+
+    //Immagine scheletro dell'arena
     public Pixmap pixmap;
 
     //Oggetti di gioco
@@ -82,12 +83,12 @@ public class Arena {
         pixmap = new Pixmap(Gdx.files.internal(filename));
 
         //Tag che permette di cambiare la dimensione dei muri a seconda della loro posizione
-        this.walls = new Array();
-        this.floor = new Array();
+        walls = new Array();
+        floor = new Array();
 
         //Inizializza anche i caricatori per i proiettili
-        this.bulletsLoader1 = new ArrayList<Bullet>();
-        this.bulletsLoader2 = new ArrayList<Bullet>();
+        bulletsLoader1 = new ArrayList<Bullet>();
+        bulletsLoader2 = new ArrayList<Bullet>();
 
         int lastPixel = -1;
 
@@ -100,15 +101,15 @@ public class Arena {
                 //height grows from bottom to top
                 float baseHeight = pixmap.getHeight() - pixelY;
 
-                //Trova il colore del pxel corrente in RGBA
+                //Trova il colore del pixel corrente in RGBA
                 int currentPixel = pixmap.getPixel(pixelX, pixelY);
 
 
-                //Check per determinare l'oggetto nella posizione che si sta trattando tramite il
-                // colore sulla pixmap.
+                //Riconoscimento del colore e assegnazione del oggetto
                 if (BLOCK_TYPE.EMPTY.sameColor(currentPixel)) {
-
+                    //Non succede nulla
                 }
+
                 //Tile
                 if (BLOCK_TYPE.TILE.sameColor(currentPixel)) {
                     obj = new Tile();
@@ -120,29 +121,30 @@ public class Arena {
                 //Wall
                 else if (BLOCK_TYPE.WALL.sameColor(currentPixel)) {
                     obj = new Wall();
+
                     //Impostazioni dei muri
                     obj.position.set((float) pixelX, (float) pixelY);
                     obj.bounds.set(obj.position.x, obj.position.y, obj.dimension.x, obj.dimension.y);
 
                     //Cambiamento degli Asset a seconda della posizione
-                    //Muri nord
+                    //Muri laterali nord
                     if (pixelY == pixmap.getHeight() - 1 && pixelX != 0 && pixelX != pixmap.getWidth() - 1) {
                         obj.ObjectAssets = Assets.instance.wall.front;
                         obj.bounds.set(obj.position.x, obj.position.y + (obj.dimension.y / 2), obj.dimension.x, obj.dimension.y / 2);
                     }
-                    //Muri est
+                    //Muri laterali est
                     else if (pixelY > 0 && pixelX == 0) {
                         obj.ObjectAssets = Assets.instance.wall.side;
                         obj.origin.set(obj.dimension.x / 2, obj.dimension.y / 2);
                         obj.rotation = -90;
                     }
-                    //Muri ovest
+                    //Muri laterali ovest
                     else if (pixelY > 0 && pixelX == pixmap.getWidth() - 1) {
                         obj.ObjectAssets = Assets.instance.wall.side;
                         obj.origin.set(obj.dimension.x / 2, obj.dimension.y / 2);
                         obj.rotation = 90;
                     }
-                    //Muri sud
+                    //Muri laterali sud
                     else if (pixelY == 0){
                         obj.ObjectAssets = Assets.instance.wall.back;
                     }
@@ -156,6 +158,7 @@ public class Arena {
             }
         }
 
+        //Spawn dei player
         player1 = new Player();
         player1.setNamePlayer("Player1");
         player1.ObjectAssets = Assets.instance.player.pg1;
@@ -177,7 +180,7 @@ public class Arena {
 }
 
     /**
-     * Metodo sperimentale per la creazione procedurale dell'arena
+     * Metodi sperimentale per la creazione procedurale dell'arena
      */
     public void generateProceduralWall() {
         Wall wall;
@@ -190,7 +193,6 @@ public class Arena {
             wall.position.set(getRandomFloat(3f, 7f), getRandomFloat(3f, 12f));
         }
     }
-
     float getRandomFloat(float min, float max) {
         return (float) (Math.random() * (max - min) + min);
     }
@@ -250,6 +252,7 @@ public class Arena {
             bullet.bounds.setPosition(bullet.position.x, bullet.position.y);
             if (bullet.bounds.overlaps(player2.bounds)) {
                 Gdx.app.debug(TAG, player2.getNamePlayer() + " hit");
+
                 //Controlla i danni fatti al player
                 if (player2.isAlive())
                     player2.takeDamage(bullet);
@@ -346,7 +349,7 @@ public class Arena {
     }
 
     /**
-     * Metodo per le collisioni dei proiettili con i giocatori
+     * Metodo per le collisioni dei proiettili con gli oggetti
      *
      * @param bullet
      */

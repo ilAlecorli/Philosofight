@@ -56,8 +56,7 @@ public class Player extends AbstractGameObject {
     //Area Melee con la quale il Player attacca fisicamente
     private MeleeArea meleeArea;
 
-    //Estenzione dell'area Melee
-
+    //Estensione dell'area Melee
     private float meleeValue;
     //Caricatore dei proiettili, rimane "public" per l'update nel WorldController
     public ArrayList<Bullet> loader;
@@ -93,7 +92,6 @@ public class Player extends AbstractGameObject {
 
     /**
      * Set nome player
-     *
      * @param namePlayer
      */
     public void setNamePlayer(String namePlayer) {
@@ -160,8 +158,9 @@ public class Player extends AbstractGameObject {
         return shootEnable;
     }
 
+
     /**
-     * Assegnamento dei comandi
+     * Assegnamento dei comandi del giocatore
      */
     public void setControls(int key_Up, int key_Down, int key_Left, int key_Right, int key_Shoot){
         this.key_Up = key_Up;
@@ -172,7 +171,7 @@ public class Player extends AbstractGameObject {
     }
 
     /**
-     * Metodi di set/get per l'attivazione/disattivazione del movimento
+     * Metodi di set/get per la gestione dei flag di movimento1
      * */
     public void setMovementEnable(boolean state) {
         //Gdx.app.debug(TAG, "Movement player set: " + movementEnableEast + " on Player: " + namePlayer);
@@ -195,10 +194,10 @@ public class Player extends AbstractGameObject {
     public void setMovementEnableSud(boolean movementEnableSud) {
         this.movementEnableSud = movementEnableSud;
     }
+
     public boolean getMovementEnableEast() {
         return movementEnableEast;
     }
-
     public boolean getMovementEnableOvest() {
         return movementEnableOvest;
     }
@@ -302,10 +301,10 @@ public class Player extends AbstractGameObject {
      * @param target Obiettivo a cui mira
      */
     public void shootAt(AbstractGameObject target) {
-        //Se ha raggiunto la massima capacità di proiettili in gioco o è inabilitato a sparare esce
+        //Se ha raggiunto la massima capacità di proiettili in gioco o è inabilitato a sparare termina la funzione
         if (loader.size() == MAX_BULLETS || !isShootEnable()) return;
 
-        //Se il mana è finito non sparo
+        //Se il mana è finito termina la funzione
         if(getMana() <= 0) return;
 
         //Angolo fra le posizioni dei due player
@@ -322,23 +321,23 @@ public class Player extends AbstractGameObject {
         startPoint = new Vector2((position.x + dimension.x / 2) + ((dimension.x / 2) * MathUtils.cos(angle)),
                 (position.y + dimension.y / 2) + ((dimension.x / 2) * MathUtils.sin(angle)));
 
-        //Cala il mana
+        //Diminuzione del mana
         setMana(getMana() - 1);
 
         //Crea un nuovo proiettile
         Bullet bullet = new Bullet(startPoint, angle);
 
-        //Aggiungilo al caricatore
+        //Aggiunzione del proiettile al caricatore
         loader.add(bullet);
     }
 
     /**
      * Funzione che calcola il danno che il player subisce
-     * @param b Proiettile da cui estrarre il danno
+     * @param bullet Proiettile da cui estrarre il danno
      */
-    public void takeDamage(Bullet b){
-        setHealthPlayer(getHealthPlayer() - b.getDamage());
-        Gdx.app.debug(TAG, getNamePlayer() + " has taken " + b.getDamage() + " damage point.");
+    public void takeDamage(Bullet bullet){
+        setHealthPlayer(getHealthPlayer() - bullet.getDamage());
+        Gdx.app.debug(TAG, getNamePlayer() + " has taken " + bullet.getDamage() + " damage point.");
         Gdx.app.debug(TAG, getNamePlayer() + " health is " + getHealthPlayer() + ".");
     }
 
@@ -359,8 +358,6 @@ public class Player extends AbstractGameObject {
          * srcHeight e srcWidth
          * flipX e flipY specchiano l'immagine sui relativi assi.
          * */
-
-
 
         //if (movementEnable)Gdx.app.debug(TAG, namePlayer + " position: " + "(" + position.x + "," + position.y + ")");
         batch.draw(ObjectAssets.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, ObjectAssets.getRegionX(), ObjectAssets.getRegionY(), ObjectAssets.getRegionWidth(), ObjectAssets.getRegionHeight(), flipX, flipY);

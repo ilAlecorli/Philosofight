@@ -30,12 +30,12 @@ public class WorldController extends InputAdapter {
 	private void init() {
 		Gdx.input.setInputProcessor(this);
 		initArena();
-		cameraHelper = new CameraHelper();
 
+		cameraHelper = new CameraHelper();
 		//misura il centro dell'arena:
 		centerArena = new Vector2(arena.pixmap.getWidth() / 2f, arena.pixmap.getHeight() / 2f);
 		cameraHelper.setPosition(centerArena);
-		cameraHelper.setZoom(3.8311014f);
+		cameraHelper.setZoom(0.01f/*3.8311014f*/);
 	}
 
 	private void initArena(){

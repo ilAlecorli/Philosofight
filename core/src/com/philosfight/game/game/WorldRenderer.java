@@ -28,6 +28,65 @@ public class WorldRenderer implements Disposable {
     }
 
     /**
+     * Metodo per l'inizializzazione degli sprite di gioco
+     */
+    private void init(){
+        batch = new SpriteBatch();
+        camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+        camera.position.set(0, 0, 0);
+        camera.update();
+        cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH,
+                Constants.VIEWPORT_GUI_HEIGHT);
+        cameraGUI.position.set(0, 0, 0);
+        cameraGUI.setToOrtho(true); // flip y-axis
+        cameraGUI.update();
+    }
+
+    /**
+     * Metodo per decretare l'ordine di renderizzazione degli oggetti
+     */
+    public void render(){
+        renderWorld(batch);
+       //renderGui(batch);
+    }
+
+
+    private void renderWorld (SpriteBatch batch) {
+        //Applica i setting di cameraHelper(WorldController) a camera
+        worldController.cameraHelper.applyTo(camera);
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        worldController.arena.render(batch);
+        batch.end();
+    }
+
+    /**
+     * Renderizzazione Interfaccia Utente:
+     * presenta statistiche di ogni tipo in game
+     * @param batch
+     */
+    private void renderGui (SpriteBatch batch) {
+
+        batch.setProjectionMatrix(cameraGUI.combined);
+        batch.begin();
+        //Disegna la vita dei players
+        renderHealth(batch);
+        // draw FPS text
+        renderGuiFpsCounter(batch);
+        batch.end();
+    }
+
+    /**
+     * Metodo per renderizzare l'healthbar dei giocatori
+     * @param batch
+     */
+    private void  renderHealth(SpriteBatch batch){
+        //Disegna la vita del player 1
+        batch.draw(Assets.instance.blank.blank, 0,0,worldController.arena.player1.getHealthPlayer(),5 );
+    }
+
+
+    /**
      * Renderizzazione FPS del gioco
      * -    Lunghezza lettera singola in font Arial: 9 pxl
      * -    Altezza Parola in font Arial: 15 pxl
@@ -55,65 +114,12 @@ public class WorldRenderer implements Disposable {
         fpsFont.setColor(1, 1, 1, 1); // white
     }
 
-    private void  renderHealth(SpriteBatch batch){
-        //Disegna la vita del player 1
-        batch.draw(Assets.instance.blank.blank, 0,0,worldController.arena.player1.getHealthPlayer(),5 );
-    }
-
-    /**
-     * Renderizzazione Interfaccia Utente:
-     * presenta statistiche di ogni tipo in game
-     * @param batch
-     */
-    private void renderGui (SpriteBatch batch) {
-
-        batch.setProjectionMatrix(cameraGUI.combined);
-        batch.begin();
-        //Disegna la vita dei players
-        renderHealth(batch);
-        // draw FPS text
-        renderGuiFpsCounter(batch);
-        batch.end();
-    }
-
-    /**
-     * Metodo per l'inizializzazione degli sprite di gioco
-     */
-    private void init(){
-        batch = new SpriteBatch();
-        camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
-        camera.position.set(0, 0, 0);
-        camera.update();
-        cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH,
-                Constants.VIEWPORT_GUI_HEIGHT);
-        cameraGUI.position.set(0, 0, 0);
-        cameraGUI.setToOrtho(true); // flip y-axis
-        cameraGUI.update();
-    }
-
-    /**
-     * Metodo per decretare l'ordine di renderizzazione degli oggetti
-     */
-    public void render(){
-        renderWorld(batch); renderGui(batch);
-    }
-
-
-    private void renderWorld (SpriteBatch batch) {
-        //Applica i setting di cameraHelper(WorldController) a camera
-        worldController.cameraHelper.applyTo(camera);
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        worldController.arena.render(batch);
-        batch.end();
-    }
-
-
     /**
      *  Metodo di resize di renderer nel caso ci siano delle modifiche alla finestra di gioco
      */
-    public void resize(){
-
+    public void resize(int width, int height){
+        camera.viewportWidth = width;
+        camera.viewportHeight = height;
     }
 
     /**

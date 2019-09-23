@@ -66,7 +66,7 @@ public class PhilosofightMain implements ApplicationListener {
 	 */
 		@Override
 	public void resize(int width, int height){
-		worldRenderer.resize();
+			worldRenderer.resize(width, height);
 	}
 
 	/**
