@@ -97,7 +97,7 @@ public class WorldRenderer implements Disposable {
         float manaP2 = worldController.arena.player2.getMana();
         //Dimensioni barra da visualizzare
         float heightBar = 10;
-        float widthBar = 3;
+        float widthBar = 12;
         //Disegna la vita del player 1
         batch.setColor(Color.ROYAL);
         //In alto a sinistra
@@ -121,7 +121,7 @@ public class WorldRenderer implements Disposable {
         float healthP2 = worldController.arena.player2.getHealthPlayer();
         //Dimensioni barra da visualizzare
         float heightBar = 10;
-        float widthBar = 3;
+        float widthBar = 4.5f;
         //Disegna la vita del player 1
         if (healthP1 >= intialHealthP1 *2/3) {
             //Vita iniziale a più 2/3

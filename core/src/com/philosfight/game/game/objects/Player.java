@@ -13,13 +13,12 @@ import com.philosfight.game.game.Effects.MeleeArea;
 
 import java.util.ArrayList;
 import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Player extends AbstractGameObject {
     //Utile nelle exeptions per mostrare il nome dell'oggetto
     public static final String TAG = Player.class.getName();
-    //Timer per Mana
-    private Timer timer;
 
     /**
      * Flags
@@ -53,17 +52,26 @@ public class Player extends AbstractGameObject {
     private float healthPlayer;
     //Mana del Player
     private float mana;
+    //Timer d utilizzo del mana
+    private float timerMana;
     //Area Melee con la quale il Player attacca fisicamente
     private MeleeArea meleeArea;
-
+    //Raggio del melee
+    public Circle rangeMelee;
     //Estensione dell'area Melee
     private float meleeValue;
     //Caricatore dei proiettili, rimane "public" per l'update nel WorldController
     public ArrayList<Bullet> loader;
+
+    /**
+     * Costanti Player
+     */
     //Massimi bullets al secondo
     public static final int MAX_BULLETS = 15;
-    //Raggio del melee
-    public Circle rangeMelee;
+    //Tempo di cooldown per la ricarica del mana
+    private static final float cooldownTime = 0.6f;
+    //Setta mana iniziale
+    private static final float manaMax = 12;
 
     /**
      * Costruttore
@@ -77,18 +85,18 @@ public class Player extends AbstractGameObject {
         rangeMelee = new Circle(new Vector2(position.x + dimension.x / 2, position.y + dimension.y / 2), dimension.x * (3 / 2));
         bounds.set(position.x, position.y, dimension.x, dimension.y * (float)0.75);
         origin.set(dimension.x / 2, dimension.y / 2);
-        timer = new Timer();
 
         // Set physics values
         terminalVelocity.set(3.0f, 3.0f);   //3 è un valore medio
         friction.set(12.0f, 12.0f);         //12 è un valore medio
 
         //Player charatteristics
-        setHealthPlayer(70);
-        setMana(50);
+        setHealthPlayer(50);
+        setMana(manaMax);
         setMeleeValue(2);
         meleeArea = new MeleeArea(this.position,getMeleeValue());
     }
+
 
     /**
      * Set nome player
@@ -132,9 +140,32 @@ public class Player extends AbstractGameObject {
         return mana;
     }
 
+    /**
+     * Metodo per incrementare il mana utilizzato
+     * @param deltaTime parametro per il trascorrere del tempo
+     */
     public void updateMana(float deltaTime){
+        //Incremento il Timer di ricaricamento del mana
+        timerMana += deltaTime;
 
-        setMana((getMana() + 1));
+        //Dopo aver passato un tempo specifico
+        // e aver controllato che il mana non sia già al massimo
+        if (getTimerMana() > cooldownTime && getMana() < manaMax) {
+            //Incremento del mana alla volta
+            setMana(getMana() + 1);
+            //Intervallo di incremento senza shooting
+            //più è piccola la differenza più ricarica
+            //velocemente fra un proiettile e l'altro
+            timerMana = cooldownTime - 0.3f;
+        }
+    }
+
+    private void resetTimerMana(){
+        timerMana = 0;
+    }
+
+    private float getTimerMana(){
+        return timerMana;
     }
 
     public float getMeleeValue() {
@@ -156,7 +187,6 @@ public class Player extends AbstractGameObject {
     public boolean isShootEnable() {
         return shootEnable;
     }
-
 
     /**
      * Assegnamento dei comandi del giocatore
@@ -220,6 +250,7 @@ public class Player extends AbstractGameObject {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        //Aggiorna il Mana
         updateMana(deltaTime);
         //meleeArea.setPlayerPosition(position);
         //meleeArea.update(deltaTime);
@@ -305,6 +336,9 @@ public class Player extends AbstractGameObject {
 
         //Se il mana è finito termina la funzione
         if(getMana() <= 0) return;
+
+        //Setto il timerMana a zero per iniziare il conteggio dello shooting cooldown
+        resetTimerMana();
 
         //Angolo fra le posizioni dei due player
         float angle;

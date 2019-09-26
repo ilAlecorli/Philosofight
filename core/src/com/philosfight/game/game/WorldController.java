@@ -46,8 +46,8 @@ public class WorldController extends InputAdapter {
 
 		//Assegnamento dei comandi
 		//		GIOCATORE		|		SU			GIU'		SINISTRA		DESTRA		SHOOT
-		arena.player1.setControls(Input.Keys.W, Input.Keys.S, Input.Keys.A, Input.Keys.D, Input.Keys.NUM_1);
-		arena.player2.setControls(Input.Keys.I, Input.Keys.K, Input.Keys.J, Input.Keys.L, Input.Keys.NUM_2);
+		arena.player1.setControls(Input.Keys.W, Input.Keys.S, Input.Keys.A, Input.Keys.D, Input.Keys.Q);
+		arena.player2.setControls(Input.Keys.I, Input.Keys.K, Input.Keys.J, Input.Keys.L, Input.Keys.U);
 	}
 
 
