@@ -1,5 +1,6 @@
 package com.philosfight.game.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -18,6 +19,10 @@ public class WorldRenderer implements Disposable {
     private SpriteBatch batch;
     private WorldController worldController;
 
+    //Vita iniziale 2 player
+    private float intialHealthP1;
+    private float intialHealthP2;
+
     /**
      * Inizializzazione del Renderizzatore con il Controllore di gioco
      * @param worldController
@@ -32,11 +37,15 @@ public class WorldRenderer implements Disposable {
      */
     private void init(){
         batch = new SpriteBatch();
+        //Inizializzazione della vita iniziale dei player, per renderizzarne
+        //l'aggiornamento in percentuale nella GUI
+        intialHealthP1 = worldController.arena.player1.getHealthPlayer();
+        intialHealthP2 = worldController.arena.player2.getHealthPlayer();
+
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         camera.position.set(0, 0, 0);
         camera.update();
-        cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH,
-                Constants.VIEWPORT_GUI_HEIGHT);
+        cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
         cameraGUI.position.set(0, 0, 0);
         cameraGUI.setToOrtho(true); // flip y-axis
         cameraGUI.update();
@@ -70,10 +79,36 @@ public class WorldRenderer implements Disposable {
         batch.setProjectionMatrix(cameraGUI.combined);
         batch.begin();
         //Disegna la vita dei players
-        //renderHealth(batch);
-        // draw FPS text
+        renderHealth(batch);
+        //Disegna il mana dei players
+        renderMana(batch);
+        //Draw FPS text
         renderGuiFpsCounter(batch);
         batch.end();
+    }
+
+    /**
+     * Metodo per renderizzare la barra del Mana dei giocatori
+     * @param batch
+     */
+    private void  renderMana(SpriteBatch batch){
+        //Inserimento delle vite dei Player giocanti
+        float manaP1 = worldController.arena.player1.getMana();
+        float manaP2 = worldController.arena.player2.getMana();
+        //Dimensioni barra da visualizzare
+        float heightBar = 10;
+        float widthBar = 3;
+        //Disegna la vita del player 1
+        batch.setColor(Color.ROYAL);
+        //In alto a sinistra
+        batch.draw(Assets.instance.blank.blank, 0,4 + 10,widthBar * manaP1,1 * heightBar );
+        batch.setColor(Color.WHITE);
+        //Disegna la vita del player 2
+        batch.setColor(Color.ROYAL);
+        //In basso a destra
+        batch.draw(Assets.instance.blank.blank, 1 * cameraGUI.viewportWidth - widthBar * manaP2 ,1 * cameraGUI.viewportHeight - heightBar - 4,
+                widthBar * manaP2,1*heightBar );
+        batch.setColor(Color.WHITE);
     }
 
     /**
@@ -81,8 +116,41 @@ public class WorldRenderer implements Disposable {
      * @param batch
      */
     private void  renderHealth(SpriteBatch batch){
+        //Inserimento delle vite dei Player giocanti
+        float healthP1 = worldController.arena.player1.getHealthPlayer();
+        float healthP2 = worldController.arena.player2.getHealthPlayer();
+        //Dimensioni barra da visualizzare
+        float heightBar = 10;
+        float widthBar = 3;
         //Disegna la vita del player 1
-        batch.draw(Assets.instance.blank.blank, 0,0,worldController.arena.player1.getHealthPlayer(),5 );
+        if (healthP1 >= intialHealthP1 *2/3) {
+            //Vita iniziale a più 2/3
+            batch.setColor(0, 1, 0, 1);
+        } else if (healthP1 >= intialHealthP2/3) {
+            //Vita iniziale a più 1/3
+            batch.setColor(1, 1, 0, 1);
+        } else {
+            //Vita meno di un 1/3
+            batch.setColor(1, 0, 0, 1);
+        }
+        //In alto a sinistra
+        batch.draw(Assets.instance.blank.blank, 0,4,widthBar * healthP1,1 * heightBar );
+        batch.setColor(Color.WHITE);
+        //Disegna la vita del player 2
+        if (healthP2 >= intialHealthP2 * 2/3) {
+            //Vita iniziale a più 2/3
+            batch.setColor(0, 1, 0, 1);
+        } else if (healthP2 >= intialHealthP2 /3) {
+            //Vita iniziale a più 1/3
+            batch.setColor(1, 1, 0, 1);
+        } else {
+            //Vita meno di un 1/3
+            batch.setColor(1, 0, 0, 1);
+        }
+        //In basso a destra
+        batch.draw(Assets.instance.blank.blank, 1 * cameraGUI.viewportWidth - widthBar * healthP2 ,1 * cameraGUI.viewportHeight - heightBar - 4 - 10,
+                widthBar * healthP2,1*heightBar );
+        batch.setColor(Color.WHITE);
     }
 
 

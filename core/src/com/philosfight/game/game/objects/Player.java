@@ -85,7 +85,7 @@ public class Player extends AbstractGameObject {
 
         //Player charatteristics
         setHealthPlayer(70);
-        setMana(10);
+        setMana(50);
         setMeleeValue(2);
         meleeArea = new MeleeArea(this.position,getMeleeValue());
     }
@@ -148,7 +148,6 @@ public class Player extends AbstractGameObject {
     public void setLoader(ArrayList<Bullet> loader) {
         this.loader = loader;
     }
-
 
     public void setShootEnable(boolean shootEnable) {
         this.shootEnable = shootEnable;
@@ -221,7 +220,7 @@ public class Player extends AbstractGameObject {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        //updateMana(deltaTime);
+        updateMana(deltaTime);
         //meleeArea.setPlayerPosition(position);
         //meleeArea.update(deltaTime);
     }

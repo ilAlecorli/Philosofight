@@ -34,7 +34,7 @@
         <key>dataFormat</key>
         <string>libgdx</string>
         <key>textureFileName</key>
-        <filename></filename>
+        <filename>../../android/assets/Images/pack_arena.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -132,7 +132,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../Philosofight/android/assets/Images/pack_arena.atlas</filename>
+                <filename>../../android/assets/Images/pack_arena.atlas</filename>
             </struct>
         </map>
         <key>multiPack</key>
