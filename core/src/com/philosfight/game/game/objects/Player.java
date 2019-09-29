@@ -40,7 +40,7 @@ public class Player extends AbstractGameObject {
     private int key_Down;
     private int key_Left;
     private int key_Right;
-    public int key_Shoot;
+    private int key_Shoot;
 
 
     /**
@@ -62,6 +62,8 @@ public class Player extends AbstractGameObject {
     private float meleeValue;
     //Caricatore dei proiettili, rimane "public" per l'update nel WorldController
     public ArrayList<Bullet> loader;
+    //Punto di Spawn del Player
+    private Vector2 spawnPointPlayer;
 
     /**
      * Costanti Player
@@ -70,6 +72,8 @@ public class Player extends AbstractGameObject {
     public static final int MAX_BULLETS = 15;
     //Tempo di cooldown per la ricarica del mana
     private static final float cooldownTime = 0.6f;
+    //Setta la salute iniziale
+    public static final float healthMax = 50;
     //Setta mana iniziale
     private static final float manaMax = 12;
 
@@ -85,16 +89,17 @@ public class Player extends AbstractGameObject {
         rangeMelee = new Circle(new Vector2(position.x + dimension.x / 2, position.y + dimension.y / 2), dimension.x * (3 / 2));
         bounds.set(position.x, position.y, dimension.x, dimension.y * (float)0.75);
         origin.set(dimension.x / 2, dimension.y / 2);
+        spawnPointPlayer = new Vector2();
 
         // Set physics values
         terminalVelocity.set(3.0f, 3.0f);   //3 è un valore medio
         friction.set(12.0f, 12.0f);         //12 è un valore medio
 
         //Player charatteristics
-        setHealthPlayer(50);
+        setHealthPlayer(healthMax);
         setMana(manaMax);
         setMeleeValue(2);
-        meleeArea = new MeleeArea(this.position,getMeleeValue());
+        //meleeArea = new MeleeArea(this.position,getMeleeValue());
     }
 
 
@@ -120,7 +125,7 @@ public class Player extends AbstractGameObject {
         if (healthPlayer <= 0) {
             if (isAlive())
                 setAlive(false);
-            healthPlayer = 0;
+            return;
         }
         this.healthPlayer = healthPlayer;
     }
@@ -130,9 +135,8 @@ public class Player extends AbstractGameObject {
     }
 
     public void setMana(float mana) {
-        if (mana <= 0) {mana = 0;
-            Gdx.app.debug(TAG, getNamePlayer() + " ha finito il mana");
-        }
+        //Mana mai negativo
+        if (mana <= 0) mana = 0;
         this.mana = mana;
     }
 
@@ -199,6 +203,10 @@ public class Player extends AbstractGameObject {
         this.key_Shoot = key_Shoot;
     }
 
+    public int getKey_Shoot() {
+        return key_Shoot;
+    }
+
     /**
      * Metodi di set/get per la gestione dei flag di movimento1
      * */
@@ -236,15 +244,29 @@ public class Player extends AbstractGameObject {
     public boolean getMovementEnableSud() {
         return movementEnableSud;
     }
-
     public boolean isAlive() {
         return alive;
     }
 
     public void setAlive(boolean alive) {
-        if (!alive)
+        if (!alive) {
             Gdx.app.debug(TAG, getNamePlayer() + " is dead.");
+            death();
+            return;
+        }
         this.alive = alive;
+    }
+
+
+    public Vector2 getSpawnPointPlayer() {
+        return spawnPointPlayer;
+    }
+
+    public void setSpawnPointPlayer(Vector2 spawnPointPlayer) {
+        this.spawnPointPlayer.x = spawnPointPlayer.x;
+        this.spawnPointPlayer.y = spawnPointPlayer.y;
+        Gdx.app.debug(TAG,"New spawn point of player " +
+                this.getNamePlayer() + ": " + getSpawnPointPlayer());
     }
 
     @Override
@@ -252,6 +274,7 @@ public class Player extends AbstractGameObject {
         super.update(deltaTime);
         //Aggiorna il Mana
         updateMana(deltaTime);
+        // Gdx.app.debug(TAG, this.position.toString());
         //meleeArea.setPlayerPosition(position);
         //meleeArea.update(deltaTime);
     }
@@ -369,11 +392,23 @@ public class Player extends AbstractGameObject {
      * @param bullet Proiettile da cui estrarre il danno
      */
     public void takeDamage(Bullet bullet){
+        //Scala il danno del proiettile dalla vita
         setHealthPlayer(getHealthPlayer() - bullet.getDamage());
-        Gdx.app.debug(TAG, getNamePlayer() + " has taken " + bullet.getDamage() + " damage point.");
+        //Gdx.app.debug(TAG, getNamePlayer() + " has taken " + bullet.getDamage() + " damage point.");
         Gdx.app.debug(TAG, getNamePlayer() + " health is " + getHealthPlayer() + ".");
     }
 
+    public void death(){
+        //ritorna vivo
+        setAlive(true);
+
+        //Ritorna al punto iniziale di Spawn
+        this.position.set(spawnPointPlayer);
+
+        //Riporta le statistiche a livelli iniziali
+        setHealthPlayer(healthMax);
+        setMana(manaMax);
+    }
 
     @Override
     /**

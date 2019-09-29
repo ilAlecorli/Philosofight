@@ -87,14 +87,14 @@ public class WorldController extends InputAdapter {
 		//Player 1
 		arena.player1.movementCheck(deltaTime);
 		arena.player1.update(deltaTime);
-		if (Gdx.input.isKeyJustPressed(arena.player1.key_Shoot)){
+		if (Gdx.input.isKeyJustPressed(arena.player1.getKey_Shoot())){
 			arena.player1.shootAt(arena.player2);
 		}
 
 		//Player 2
 		arena.player2.movementCheck(deltaTime);
 		arena.player2.update(deltaTime);
-		if (Gdx.input.isKeyJustPressed(arena.player2.key_Shoot)) {
+		if (Gdx.input.isKeyJustPressed(arena.player2.getKey_Shoot())) {
 			arena.player2.shootAt(arena.player1);
 		}
 

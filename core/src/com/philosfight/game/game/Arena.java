@@ -162,16 +162,20 @@ public class Arena {
 
         //Spawn dei player
         player1 = new Player();
-        player1.setNamePlayer("Player1");
+        player1.setNamePlayer("Friederich N.");
         player1.ObjectAssets = Assets.instance.player.pg1;
-        player1.position.set(2f, 2f);
+        player1.position.set(1.5f, 1.5f);
+        //Fissa il punto di Spawn del Player
+        player1.setSpawnPointPlayer(player1.position);
         //Dai al player il suo caricatore inizializzato
         player1.setLoader(bulletsLoader1);
 
         player2 = new Player();
-        player2.setNamePlayer("Player2");
+        player2.setNamePlayer("Fëdor D.");
         player2.ObjectAssets = Assets.instance.player.pg2;
-        player2.position.set(7f, 11f);
+        player2.position.set(10f, 17f);
+        //Fissa il punto di Spawn del Player
+        player2.setSpawnPointPlayer(player2.position);
         //Dai al player il suo caricatore inizializzato
         player2.setLoader(bulletsLoader2);
 
@@ -245,9 +249,7 @@ public class Arena {
             }
         }
 
-//        if(Intersector.intersectPolygons(){
-
-        }
+        //if(Intersector.intersectPolygons(){}
         if (player1.bounds.overlaps(player2.bounds)) {
             onCollsionPlayerWithPlayer();
         }

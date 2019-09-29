@@ -10,7 +10,7 @@ import com.philosfight.game.game.objects.AbstractGameObject;
 public class Bullet extends AbstractGameObject {
 
 	//Velocità proiettili
-	public static final float SPEED_BULLET = 5f;
+	public static final float SPEED_BULLET = 7f;
 	//Vita proiettile
 	private float lifeTimer = 0;
 	//fine vita proiettile
@@ -20,7 +20,7 @@ public class Bullet extends AbstractGameObject {
 	//angolo del bullet
 	private float angle;
 	//Danno del bullet;
-	private float damage = 1;
+	private float damage = 2.5f;
 
 	//flag di rimozione
 	private boolean remove = false;
