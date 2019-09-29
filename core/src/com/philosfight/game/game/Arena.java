@@ -3,6 +3,7 @@ package com.philosfight.game.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.philosfight.game.game.Effects.Bullet;
 import com.philosfight.game.game.WorldController;
 import com.badlogic.gdx.Gdx;
@@ -14,6 +15,7 @@ import com.philosfight.game.game.objects.Player;
 import com.philosfight.game.game.objects.Tile;
 import com.philosfight.game.game.objects.Wall;
 import com.philosfight.game.game.Assets;
+import com.badlogic.gdx.math.Intersector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -243,6 +245,9 @@ public class Arena {
             }
         }
 
+//        if(Intersector.intersectPolygons(){
+
+        }
         if (player1.bounds.overlaps(player2.bounds)) {
             onCollsionPlayerWithPlayer();
         }

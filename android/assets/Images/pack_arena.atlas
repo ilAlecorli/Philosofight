@@ -1,41 +1,41 @@
 pack_arena.png
-size: 117, 114
+size: 117, 115
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 blank
   rotate: false
-  xy: 0, 31
+  xy: 0, 32
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 bullet
   rotate: false
-  xy: 70, 67
+  xy: 70, 68
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
 PG1_front1
   rotate: false
-  xy: 64, 0
-  size: 18, 31
-  orig: 18, 31
+  xy: 52, 32
+  size: 20, 33
+  orig: 20, 33
   offset: 0, 0
   index: -1
 PG2_front1
   rotate: false
-  xy: 82, 0
-  size: 18, 31
-  orig: 18, 31
+  xy: 32, 32
+  size: 20, 33
+  orig: 20, 33
   offset: 0, 0
   index: -1
 tile
   rotate: false
   xy: 0, 0
-  size: 16, 16
-  orig: 16, 16
+  size: 15, 15
+  orig: 15, 15
   offset: 0, 0
   index: -1
 wall_back
@@ -54,28 +54,28 @@ wall_center
   index: -1
 wall_corner
   rotate: false
-  xy: 0, 67
+  xy: 0, 68
   size: 35, 36
   orig: 35, 36
   offset: 0, 0
   index: -1
 wall_front
   rotate: false
-  xy: 35, 67
+  xy: 35, 68
   size: 35, 36
   orig: 35, 36
   offset: 0, 0
   index: -1
 wall_lateral
   rotate: false
-  xy: 64, 31
+  xy: 72, 32
   size: 35, 36
   orig: 35, 36
   offset: 0, 0
   index: -1
 wall_side
   rotate: false
-  xy: 32, 31
+  xy: 64, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
