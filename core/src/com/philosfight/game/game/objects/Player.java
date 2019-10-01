@@ -254,6 +254,7 @@ public class Player extends AbstractGameObject {
             death();
             return;
         }
+        if (alive) Gdx.app.debug(TAG, getNamePlayer() + " is alive.");
         this.alive = alive;
     }
 
