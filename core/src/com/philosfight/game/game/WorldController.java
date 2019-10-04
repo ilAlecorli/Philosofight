@@ -85,14 +85,14 @@ public class WorldController extends InputAdapter {
 		//Aggiornamento del movimento dei giocatori
 
 		//Player 1
-		arena.player1.movementCheck(deltaTime);
+		arena.player1.movement.check(arena.player1);
 		arena.player1.update(deltaTime);
 		if (Gdx.input.isKeyJustPressed(arena.player1.getKey_Shoot())){
 			arena.player1.shootAt(arena.player2);
 		}
 
 		//Player 2
-		arena.player2.movementCheck(deltaTime);
+		arena.player2.movement.check(arena.player2);
 		arena.player2.update(deltaTime);
 		if (Gdx.input.isKeyJustPressed(arena.player2.getKey_Shoot())) {
 			arena.player2.shootAt(arena.player1);
@@ -155,20 +155,20 @@ public class WorldController extends InputAdapter {
 			//Se la camera è puntata al centro
 			if (!cameraHelper.hasTarget()) {
 				//Attiva il player1
-				arena.player1.setMovementEnable(true);
+				arena.player1.movement.setMovementEnable(true);
 				//Puntala sul primo player
 				cameraHelper.setTarget(arena.player1);
 				Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
 			} else if (cameraHelper.hasTarget() && cameraHelper.getTarget() == arena.player1) {
 				//Disattiva il player1
-				arena.player1.setMovementEnable(false);
+				arena.player1.movement.setMovementEnable(false);
 				//Attiva il player2
-				arena.player2.setMovementEnable(true);
+				arena.player2.movement.setMovementEnable(true);
 				//Se è già occupata dal primo player va al successivo
 				cameraHelper.setTarget(arena.player2);
 			} else  if (cameraHelper.hasTarget() && cameraHelper.getTarget() == arena.player2){
 				//Disattiva player2
-				arena.player2.setMovementEnable(false);
+				arena.player2.movement.setMovementEnable(false);
 				//Se è già occupata puntala dal secondo player viene ripuntata al centro
 				cameraHelper.setTarget(null);
 				cameraHelper.setPosition(centerArena);

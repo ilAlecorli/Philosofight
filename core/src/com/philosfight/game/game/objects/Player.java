@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.philosfight.game.game.Assets;
 import com.philosfight.game.game.Effects.Bullet;
 import com.philosfight.game.game.Effects.MeleeArea;
+import com.philosfight.game.game.abilities.MovementPlayer;
 //import com.philosfight.game.game.Effects.MeleeArea;
 
 import java.util.ArrayList;
@@ -33,13 +34,6 @@ public class Player extends AbstractGameObject {
     /**
      * Flags
      */
-    //Flag di movimento
-    private boolean movementEnableWest = false;
-    private boolean movementEnableEast = false;
-    private boolean movementEnableNord = false;
-    private boolean movementEnableSud = false;
-
-
     //Flag di sparo
     private boolean shootEnable = true;
     //Flag della vita
@@ -48,29 +42,37 @@ public class Player extends AbstractGameObject {
     /**
      * Comandi del giocatore
      */
-    private int key_Up;
-    private int key_Down;
-    private int key_Left;
-    private int key_Right;
+    //Movimento Giocatore
+    public MovementPlayer movement;
+    //Sparo giocatore
     private int key_Shoot;
 
 
     /**
      * Caratteristiche del giocatore
      */
+    //Nome Giocatore
     private String namePlayer;
+    //Quantità vita
     private float healthPlayer;
+    //Quantità mana per lo shooting
     private float mana;
+    //Tempo di ricarica mana
     private float timerMana;
+    //Area di interazione Melee
     private MeleeArea meleeArea;
+    //Roba da decidere se utile
     public Circle rangeMelee;
     private float meleeValue;
+    //Caricatore proiettili
     public ArrayList<Bullet> loader;
+    //Punto di spawn
     private Vector2 spawnPointPlayer;
 
     /**
      * Costanti Player
      */
+    //Massimo di bullet correnti in animazione
     public static final int MAX_BULLETS = 15;
     //Tempo di cooldown per la ricarica del mana
     private static final float cooldownTime = 0.6f;
@@ -96,6 +98,7 @@ public class Player extends AbstractGameObject {
         // Set physics values
         terminalVelocity.set(3.0f, 3.0f);   //3 è un valore medio
         friction.set(12.0f, 12.0f);         //12 è un valore medio
+        movement = new MovementPlayer();
 
         //Player charatteristics
         setHealthPlayer(healthMax);
@@ -106,14 +109,17 @@ public class Player extends AbstractGameObject {
 
     /**
      * Assegnamento dei comandi del giocatore
+     * @param key_Up    Movimento positivo asse y
+     * @param key_Down  Movimento negativo asse y
+     * @param key_Left  Movimento negativo asse x
+     * @param key_Right Movimento positivo asse x
+     * @param key_Shoot Comando di sparo
      */
     public void setControls(int key_Up, int key_Down, int key_Left, int key_Right, int key_Shoot){
-        this.key_Up = key_Up;
-        this.key_Down = key_Down;
-        this.key_Left = key_Left;
-        this.key_Right = key_Right;
+        this.movement.setMoveControls(key_Up, key_Down, key_Left, key_Right);
         this.key_Shoot = key_Shoot;
     }
+
     public int getKey_Shoot() {
         return key_Shoot;
     }
@@ -144,44 +150,6 @@ public class Player extends AbstractGameObject {
         return walk_right;
     }
 
-    /**
-     *Setters Flag Movimento
-     */
-    public void setMovementEnable(boolean state) {
-        //Gdx.app.debug(TAG, "Movement player set: " + movementEnableEast + " on Player: " + namePlayer);
-        this.movementEnableEast = state;
-        this.movementEnableWest = state;
-        this.movementEnableNord = state;
-        this.movementEnableSud = state;
-    }
-
-    public void setMovementEnableOvest(boolean movementEnableWest) {
-        this.movementEnableWest = movementEnableWest;
-    }
-    public void setMovementEnableEast(boolean movementEnableEast) {
-        this.movementEnableEast = movementEnableEast;
-    }
-    public void setMovementEnableNord(boolean movementEnableNord) {
-        this.movementEnableNord = movementEnableNord;
-    }
-    public void setMovementEnableSud(boolean movementEnableSud) {
-        this.movementEnableSud = movementEnableSud;
-    }
-    /**
-     *Getters Flag Movimento
-     */
-    public boolean getMovementEnableEast() {
-        return movementEnableEast;
-    }
-    public boolean getMovementEnableWest() {
-        return movementEnableWest;
-    }
-    public boolean getMovementEnableNord() {
-        return movementEnableNord;
-    }
-    public boolean getMovementEnableSud() {
-        return movementEnableSud;
-    }
 
     /**
      * Set nome player
@@ -193,7 +161,6 @@ public class Player extends AbstractGameObject {
 
     /**
      * Get nome player
-     *
      * @return nome Player
      */
     public String getNamePlayer() {
@@ -345,36 +312,6 @@ public class Player extends AbstractGameObject {
         velocity.y = MathUtils.clamp(velocity.y, -terminalVelocity.y, terminalVelocity.y);
     }
 
-    public void movementCheck(float deltaTime) {
-        if (Gdx.input.isKeyPressed(key_Left) && movementEnableWest == true) {
-            //movimento verso Ovest
-            //Gdx.app.debug(TAG, namePlayer + " moving sx");
-            velocity.x = -terminalVelocity.x;
-        }
-        if (Gdx.input.isKeyPressed(key_Right) && movementEnableEast == true) {
-            //movimento verso Est
-            //Gdx.app.debug(TAG, namePlayer + " moving dx");
-            velocity.x = terminalVelocity.x;
-        }
-        if (Gdx.input.isKeyPressed(key_Down) && movementEnableSud == true) {
-            // movimento verso nord
-            //Gdx.app.debug(TAG, namePlayer + " moving south");
-            velocity.y = -terminalVelocity.y;
-        }
-        if (Gdx.input.isKeyPressed(key_Up) && movementEnableNord == true) {
-            // movimento verso sud
-            //Gdx.app.debug(TAG, namePlayer + " moving north");
-            velocity.y = terminalVelocity.y;
-        }
-        // Execute auto-forward movement on non-desktop platform
-        if (Gdx.app.getType() != Application.ApplicationType.Desktop) {
-            velocity.x = terminalVelocity.x;
-        }
-        // Execute auto-forward movement on non-desktop platform
-        if (Gdx.app.getType() != Application.ApplicationType.Desktop) {
-            velocity.y = terminalVelocity.y;
-        }
-    }
 
 
     /**

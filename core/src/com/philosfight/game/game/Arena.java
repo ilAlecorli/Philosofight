@@ -241,8 +241,8 @@ public class Arena {
      * Metodo per il controllo delle collisioni (Richiamato in: WorldController.update())
      */
     public void checkCollisions(float deltaTime) {
-        player1.setMovementEnable(true);
-        player2.setMovementEnable(true);
+        player1.movement.setMovementEnable(true);
+        player2.movement.setMovementEnable(true);
         player1.bounds.setPosition(player1.position.x, player1.position.y);
         player2.bounds.setPosition(player2.position.x, player2.position.y);
 
@@ -307,23 +307,23 @@ public class Arena {
 
         //Muri Sud
         if (wall.position.y == 0) {
-            player.setMovementEnableSud(false);
+            player.movement.setMovementEnableSud(false);
             player.position.y = wall.position.y + wall.bounds.height;
         }
 
         // Muri Nord
         else if (wall.position.y == (pixmap.getHeight() - 1)) {
-            player.setMovementEnableNord(false);
+            player.movement.setMovementEnableNord(false);
             player.position.y = wall.position.y + (wall.dimension.y / 2) - player.bounds.height;
         }
         //Muri est
         else if (wall.position.x == 0) {
-            player.setMovementEnableEast(false);
+            player.movement.setMovementEnableEast(false);
             player.position.x = wall.position.x + wall.bounds.width;
         }
         //Muri ovest
         else if (wall.position.x == (pixmap.getWidth() - 1)) {
-            player.setMovementEnableOvest(false);
+            player.movement.setMovementEnableOvest(false);
             player.position.x = wall.position.x - player.bounds.width;
 
             //Muri centrali
@@ -338,25 +338,25 @@ public class Arena {
             if (angle > (-Math.PI * (0.25)) && angle < (Math.PI * (0.25))) {
                 player.velocity.x = 0;
                 player.position.x = wall.position.x + wall.dimension.x;
-                player.setMovementEnableEast(false);
+                player.movement.setMovementEnableEast(false);
             }
             //Player a Nord del muro
             else if (angle > (Math.PI * (0.25)) && angle < (Math.PI * (0.75))) {
                 player.velocity.y = 0;
                 player.position.y = wall.position.y + wall.dimension.y;
-                player.setMovementEnableSud(false);
+                player.movement.setMovementEnableSud(false);
             }
             //Player a Sud del muro
             else if (angle < (-Math.PI * (0.25)) && angle > (-Math.PI * (0.75))) {
                 player.velocity.y = 0;
                 player.position.y = wall.bounds.y - player.dimension.y;
-                player.setMovementEnableNord(false);
+                player.movement.setMovementEnableNord(false);
             }
             //Player a Ovest del muro
             else if (Math.abs(angle) > (Math.PI * (0.75)) && Math.abs(angle) < (Math.PI)) {
                 player.velocity.x = 0;
                 player.position.x = wall.position.x - player.dimension.x;
-                player.setMovementEnableOvest(false);
+                player.movement.setMovementEnableOvest(false);
             }
         }
     }
@@ -383,23 +383,23 @@ public class Arena {
         if (angle > (-Math.PI * (0.25)) && angle < (Math.PI * (0.25))) {
             player1.velocity.x = 0;
             player2.velocity.x = 0;
-            player1.setMovementEnableEast(false);
-            player2.setMovementEnableOvest(false);
+            player1.movement.setMovementEnableEast(false);
+            player2.movement.setMovementEnableOvest(false);
         } else if (angle > (Math.PI * (0.25)) && angle < (Math.PI * (0.75))) {
             player1.velocity.y = 0;
             player2.velocity.y = 0;
-            player1.setMovementEnableNord(false);
-            player2.setMovementEnableSud(false);
+            player1.movement.setMovementEnableNord(false);
+            player2.movement.setMovementEnableSud(false);
         } else if (angle < (-Math.PI * (0.25)) && angle > (-Math.PI * (0.75))) {
             player1.velocity.y = 0;
             player2.velocity.y = 0;
-            player1.setMovementEnableSud(false);
-            player2.setMovementEnableNord(false);
+            player1.movement.setMovementEnableSud(false);
+            player2.movement.setMovementEnableNord(false);
         } else if (Math.abs(angle) > (Math.PI * (0.75)) && Math.abs(angle) < (Math.PI)) {
             player1.velocity.x = 0;
             player2.velocity.x = 0;
-            player1.setMovementEnableOvest(false);
-            player2.setMovementEnableEast(false);
+            player1.movement.setMovementEnableOvest(false);
+            player2.movement.setMovementEnableEast(false);
         }
     }
 }
