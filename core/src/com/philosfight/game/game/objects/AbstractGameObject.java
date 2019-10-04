@@ -42,14 +42,14 @@ public abstract class AbstractGameObject{
      * Animation
      */
     public float stateTime;
-    public Animation Animation;
+    public Animation animation;
 
-    public void setAnimation (Animation Animation) {
-        this.Animation = Animation;
+    public void setAnimation (Animation animation) {
+        this.animation = animation;
         stateTime = 0;
     }
     public Animation getAnimation() {
-        return Animation;
+        return animation;
     }
 
     //Constructor

@@ -390,7 +390,7 @@ public class Player extends AbstractGameObject {
         else if(velocity.x > 0)
             setAnimation(walk_right);
 
-        //if(Animation != null) Asset = Animation.getKeyFrame(stateTime, true);
+        //if(animation != null) Asset = animation.getKeyFrame(stateTime, true);
 
         //if (movementEnable)Gdx.app.debug(TAG, namePlayer + " position: " + "(" + position.x + "," + position.y + ")");
         batch.draw(
