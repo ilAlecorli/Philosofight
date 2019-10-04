@@ -5,9 +5,11 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
 import com.philosfight.game.utils.Constants;
 
@@ -110,15 +112,55 @@ public class Assets implements Disposable, AssetErrorListener {
     /**
      * Asset dei giocatori
      */
-    public class AssetPlayer{
-        public final TextureAtlas.AtlasRegion pg1;
-        public final TextureAtlas.AtlasRegion pg2;
-        public AssetPlayer(TextureAtlas atlas){
-            pg1 = atlas.findRegion("PG1_front1");
-            pg2 = atlas.findRegion("PG2_front1");
+    public class AssetPlayer {
+        public final TextureAtlas.AtlasRegion PG1_standby;
+        public final TextureAtlas.AtlasRegion PG2_standby;
+        public final Animation PG1_walk_up;
+        public final Animation PG1_walk_down;
+        public final Animation PG1_walk_left;
+        public final Animation PG1_walk_right;
+
+        public AssetPlayer(TextureAtlas atlas) {
+//          Variabili generali
+
+            //Assets Player 1: Standby
+            PG1_standby = atlas.findRegion("PG1_front1");
+            //Assets Player 2: Standby
+            PG2_standby = atlas.findRegion("PG2_front1");
+
+            //Animazione Player 1: Camminata verso l'alto
+            PG1_walk_up = createAnimation("Character1/PG1_up.png", 1, 5, Animation.PlayMode.LOOP);
+
+            //Animazione Player 1: Camminata verso il basso
+            PG1_walk_down = createAnimation("Character1/PG1_down.png", 1, 5, Animation.PlayMode.LOOP);
+
+            //Animazione Player 1: Camminata verso sinistra
+            PG1_walk_left = createAnimation("Character1/PG1_left.png", 1, 3, Animation.PlayMode.LOOP);
+
+            //Animazione Player 1: Camminata verso destra
+            PG1_walk_right = createAnimation("Character1/PG1_right.png", 1, 3, Animation.PlayMode.LOOP);
+        }
+
+        private Animation createAnimation(String image_path, int n_rows, int n_cols, Enum mode) {
+            Texture image = new Texture(Gdx.files.internal(image_path));
+            TextureRegion[][] tmp;
+            TextureRegion[] frames;
+            int index = 0;
+            tmp = TextureRegion.split(image,
+                    image.getWidth() / 5,
+                    image.getHeight() / 1);
+
+            frames = new TextureRegion[n_rows * n_cols];
+            index = 0;
+            for(int i = 0; i < n_rows; i++) {
+                for (int j = 0; j < n_cols; j++) {
+                    frames[index++] = tmp[i][j];
+                }
+            }
+            image.dispose();
+            return new Animation(0.5f, frames, mode);
         }
     }
-
     /**
      * Asset dei muri dell'arena.
      */
@@ -142,7 +184,6 @@ public class Assets implements Disposable, AssetErrorListener {
      */
     public class AssetTile {
         public final TextureAtlas.AtlasRegion tile00;
-
         public AssetTile(TextureAtlas atlas) {
             tile00 = atlas.findRegion("tile");
         }

@@ -29,7 +29,7 @@ public class Bullet extends AbstractGameObject {
 		this.position = position;
 		this.angle = angle;
 		dimension.set(0.1f, 0.1f);
-		ObjectAssets = Assets.instance.bullet.bullet;
+		Asset = Assets.instance.bullet.bullet;
 	}
 
 	public Vector2 getTargetPosition() {
@@ -97,7 +97,7 @@ public class Bullet extends AbstractGameObject {
 	@Override
 	public void render(SpriteBatch batch) {
 
-		batch.draw(ObjectAssets.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, ObjectAssets.getRegionX(), ObjectAssets.getRegionY(), ObjectAssets.getRegionWidth(), ObjectAssets.getRegionHeight(), flipX, flipY);
+		batch.draw(Asset.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, Asset.getRegionX(), Asset.getRegionY(), Asset.getRegionWidth(), Asset.getRegionHeight(), flipX, flipY);
 	}
 
 }

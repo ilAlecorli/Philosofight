@@ -13,7 +13,7 @@ public class MeleeArea extends AbstractGameObject {
 		this.position = position;
 		setPlayerPosition(position);
 		dimension.set(meleeSize, meleeSize);
-		ObjectAssets = Assets.instance.circle.melee;
+		Asset = Assets.instance.circle.melee;
 	}
 
 	public void setPlayerPosition(Vector2 playerPosition) {
@@ -42,6 +42,6 @@ public class MeleeArea extends AbstractGameObject {
 	@Override
 	public void render(SpriteBatch batch) {
 
-		batch.draw(ObjectAssets.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, ObjectAssets.getRegionX(), ObjectAssets.getRegionY(), ObjectAssets.getRegionWidth(), ObjectAssets.getRegionHeight(), flipX, flipY);
+		batch.draw(Asset.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, Asset.getRegionX(), Asset.getRegionY(), Asset.getRegionWidth(), Asset.getRegionHeight(), flipX, flipY);
 	}
 }

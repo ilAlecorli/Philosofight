@@ -1,0 +1,26 @@
+PG1_left.png
+size: 58, 33
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+PG1_left1
+  rotate: false
+  xy: 1, 1
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1
+PG1_left2
+  rotate: false
+  xy: 20, 1
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1
+PG1_left3
+  rotate: false
+  xy: 39, 1
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1

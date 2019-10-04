@@ -131,28 +131,28 @@ public class Arena {
                     //Cambiamento degli Asset a seconda della posizione
                     //Muri laterali nord
                     if (pixelY == pixmap.getHeight() - 1 && pixelX != 0 && pixelX != pixmap.getWidth() - 1) {
-                        obj.ObjectAssets = Assets.instance.wall.front;
+                        obj.Asset = Assets.instance.wall.front;
                         obj.bounds.set(obj.position.x, obj.position.y + (obj.dimension.y / 2), obj.dimension.x, obj.dimension.y / 2);
                     }
                     //Muri laterali est
                     else if (pixelY > 0 && pixelX == 0) {
-                        obj.ObjectAssets = Assets.instance.wall.side;
+                        obj.Asset = Assets.instance.wall.side;
                         obj.origin.set(obj.dimension.x / 2, obj.dimension.y / 2);
                         obj.rotation = -90;
                     }
                     //Muri laterali ovest
                     else if (pixelY > 0 && pixelX == pixmap.getWidth() - 1) {
-                        obj.ObjectAssets = Assets.instance.wall.side;
+                        obj.Asset = Assets.instance.wall.side;
                         obj.origin.set(obj.dimension.x / 2, obj.dimension.y / 2);
                         obj.rotation = 90;
                     }
                     //Muri laterali sud
                     else if (pixelY == 0){
-                        obj.ObjectAssets = Assets.instance.wall.back;
+                        obj.Asset = Assets.instance.wall.back;
                     }
                     //Muri centrali
                     else {
-                        obj.ObjectAssets = Assets.instance.wall.front;
+                        obj.Asset = Assets.instance.wall.front;
                         obj.bounds.set(obj.position.x, obj.position.y + (obj.dimension.y / 2), obj.dimension.x, obj.dimension.y / 2);
                     }
                     this.walls.add((Wall) obj);
@@ -160,19 +160,25 @@ public class Arena {
             }
         }
 
-        //Spawn dei player
+        //Impostazioni del Player 1
         player1 = new Player();
         player1.setNamePlayer("Friederich N.");
-        player1.ObjectAssets = Assets.instance.player.pg1;
+        player1.Asset = Assets.instance.player.PG1_standby;
+        player1.setAnimations(
+                Assets.instance.player.PG1_walk_up,         //Camminata su
+                Assets.instance.player.PG1_walk_down,       //Camminata giù
+                Assets.instance.player.PG1_walk_left,       //Camminata a sinistra
+                Assets.instance.player.PG1_walk_right);     //Camminata a destra
         player1.position.set(1.5f, 1.5f);
         //Fissa il punto di Spawn del Player
         player1.setSpawnPointPlayer(player1.position);
         //Dai al player il suo caricatore inizializzato
         player1.setLoader(bulletsLoader1);
 
+        //Impostazioni del Player 2
         player2 = new Player();
         player2.setNamePlayer("Fëdor D.");
-        player2.ObjectAssets = Assets.instance.player.pg2;
+        player2.Asset = Assets.instance.player.PG2_standby;
         player2.position.set(10f, 17f);
         //Fissa il punto di Spawn del Player
         player2.setSpawnPointPlayer(player2.position);

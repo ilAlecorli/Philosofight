@@ -2,7 +2,9 @@ package com.philosfight.game.game.objects;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -21,17 +23,92 @@ public class Player extends AbstractGameObject {
     public static final String TAG = Player.class.getName();
 
     /**
+     * Animations
+     */
+    private Animation walk_up;
+    private Animation walk_down;
+    private Animation walk_left;
+    private Animation walk_right;
+
+    /**
+     * Setters delle animazioni
+     */
+    public void setAnimations(Animation walk_up, Animation walk_down, Animation walk_left, Animation walk_right){
+        this.walk_up = walk_up;
+        this.walk_down = walk_down;
+        this.walk_left = walk_left;
+        this.walk_right = walk_right;
+    }
+
+    /**
+     *Getters delle animazioni
+     */
+    public Animation getWalk_up() {
+        return walk_up;
+    }
+    public Animation getWalk_down() {
+        return walk_down;
+    }
+    public Animation getWalk_left() {
+        return walk_left;
+    }
+    public Animation getWalk_right() {
+        return walk_right;
+    }
+
+
+    /**
      * Flags
      */
     //Flag di movimento
-    private boolean movementEnableOvest = false;
+    private boolean movementEnableWest = false;
     private boolean movementEnableEast = false;
     private boolean movementEnableNord = false;
     private boolean movementEnableSud = false;
+
+    /**
+     *Setters Flag Movimento
+     */
+    public void setMovementEnable(boolean state) {
+        //Gdx.app.debug(TAG, "Movement player set: " + movementEnableEast + " on Player: " + namePlayer);
+        this.movementEnableEast = state;
+        this.movementEnableWest = state;
+        this.movementEnableNord = state;
+        this.movementEnableSud = state;
+    }
+    public void setMovementEnableOvest(boolean movementEnableWest) {
+        this.movementEnableWest = movementEnableWest;
+    }
+    public void setMovementEnableEast(boolean movementEnableEast) {
+        this.movementEnableEast = movementEnableEast;
+    }
+    public void setMovementEnableNord(boolean movementEnableNord) {
+        this.movementEnableNord = movementEnableNord;
+    }
+    public void setMovementEnableSud(boolean movementEnableSud) {
+        this.movementEnableSud = movementEnableSud;
+    }
+    /**
+     *Getters Flag Movimento
+     */
+    public boolean getMovementEnableEast() {
+        return movementEnableEast;
+    }
+    public boolean getMovementEnableWest() {
+        return movementEnableWest;
+    }
+    public boolean getMovementEnableNord() {
+        return movementEnableNord;
+    }
+    public boolean getMovementEnableSud() {
+        return movementEnableSud;
+    }
+
     //Flag di sparo
     private boolean shootEnable = true;
     //Flag della vita
     private boolean alive = true;
+
 
     /**
      * Comandi del giocatore
@@ -42,33 +119,37 @@ public class Player extends AbstractGameObject {
     private int key_Right;
     private int key_Shoot;
 
+    /**
+     * Assegnamento dei comandi del giocatore
+     */
+    public void setControls(int key_Up, int key_Down, int key_Left, int key_Right, int key_Shoot){
+        this.key_Up = key_Up;
+        this.key_Down = key_Down;
+        this.key_Left = key_Left;
+        this.key_Right = key_Right;
+        this.key_Shoot = key_Shoot;
+    }
+    public int getKey_Shoot() {
+        return key_Shoot;
+    }
+
 
     /**
      * Caratteristiche del giocatore
      */
-    //Nome
     private String namePlayer;
-    //Vita del Player
     private float healthPlayer;
-    //Mana del Player
     private float mana;
-    //Timer d utilizzo del mana
     private float timerMana;
-    //Area Melee con la quale il Player attacca fisicamente
     private MeleeArea meleeArea;
-    //Raggio del melee
     public Circle rangeMelee;
-    //Estensione dell'area Melee
     private float meleeValue;
-    //Caricatore dei proiettili, rimane "public" per l'update nel WorldController
     public ArrayList<Bullet> loader;
-    //Punto di Spawn del Player
     private Vector2 spawnPointPlayer;
 
     /**
      * Costanti Player
      */
-    //Massimi bullets al secondo
     public static final int MAX_BULLETS = 15;
     //Tempo di cooldown per la ricarica del mana
     private static final float cooldownTime = 0.6f;
@@ -192,58 +273,6 @@ public class Player extends AbstractGameObject {
         return shootEnable;
     }
 
-    /**
-     * Assegnamento dei comandi del giocatore
-     */
-    public void setControls(int key_Up, int key_Down, int key_Left, int key_Right, int key_Shoot){
-        this.key_Up = key_Up;
-        this.key_Down = key_Down;
-        this.key_Left = key_Left;
-        this.key_Right = key_Right;
-        this.key_Shoot = key_Shoot;
-    }
-
-    public int getKey_Shoot() {
-        return key_Shoot;
-    }
-
-    /**
-     * Metodi di set/get per la gestione dei flag di movimento1
-     * */
-    public void setMovementEnable(boolean state) {
-        //Gdx.app.debug(TAG, "Movement player set: " + movementEnableEast + " on Player: " + namePlayer);
-
-        this.movementEnableEast = state;
-        this.movementEnableOvest = state;
-        this.movementEnableNord = state;
-        this.movementEnableSud = state;
-    }
-
-    public void setMovementEnableOvest(boolean movementEnableOvest) {
-        this.movementEnableOvest = movementEnableOvest;
-    }
-    public void setMovementEnableEast(boolean movementEnableEast) {
-        this.movementEnableEast = movementEnableEast;
-    }
-    public void setMovementEnableNord(boolean movementEnableNord) {
-        this.movementEnableNord = movementEnableNord;
-    }
-    public void setMovementEnableSud(boolean movementEnableSud) {
-        this.movementEnableSud = movementEnableSud;
-    }
-
-    public boolean getMovementEnableEast() {
-        return movementEnableEast;
-    }
-    public boolean getMovementEnableOvest() {
-        return movementEnableOvest;
-    }
-    public boolean getMovementEnableNord() {
-        return movementEnableNord;
-    }
-    public boolean getMovementEnableSud() {
-        return movementEnableSud;
-    }
     public boolean isAlive() {
         return alive;
     }
@@ -258,7 +287,6 @@ public class Player extends AbstractGameObject {
         this.alive = alive;
     }
 
-
     public Vector2 getSpawnPointPlayer() {
         return spawnPointPlayer;
     }
@@ -269,6 +297,7 @@ public class Player extends AbstractGameObject {
         Gdx.app.debug(TAG,"New spawn point of player " +
                 this.getNamePlayer() + ": " + getSpawnPointPlayer());
     }
+
 
     @Override
     public void update(float deltaTime) {
@@ -318,7 +347,7 @@ public class Player extends AbstractGameObject {
     }
 
     public void movementCheck(float deltaTime) {
-        if (Gdx.input.isKeyPressed(key_Left) && movementEnableOvest == true) {
+        if (Gdx.input.isKeyPressed(key_Left) && movementEnableWest == true) {
             //movimento verso Ovest
             //Gdx.app.debug(TAG, namePlayer + " moving sx");
             velocity.x = -terminalVelocity.x;
@@ -416,20 +445,35 @@ public class Player extends AbstractGameObject {
      * Renderizzazione del giocatore
      */
     public void render(SpriteBatch batch) {
-        /**
-         * texture rappresenta la texture dell'oggetto e quindi l'immagine da prendere in considerazione
-         * x e y servono a disegnare il rettangolo a determinate coordinate
-         * originX ed originY servono a dichiarare l'origine dell'oggetto, (0,0) implica l'origine nell'angolo in basso a sinistra.
-         * width e height definiscono la dimensione dell'imagine da visualizzare
-         * scaleX e scaleY definiscono la scala del rettangolo intorno all'origine
-         * rotation definisce di quanti gradi ruotare l'immagine
-         * srcX e scrY servono a "tagliare" un rettangolo, dalla texture o dal texture atlas
-         * srcHeight e srcWidth
-         * flipX e flipY specchiano l'immagine sui relativi assi.
-         * */
+        if(velocity.y < 0)
+            setAnimation(walk_down);
+        else if(velocity.y > 0)
+            setAnimation(walk_up);
+        else if(velocity.x < 0)
+            setAnimation(walk_left);
+        else if(velocity.x > 0)
+            setAnimation(walk_right);
+
+//        if(Animation != null) Asset = Animation.getKeyFrame(stateTime, true);
 
         //if (movementEnable)Gdx.app.debug(TAG, namePlayer + " position: " + "(" + position.x + "," + position.y + ")");
-        batch.draw(ObjectAssets.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, ObjectAssets.getRegionX(), ObjectAssets.getRegionY(), ObjectAssets.getRegionWidth(), ObjectAssets.getRegionHeight(), flipX, flipY);
+        batch.draw(
+                Asset.getTexture(),                 //Asset attuale dell'oggetto
+                position.x,                         //Posizione X
+                position.y,                         //Posizione Y
+                origin.x,                           //Origine dell'oggetto X, default 0
+                origin.y,                           //Origine dell'oggetto Y, default 0
+                dimension.x,                        //Dimensione dell'oggetto X
+                dimension.y,                        //Dimensione dell'oggetto Y
+                scale.x,                            //Scala dell'oggetto rispetto all'origine X
+                scale.y,                            //Scala dell'oggetto rispetto all'origine y
+                rotation,                           //Gradi di rotazione
+                Asset.getRegionX(),                 //Posizione X da cui ritagliare dalla Texture X
+                Asset.getRegionY(),                 //Posizione Y da cui ritagliare dalla Texture Y
+                Asset.getRegionHeight(),            //Altezza da ritagliare
+                Asset.getRegionWidth(),             //Larghezza da ritagliare
+                flipX,                              //Specchiare o meno su X
+                flipY);                             //Specchiare o meno su Y
     }
 
 }

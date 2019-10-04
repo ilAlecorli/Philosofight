@@ -1,0 +1,40 @@
+PG1_up.png
+size: 96, 33
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+PG1_back1
+  rotate: false
+  xy: 1, 1
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1
+PG1_back2
+  rotate: false
+  xy: 20, 1
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1
+PG1_back3
+  rotate: false
+  xy: 39, 1
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1
+PG1_back4
+  rotate: false
+  xy: 58, 1
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1
+PG1_back5
+  rotate: false
+  xy: 77, 1
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1

@@ -12,21 +12,28 @@ public class Tile extends AbstractGameObject{
 
     private void init() {
         dimension.set(1f,1f);
-        tile = Assets.instance.tile.tile00;
+        Asset = Assets.instance.tile.tile00;
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        /*
-            * srcX e scrY servono a "tagliare" un rettangolo, dalla texture o dal texture atlas
-            * x e y servono a disegnare il rettangolo a determinate coordinate
-            * originX ed originY servono a dichiarare l'origine di disegno dell'oggetto, (0,0) implica l'origine nell'angolo in basso a sinistra.
-            * width e height definiscono la dimensione dell'imagine da visualizzare
-            * scaleX e scaleY definiscono la scala del rettangolo intorno all'origine
-            * rotation definisce di quanti gradi ruotare l'immagine
-            * flipX e flipY specchiano l'immagine sui relativi assi.
-            * */
-        batch.draw(tile.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, tile.getRegionX(), tile.getRegionY(), tile.getRegionWidth(), tile.getRegionHeight(), false, false);
+        batch.draw(
+                Asset.getTexture(),          //Asset attuale dell'oggetto
+                position.x,                         //Posizione X
+                position.y,                         //Posizione Y
+                origin.x,                           //Origine dell'oggetto X, default 0
+                origin.y,                           //Origine dell'oggetto Y, default 0
+                dimension.x,                        //Dimensione dell'oggetto X
+                dimension.y,                        //Dimensione dell'oggetto Y
+                scale.x,                            //Scala dell'oggetto rispetto all'origine X
+                scale.y,                            //Scala dell'oggetto rispetto all'origine y
+                rotation,                           //Gradi di rotazione
+                Asset.getRegionX(),          //Posizione X da cui ritagliare dalla Texture X
+                Asset.getRegionY(),          //Posizione Y da cui ritagliare dalla Texture Y
+                Asset.getRegionWidth(),      //Larghezza da ritagliare
+                Asset.getRegionHeight(),     //Altezza da ritagliare
+                flipX,                              //Specchiare o meno su X
+                flipY);                             //Specchiare o meno su Y}
     }
 }
 

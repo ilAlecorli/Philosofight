@@ -1,6 +1,7 @@
 package com.philosfight.game.game.objects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -35,7 +36,21 @@ public abstract class AbstractGameObject{
     public float rotation;
     public boolean flipX;
     public boolean flipY;
-    public TextureRegion ObjectAssets;
+    public TextureRegion Asset;
+
+    /**
+     * Animation
+     */
+    public float stateTime;
+    public Animation Animation;
+
+    public void setAnimation (Animation Animation) {
+        this.Animation = Animation;
+        stateTime = 0;
+    }
+    public Animation getAnimation() {
+        return Animation;
+    }
 
     //Constructor
     public AbstractGameObject () {
@@ -54,6 +69,7 @@ public abstract class AbstractGameObject{
     }
 
     public void update (float deltaTime) {
+        stateTime += deltaTime;
         updateMotionX(deltaTime);
         updateMotionY(deltaTime);
         // Move to new position
