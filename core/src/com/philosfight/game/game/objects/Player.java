@@ -31,33 +31,6 @@ public class Player extends AbstractGameObject {
     private Animation walk_right;
 
     /**
-     * Setters delle animazioni
-     */
-    public void setAnimations(Animation walk_up, Animation walk_down, Animation walk_left, Animation walk_right){
-        this.walk_up = walk_up;
-        this.walk_down = walk_down;
-        this.walk_left = walk_left;
-        this.walk_right = walk_right;
-    }
-
-    /**
-     *Getters delle animazioni
-     */
-    public Animation getWalk_up() {
-        return walk_up;
-    }
-    public Animation getWalk_down() {
-        return walk_down;
-    }
-    public Animation getWalk_left() {
-        return walk_left;
-    }
-    public Animation getWalk_right() {
-        return walk_right;
-    }
-
-
-    /**
      * Flags
      */
     //Flag di movimento
@@ -66,49 +39,11 @@ public class Player extends AbstractGameObject {
     private boolean movementEnableNord = false;
     private boolean movementEnableSud = false;
 
-    /**
-     *Setters Flag Movimento
-     */
-    public void setMovementEnable(boolean state) {
-        //Gdx.app.debug(TAG, "Movement player set: " + movementEnableEast + " on Player: " + namePlayer);
-        this.movementEnableEast = state;
-        this.movementEnableWest = state;
-        this.movementEnableNord = state;
-        this.movementEnableSud = state;
-    }
-    public void setMovementEnableOvest(boolean movementEnableWest) {
-        this.movementEnableWest = movementEnableWest;
-    }
-    public void setMovementEnableEast(boolean movementEnableEast) {
-        this.movementEnableEast = movementEnableEast;
-    }
-    public void setMovementEnableNord(boolean movementEnableNord) {
-        this.movementEnableNord = movementEnableNord;
-    }
-    public void setMovementEnableSud(boolean movementEnableSud) {
-        this.movementEnableSud = movementEnableSud;
-    }
-    /**
-     *Getters Flag Movimento
-     */
-    public boolean getMovementEnableEast() {
-        return movementEnableEast;
-    }
-    public boolean getMovementEnableWest() {
-        return movementEnableWest;
-    }
-    public boolean getMovementEnableNord() {
-        return movementEnableNord;
-    }
-    public boolean getMovementEnableSud() {
-        return movementEnableSud;
-    }
 
     //Flag di sparo
     private boolean shootEnable = true;
     //Flag della vita
     private boolean alive = true;
-
 
     /**
      * Comandi del giocatore
@@ -118,20 +53,6 @@ public class Player extends AbstractGameObject {
     private int key_Left;
     private int key_Right;
     private int key_Shoot;
-
-    /**
-     * Assegnamento dei comandi del giocatore
-     */
-    public void setControls(int key_Up, int key_Down, int key_Left, int key_Right, int key_Shoot){
-        this.key_Up = key_Up;
-        this.key_Down = key_Down;
-        this.key_Left = key_Left;
-        this.key_Right = key_Right;
-        this.key_Shoot = key_Shoot;
-    }
-    public int getKey_Shoot() {
-        return key_Shoot;
-    }
 
 
     /**
@@ -183,6 +104,84 @@ public class Player extends AbstractGameObject {
         //meleeArea = new MeleeArea(this.position,getMeleeValue());
     }
 
+    /**
+     * Assegnamento dei comandi del giocatore
+     */
+    public void setControls(int key_Up, int key_Down, int key_Left, int key_Right, int key_Shoot){
+        this.key_Up = key_Up;
+        this.key_Down = key_Down;
+        this.key_Left = key_Left;
+        this.key_Right = key_Right;
+        this.key_Shoot = key_Shoot;
+    }
+    public int getKey_Shoot() {
+        return key_Shoot;
+    }
+
+    /**
+     * Setters delle animazioni
+     */
+    public void setAnimations(Animation walk_up, Animation walk_down, Animation walk_left, Animation walk_right){
+        this.walk_up = walk_up;
+        this.walk_down = walk_down;
+        this.walk_left = walk_left;
+        this.walk_right = walk_right;
+    }
+
+    /**
+     *Getters delle animazioni
+     */
+    public Animation getWalk_up() {
+        return walk_up;
+    }
+    public Animation getWalk_down() {
+        return walk_down;
+    }
+    public Animation getWalk_left() {
+        return walk_left;
+    }
+    public Animation getWalk_right() {
+        return walk_right;
+    }
+
+    /**
+     *Setters Flag Movimento
+     */
+    public void setMovementEnable(boolean state) {
+        //Gdx.app.debug(TAG, "Movement player set: " + movementEnableEast + " on Player: " + namePlayer);
+        this.movementEnableEast = state;
+        this.movementEnableWest = state;
+        this.movementEnableNord = state;
+        this.movementEnableSud = state;
+    }
+
+    public void setMovementEnableOvest(boolean movementEnableWest) {
+        this.movementEnableWest = movementEnableWest;
+    }
+    public void setMovementEnableEast(boolean movementEnableEast) {
+        this.movementEnableEast = movementEnableEast;
+    }
+    public void setMovementEnableNord(boolean movementEnableNord) {
+        this.movementEnableNord = movementEnableNord;
+    }
+    public void setMovementEnableSud(boolean movementEnableSud) {
+        this.movementEnableSud = movementEnableSud;
+    }
+    /**
+     *Getters Flag Movimento
+     */
+    public boolean getMovementEnableEast() {
+        return movementEnableEast;
+    }
+    public boolean getMovementEnableWest() {
+        return movementEnableWest;
+    }
+    public boolean getMovementEnableNord() {
+        return movementEnableNord;
+    }
+    public boolean getMovementEnableSud() {
+        return movementEnableSud;
+    }
 
     /**
      * Set nome player
@@ -454,7 +453,7 @@ public class Player extends AbstractGameObject {
         else if(velocity.x > 0)
             setAnimation(walk_right);
 
-//        if(Animation != null) Asset = Animation.getKeyFrame(stateTime, true);
+        //if(Animation != null) Asset = Animation.getKeyFrame(stateTime, true);
 
         //if (movementEnable)Gdx.app.debug(TAG, namePlayer + " position: " + "(" + position.x + "," + position.y + ")");
         batch.draw(
