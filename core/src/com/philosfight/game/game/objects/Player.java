@@ -381,17 +381,16 @@ public class Player extends AbstractGameObject {
      * Renderizzazione del giocatore
      */
     public void render(SpriteBatch batch) {
-        if(velocity.y < 0)
-            setAnimation(walk_down);
-        else if(velocity.y > 0)
-            setAnimation(walk_up);
-        else if(velocity.x < 0)
-            setAnimation(walk_left);
-        else if(velocity.x > 0)
-            setAnimation(walk_right);
+//        if(velocity.y < 0)
+//            setAnimation(walk_down);
+//        else if(velocity.y > 0)
+//            setAnimation(walk_up);
+//        else if(velocity.x < 0)
+//            setAnimation(walk_left);
+//        else if(velocity.x > 0)
+//            setAnimation(walk_right);
 
-        //if(animation != null) Asset = animation.getKeyFrame(stateTime, true);
-
+        if(animation != null) Asset = (TextureRegion)animation.getKeyFrame(stateTime, true);
         //if (movementEnable)Gdx.app.debug(TAG, namePlayer + " position: " + "(" + position.x + "," + position.y + ")");
         batch.draw(
                 Asset.getTexture(),                 //Asset attuale dell'oggetto
@@ -406,8 +405,8 @@ public class Player extends AbstractGameObject {
                 rotation,                           //Gradi di rotazione
                 Asset.getRegionX(),                 //Posizione X da cui ritagliare dalla Texture X
                 Asset.getRegionY(),                 //Posizione Y da cui ritagliare dalla Texture Y
-                Asset.getRegionHeight(),            //Altezza da ritagliare
-                Asset.getRegionWidth(),             //Larghezza da ritagliare
+                Asset.getRegionWidth(),            //Altezza da ritagliare
+                Asset.getRegionHeight(),             //Larghezza da ritagliare
                 flipX,                              //Specchiare o meno su X
                 flipY);                             //Specchiare o meno su Y
     }

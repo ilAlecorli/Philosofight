@@ -106,21 +106,25 @@ public class MovementPlayer {
 			//movimento verso Ovest
 			//Gdx.app.debug(TAG, namePlayer + " moving sx");
 			player.velocity.x = -player.terminalVelocity.x;
+			player.setAnimation(player.getWalk_left());
 		}
 		if (Gdx.input.isKeyPressed(getKey_Right()) && getMovementEnableEast() == true) {
 			//movimento verso Est
 			//Gdx.app.debug(TAG, namePlayer + " moving dx");
 			player.velocity.x = player.terminalVelocity.x;
+			player.setAnimation(player.getWalk_right());
 		}
 		if (Gdx.input.isKeyPressed(getKey_Down()) && getMovementEnableSud() == true) {
 			// movimento verso nord
 			//Gdx.app.debug(TAG, namePlayer + " moving south");
 			player.velocity.y = -player.terminalVelocity.y;
+			player.setAnimation(player.getWalk_down());
 		}
 		if (Gdx.input.isKeyPressed(getKey_Up()) && getMovementEnableNord() == true) {
 			// movimento verso sud
 			//Gdx.app.debug(TAG, namePlayer + " moving north");
 			player.velocity.y = player.terminalVelocity.y;
+			player.setAnimation(player.getWalk_up());
 		}
 		// Execute auto-forward movement on non-desktop platform
 		if (Gdx.app.getType() != Application.ApplicationType.Desktop) {

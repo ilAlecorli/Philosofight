@@ -1,39 +1,39 @@
 PG1_up.png
-size: 96, 33
+size: 112, 37
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 PG1_back1
   rotate: false
-  xy: 1, 1
+  xy: 3, 3
   size: 18, 31
   orig: 18, 31
   offset: 0, 0
   index: -1
 PG1_back2
   rotate: false
-  xy: 20, 1
+  xy: 25, 3
   size: 18, 31
   orig: 18, 31
   offset: 0, 0
   index: -1
 PG1_back3
   rotate: false
-  xy: 39, 1
+  xy: 47, 3
   size: 18, 31
   orig: 18, 31
   offset: 0, 0
   index: -1
 PG1_back4
   rotate: false
-  xy: 58, 1
+  xy: 69, 3
   size: 18, 31
   orig: 18, 31
   offset: 0, 0
   index: -1
 PG1_back5
   rotate: false
-  xy: 77, 1
+  xy: 91, 3
   size: 18, 31
   orig: 18, 31
   offset: 0, 0
