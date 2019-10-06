@@ -173,7 +173,7 @@ public class Arena {
         //Fissa il punto di Spawn del Player
         player1.setSpawnPointPlayer(player1.position);
         //Dai al player il suo caricatore inizializzato
-        player1.setLoader(bulletsLoader1);
+        player1.shooting.setLoader(bulletsLoader1);
 
         //Impostazioni del Player 2
         player2 = new Player();
@@ -183,7 +183,7 @@ public class Arena {
         //Fissa il punto di Spawn del Player
         player2.setSpawnPointPlayer(player2.position);
         //Dai al player il suo caricatore inizializzato
-        player2.setLoader(bulletsLoader2);
+        player2.shooting.setLoader(bulletsLoader2);
 
 
         //free memory
@@ -228,10 +228,10 @@ public class Arena {
         player2.render(batch);
 
         //Disegna tutti i proiettili
-        for (Bullet bullet : player1.loader) {
+        for (Bullet bullet : player1.shooting.getLoader()) {
             bullet.render(batch);
         }
-        for (Bullet bullet : player2.loader) {
+        for (Bullet bullet : player2.shooting.getLoader()) {
             bullet.render(batch);
         }
 
@@ -261,7 +261,7 @@ public class Arena {
         }
 
         //Interazioni Bullet del 1° player
-        for (Bullet bullet : player1.loader) {
+        for (Bullet bullet : player1.shooting.getLoader()) {
             bullet.bounds.setPosition(bullet.position.x, bullet.position.y);
             if (bullet.bounds.overlaps(player2.bounds)) {
                 Gdx.app.debug(TAG, player2.getNamePlayer() + " hit");
@@ -279,7 +279,7 @@ public class Arena {
         }
 
         //Interazioni Bullet del 2° player
-        for (Bullet bullet : player2.loader) {
+        for (Bullet bullet : player2.shooting.getLoader()) {
             bullet.bounds.setPosition(bullet.position.x, bullet.position.y);
             if (bullet.bounds.overlaps(player1.bounds)) {
                 Gdx.app.debug(TAG, player1.getNamePlayer() + " hit");

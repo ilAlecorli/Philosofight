@@ -61,15 +61,15 @@ public class WorldController extends InputAdapter {
 		handleDebugInput(deltaTime);
 
 		//Aggiornamento del movimento dei proiettili
-		for (Bullet bullet : arena.player1.loader) { bullet.update(deltaTime); }
-		for (Bullet bullet : arena.player2.loader) { bullet.update(deltaTime); }
+		for (Bullet bullet : arena.player1.shooting.getLoader()) { bullet.update(deltaTime); }
+		for (Bullet bullet : arena.player2.shooting.getLoader()) { bullet.update(deltaTime); }
 
 		//Controllo delle collisioni dell'arena (Muri e proiettili)
 		arena.checkCollisions(deltaTime);
 
 		//Rimozione dei proiettili
-		arena.player1.loader.removeAll(arena.bulletsDump);
-		arena.player2.loader.removeAll(arena.bulletsDump);
+		arena.player1.shooting.getLoader().removeAll(arena.bulletsDump);
+		arena.player2.shooting.getLoader().removeAll(arena.bulletsDump);
 
 		//Aggiornamento della telecamera
 		cameraHelper.update(deltaTime);

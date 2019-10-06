@@ -124,8 +124,8 @@ public class GameGUI {
 	 */
 	private void  renderMana(){
 		//Inserimento delle vite dei Player giocanti
-		float manaP1 = arena.player1.getMana();
-		float manaP2 = arena.player2.getMana();
+		float manaP1 = arena.player1.shooting.getMana();
+		float manaP2 = arena.player2.shooting.getMana();
 		//Dimensioni barra da visualizzare
 		float heightBar = 10;
 		float widthBar = 12;
