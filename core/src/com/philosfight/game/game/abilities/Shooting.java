@@ -124,7 +124,6 @@ public class Shooting {
 	public void setLoader(ArrayList<Bullet> loader) {
 		this.loader = loader;
 	}
-
 	public ArrayList<Bullet> getLoader() {
 		return loader;
 	}
@@ -143,9 +142,9 @@ public class Shooting {
 			//Incremento del mana alla volta
 			setMana(getMana() + 1);
 			//Intervallo di incremento senza shooting
-			//più è piccola la differenza più ricarica
+			//più è grande la differenza, più ricarica
 			//velocemente fra un proiettile e l'altro
-			timerMana = COOLDOWNTIME - 0.3f;
+			timerMana = COOLDOWNTIME - 0.2f;
 		}
 	}
 }

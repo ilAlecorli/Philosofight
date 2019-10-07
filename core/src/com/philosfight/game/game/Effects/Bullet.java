@@ -10,7 +10,7 @@ import com.philosfight.game.game.objects.AbstractGameObject;
 public class Bullet extends AbstractGameObject {
 
 	//Velocità proiettili
-	public static final float SPEED_BULLET = 7f;
+	public static final float SPEED_BULLET = 10f;
 	//Vita proiettile
 	private float lifeTimer = 0;
 	//fine vita proiettile

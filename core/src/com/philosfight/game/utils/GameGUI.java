@@ -86,7 +86,7 @@ public class GameGUI {
 		float intialHealthP2 = Player.healthMax;
 		//Dimensioni barra da visualizzare
 		float heightBar = 10;
-		float widthBar = 4.5f;
+		float widthBar = 3.3f;
 		//Disegna la vita del player 1
 		if (healthP1 >= intialHealthP1 *2/3) {
 			//Vita iniziale a più 2/3
@@ -113,7 +113,7 @@ public class GameGUI {
 			batch.setColor(1, 0, 0, 1);
 		}
 		//In basso a destra
-		batch.draw(Assets.instance.blank.blank, 1 * cameraGUI.viewportWidth - widthBar * healthP2 ,1 * cameraGUI.viewportHeight - heightBar - 4 - 10,
+		batch.draw(Assets.instance.blank.blank, 1 * cameraGUI.viewportWidth - widthBar * healthP2 + 2 ,1 * cameraGUI.viewportHeight - heightBar - 4 - 10,
 				widthBar * healthP2,1*heightBar );
 		batch.setColor(Color.WHITE);
 	}
@@ -128,7 +128,7 @@ public class GameGUI {
 		float manaP2 = arena.player2.shooting.getMana();
 		//Dimensioni barra da visualizzare
 		float heightBar = 10;
-		float widthBar = 12;
+		float widthBar = 9;
 
 		//Disegna la vita del player 1
 		batch.setColor(Color.ROYAL);

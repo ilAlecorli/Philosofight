@@ -72,9 +72,9 @@ public class Player extends AbstractGameObject {
     //Tempo di cooldown per la ricarica del mana
     public static final float COOLDOWNTIME = 0.6f;
     //Setta la salute iniziale
-    public static final float healthMax = 50;
+    public static final float healthMax = 70;
     //Setta mana iniziale
-    public static final float manaMax = 12;
+    public static final float manaMax = 20;
 
     /**
      * Costruttore
@@ -91,7 +91,7 @@ public class Player extends AbstractGameObject {
         spawnPointPlayer = new Vector2();
 
         // Set physics values
-        terminalVelocity.set(3.0f, 3.0f);   //3 è un valore medio
+        terminalVelocity.set(4.0f, 4.0f);   //4 è un valore medio
         friction.set(12.0f, 12.0f);         //12 è un valore medio
         movement = new MovementPlayer();
 
@@ -215,8 +215,6 @@ public class Player extends AbstractGameObject {
         //Aggiorna il Mana
         shooting.updateMana(deltaTime);
         // Gdx.app.debug(TAG, this.position.toString());
-        //meleeArea.setPlayerPosition(position);
-        //meleeArea.update(deltaTime);
     }
 
     @Override
@@ -292,16 +290,18 @@ public class Player extends AbstractGameObject {
      * Renderizzazione del giocatore
      */
     public void render(SpriteBatch batch) {
-//        if(velocity.y < 0)
-//            setAnimation(walk_down);
-//        else if(velocity.y > 0)
-//            setAnimation(walk_up);
+          if(velocity.y < 0)
+              setAnimation(walk_down);
+          else if(velocity.y > 0)
+              setAnimation(walk_up);
 //        else if(velocity.x < 0)
 //            setAnimation(walk_left);
 //        else if(velocity.x > 0)
 //            setAnimation(walk_right);
 
         if(animation != null) Asset = (TextureRegion)animation.getKeyFrame(stateTime, true);
+
+
         //if (movementEnable)Gdx.app.debug(TAG, namePlayer + " position: " + "(" + position.x + "," + position.y + ")");
         batch.draw(
                 Asset.getTexture(),                 //Asset attuale dell'oggetto

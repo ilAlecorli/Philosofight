@@ -168,7 +168,8 @@ public class Arena {
                 Assets.instance.player.PG1_walk_up,         //Camminata su
                 Assets.instance.player.PG1_walk_down,       //Camminata giù
                 Assets.instance.player.PG1_walk_left,       //Camminata a sinistra
-                Assets.instance.player.PG1_walk_right);     //Camminata a destra
+                Assets.instance.player.PG1_walk_right       //Camminata a destra
+        );
         player1.position.set(1.5f, 1.5f);
         //Fissa il punto di Spawn del Player
         player1.setSpawnPointPlayer(player1.position);
@@ -363,7 +364,6 @@ public class Arena {
 
     /**
      * Metodo per le collisioni dei proiettili con gli oggetti
-     *
      * @param bullet
      */
     private void onCollisionBulletWithObject(Bullet bullet) {

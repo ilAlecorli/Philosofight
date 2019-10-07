@@ -121,7 +121,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Animation PG1_walk_right;
 
         public AssetPlayer(TextureAtlas atlas) {
-//          Variabili generali
+            //Variabili generali:
 
             //Assets Player 1: Standby
             PG1_standby = atlas.findRegion("PG1_front1");
@@ -140,12 +140,11 @@ public class Assets implements Disposable, AssetErrorListener {
             //Animazione Player 1: Camminata verso destra
             PG1_walk_right = createAnimation("Character1/PG1_right.png", 1, 3);
         }
-
         private Animation createAnimation(String image_path, int n_rows, int n_cols) {
             Texture image = new Texture(Gdx.files.internal(image_path));
             TextureRegion[][] tmp = TextureRegion.split(image,
                     image.getWidth() / n_cols,
-                    image.getHeight() / n_rows);;
+                    image.getHeight() / n_rows);
             TextureRegion[] frames  = new TextureRegion[n_rows * n_cols];
             int index = 0;
             index = 0;
@@ -155,9 +154,14 @@ public class Assets implements Disposable, AssetErrorListener {
                 }
             }
             image.dispose();
+
             return new Animation<TextureRegion>(1.0f / 10.0f, frames);
         }
+
     }
+
+
+
     /**
      * Asset dei muri dell'arena.
      */
