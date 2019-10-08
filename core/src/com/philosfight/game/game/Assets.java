@@ -187,7 +187,7 @@ public class Assets implements Disposable, AssetErrorListener {
                     frames[index++] = tmp[i][j];
                 }
             }
-            return new Animation<TextureRegion>(1.0f / (n_rows * n_cols), frames);
+            return new Animation<TextureRegion>(1f / (n_rows * n_cols), frames);
         }
 
     }

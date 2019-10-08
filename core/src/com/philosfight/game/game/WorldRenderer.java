@@ -1,12 +1,8 @@
 package com.philosfight.game.game;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
-import com.philosfight.game.game.objects.Player;
 import com.philosfight.game.utils.Constants;
 import com.philosfight.game.utils.GameGUI;
 

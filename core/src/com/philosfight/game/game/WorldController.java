@@ -39,6 +39,7 @@ public class WorldController extends InputAdapter {
 		cameraHelper.setPosition(centerArena);
 		//Distanza iniziale telecamera
 		cameraHelper.setZoom(zoomDefault);
+
 	}
 
 	private void initArena(){
@@ -96,7 +97,8 @@ public class WorldController extends InputAdapter {
 			arena.player2.shootAt(arena.player1);
 		}
 
-		/*Controlli di movimento della telecamera:
+		/*
+		Controlli di movimento della telecamera:
 		float camMoveSpeed = 5 * deltaTime;
 		float camMoveSpeedAccelerationFactor = 5;
 		if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))
@@ -111,7 +113,7 @@ public class WorldController extends InputAdapter {
 			moveCamera(0, -camMoveSpeed);
 		if (Gdx.input.isKeyPressed(Input.Keys.BACKSPACE))
 			cameraHelper.setPosition(0, 0);
-		*/
+
 
 		// Camera Controls (zoom)
 		float velocity = 0.005f;	//velocità zoom
@@ -129,6 +131,8 @@ public class WorldController extends InputAdapter {
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.COMMA))
 			cameraHelper.setZoom(zoomDefault);
+
+		*/
 	}
 
 	private void moveCamera(float x, float y) {
@@ -143,13 +147,9 @@ public class WorldController extends InputAdapter {
 	 */
 	@Override
 	public boolean keyUp(int keycode) {
-		//Resetta il mondo di gioco
-		if (keycode == Input.Keys.R) {
-			init();
-			Gdx.app.debug(TAG, "Game world resetted");
-		}
+
 		// Toggle camera follow
-		else if (keycode == Input.Keys.ENTER) {
+		if (keycode == Input.Keys.ENTER) {
 			//Se la camera è puntata al centro
 			if (!cameraHelper.hasTarget()) {
 				//Attiva il player1
