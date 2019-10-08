@@ -168,12 +168,13 @@ public class Arena {
                 Assets.instance.player.PG1_walk_down,       //Camminata giù
                 Assets.instance.player.PG1_walk_left,       //Camminata a sinistra
                 Assets.instance.player.PG1_walk_right,      //Camminata a destra
+
                 Assets.instance.player.PG1_standby_up,      //Attesa mentre si cammina in alto
                 Assets.instance.player.PG1_standby_down,    //Attesa mentre si cammina in basso
                 Assets.instance.player.PG1_standby_left,    //Attesa mentre si cammina a sinistra
                 Assets.instance.player.PG1_standby_right    //Attesa mentre si cammina a destra
         );
-        player1.setAnimation(player1.getStandby_down());
+        player1.setDirection(Player.dir.up);
         player1.position.set(1.5f, 1.5f);
         //Fissa il punto di Spawn del Player
         player1.setSpawnPointPlayer(player1.position);
@@ -183,7 +184,18 @@ public class Arena {
         //Impostazioni del Player 2
         player2 = new Player();
         player2.setNamePlayer("Fëdor D.");
-        player2.animation = Assets.instance.player.PG2_standby_down;
+        player2.setAnimations(
+                Assets.instance.player.PG2_walk_up,         //Camminata su
+                Assets.instance.player.PG2_walk_down,       //Camminata giù
+                Assets.instance.player.PG2_walk_left,       //Camminata a sinistra
+                Assets.instance.player.PG2_walk_right,      //Camminata a destra
+
+                Assets.instance.player.PG2_standby_up,      //Attesa mentre si cammina in alto
+                Assets.instance.player.PG2_standby_down,    //Attesa mentre si cammina in basso
+                Assets.instance.player.PG2_standby_left,    //Attesa mentre si cammina a sinistra
+                Assets.instance.player.PG2_standby_right    //Attesa mentre si cammina a destra
+        );
+        player2.setDirection(Player.dir.down);
         player2.position.set(10f, 17f);
         //Fissa il punto di Spawn del Player
         player2.setSpawnPointPlayer(player2.position);
@@ -230,7 +242,7 @@ public class Arena {
         }
         //Disegna i giocatori
         player1.render(batch);
-//        player2.render(batch);
+        player2.render(batch);
 
         //Disegna tutti i proiettili
         for (Bullet bullet : player1.shooting.getLoader()) {
@@ -341,27 +353,27 @@ public class Arena {
 
             //Player a Est del muro
             if (angle > (-Math.PI * (0.25)) && angle < (Math.PI * (0.25))) {
-                player.velocity.x = 0;
-                player.position.x = wall.position.x + wall.dimension.x;
                 player.movement.setMovementEnableEast(false);
+                player.velocity.x = 0;
+//                player.position.x = wall.position.x + wall.dimension.x;
             }
             //Player a Nord del muro
             else if (angle > (Math.PI * (0.25)) && angle < (Math.PI * (0.75))) {
-                player.velocity.y = 0;
-                player.position.y = wall.position.y + wall.dimension.y;
                 player.movement.setMovementEnableSud(false);
+                player.velocity.y = 0;
+//                player.position.y = wall.position.y + wall.dimension.y;
             }
             //Player a Sud del muro
             else if (angle < (-Math.PI * (0.25)) && angle > (-Math.PI * (0.75))) {
-                player.velocity.y = 0;
-                player.position.y = wall.bounds.y - player.dimension.y;
                 player.movement.setMovementEnableNord(false);
+                player.velocity.y = 0;
+//                player.position.y = (wall.position.y + (wall.dimension.y / 2)) - player.dimension.y;
             }
             //Player a Ovest del muro
             else if (Math.abs(angle) > (Math.PI * (0.75)) && Math.abs(angle) < (Math.PI)) {
-                player.velocity.x = 0;
-                player.position.x = wall.position.x - player.dimension.x;
                 player.movement.setMovementEnableOvest(false);
+                player.velocity.x = 0;
+//                player.position.x = wall.position.x - player.dimension.x;
             }
         }
     }

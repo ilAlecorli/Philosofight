@@ -1,0 +1,33 @@
+PG2_down.png
+size: 86, 33
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+PG2_front1
+  rotate: false
+  xy: 0, 0
+  size: 20, 33
+  orig: 20, 33
+  offset: 0, 0
+  index: -1
+PG2_front2
+  rotate: false
+  xy: 24, 0
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1
+PG2_front3
+  rotate: false
+  xy: 46, 0
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1
+PG2_front4
+  rotate: false
+  xy: 68, 0
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,26 @@
+PG2_right.png
+size: 64, 31
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+PG2_right1
+  rotate: false
+  xy: 0, 0
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1
+PG2_right2
+  rotate: false
+  xy: 23, 0
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1
+PG2_right3
+  rotate: false
+  xy: 46, 0
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1

@@ -125,16 +125,23 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Animation PG1_standby_left;
         public final Animation PG1_standby_right;
 
+
+        public final Animation PG2_walk_up;
+        public final Animation PG2_walk_down;
+        public final Animation PG2_walk_left;
+        public final Animation PG2_walk_right;
+
+        public final Animation PG2_standby_up;
         public final Animation PG2_standby_down;
+        public final Animation PG2_standby_left;
+        public final Animation PG2_standby_right;
+
 
         public AssetPlayer(TextureAtlas atlas) {
-
-            //Assets Player 2: Standby
 
             //Animazione Player 1: Camminata verso l'alto
             PG1_walk_up = createAnimation("Character1/PG1_up.png", 1, 5);
             PG1_standby_up = new Animation<TextureRegion>(0f, frames[0]);
-            PG2_standby_down = new Animation<TextureRegion>(0f, frames[0]);
 
             //Animazione Player 1: Camminata verso il basso
             PG1_walk_down = createAnimation("Character1/PG1_down.png", 1, 5);
@@ -147,6 +154,24 @@ public class Assets implements Disposable, AssetErrorListener {
             //Animazione Player 1: Camminata verso destra
             PG1_walk_right = createAnimation("Character1/PG1_right.png", 1, 3);
             PG1_standby_right = new Animation<TextureRegion>(0f, frames[0]);
+
+
+
+            //Animazione Player 2: Camminata verso l'alto
+            PG2_walk_up = createAnimation("Character2/PG2_up.png", 1, 4);
+            PG2_standby_up = new Animation<TextureRegion>(0f, frames[0]);
+
+            //Animazione Player 2: Camminata verso il basso
+            PG2_walk_down = createAnimation("Character2/PG2_down.png", 1, 4);
+            PG2_standby_down = new Animation<TextureRegion>(0f, frames[0]);
+
+            //Animazione Player 2: Camminata verso sinistra
+            PG2_walk_left = createAnimation("Character2/PG2_left.png", 1, 3);
+            PG2_standby_left = new Animation<TextureRegion>(0f, frames[0]);
+
+            //Animazione Player 2: Camminata verso destra
+            PG2_walk_right = createAnimation("Character2/PG2_right.png", 1, 3);
+            PG2_standby_right = new Animation<TextureRegion>(0f, frames[0]);
 
         }
         private Animation createAnimation(String image_path, int n_rows, int n_cols) {

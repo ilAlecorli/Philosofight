@@ -1,0 +1,33 @@
+PG2_up.png
+size: 87, 31
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+PG2_back1
+  rotate: false
+  xy: 0, 0
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1
+PG2_back2
+  rotate: false
+  xy: 23, 0
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1
+PG2_back3
+  rotate: false
+  xy: 46, 0
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1
+PG2_back4
+  rotate: false
+  xy: 69, 0
+  size: 18, 31
+  orig: 18, 31
+  offset: 0, 0
+  index: -1

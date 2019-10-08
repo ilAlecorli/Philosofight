@@ -62,8 +62,8 @@ wall_corner
 wall_front
   rotate: false
   xy: 35, 68
-  size: 35, 36
-  orig: 35, 36
+  size: 34, 34
+  orig: 34, 34
   offset: 0, 0
   index: -1
 wall_lateral

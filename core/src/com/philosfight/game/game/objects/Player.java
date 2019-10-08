@@ -42,6 +42,7 @@ public class Player extends AbstractGameObject {
     dir direction = dir.up;
     state st = state.standby;
 
+
     /**
      * Animations
      */
@@ -337,6 +338,10 @@ public class Player extends AbstractGameObject {
         //Riporta le statistiche a livelli iniziali
         setHealthPlayer(healthMax);
         shooting.setMana(manaMax);
+    }
+
+    public void setDirection(dir direction) {
+        this.direction = direction;
     }
 
     @Override
