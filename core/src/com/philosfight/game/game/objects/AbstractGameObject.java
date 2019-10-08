@@ -43,7 +43,7 @@ public abstract class AbstractGameObject{
 
     public void setAnimation (Animation animation) {
         this.animation = new Animation(animation.getFrameDuration(),animation.getKeyFrames());
-        stateTime = 0;
+//        stateTime = 0;
     }
     public Animation getAnimation() {
         return animation;
@@ -70,7 +70,6 @@ public abstract class AbstractGameObject{
     }
 
     public void update (float deltaTime) {
-        stateTime += deltaTime;
         updateMotionX(deltaTime);
         updateMotionY(deltaTime);
         // Move to new position

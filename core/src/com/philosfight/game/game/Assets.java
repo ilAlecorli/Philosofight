@@ -113,39 +113,48 @@ public class Assets implements Disposable, AssetErrorListener {
      * Asset dei giocatori
      */
     public class AssetPlayer {
-        public final TextureAtlas.AtlasRegion PG1_standby;
-        public final TextureAtlas.AtlasRegion PG2_standby;
+        TextureRegion[] frames;
+
         public final Animation PG1_walk_up;
         public final Animation PG1_walk_down;
         public final Animation PG1_walk_left;
         public final Animation PG1_walk_right;
 
-        public AssetPlayer(TextureAtlas atlas) {
-            //Variabili generali:
+        public final Animation PG1_standby_up;
+        public final Animation PG1_standby_down;
+        public final Animation PG1_standby_left;
+        public final Animation PG1_standby_right;
 
-            //Assets Player 1: Standby
-            PG1_standby = atlas.findRegion("PG1_front1");
+        public final Animation PG2_standby_down;
+
+        public AssetPlayer(TextureAtlas atlas) {
+
             //Assets Player 2: Standby
-            PG2_standby = atlas.findRegion("PG2_front1");
 
             //Animazione Player 1: Camminata verso l'alto
             PG1_walk_up = createAnimation("Character1/PG1_up.png", 1, 5);
+            PG1_standby_up = new Animation<TextureRegion>(0f, frames[0]);
+            PG2_standby_down = new Animation<TextureRegion>(0f, frames[0]);
 
             //Animazione Player 1: Camminata verso il basso
             PG1_walk_down = createAnimation("Character1/PG1_down.png", 1, 5);
+            PG1_standby_down = new Animation<TextureRegion>(0f, frames[0]);
 
             //Animazione Player 1: Camminata verso sinistra
             PG1_walk_left = createAnimation("Character1/PG1_left.png", 1, 3);
+            PG1_standby_left = new Animation<TextureRegion>(0f, frames[0]);
 
             //Animazione Player 1: Camminata verso destra
             PG1_walk_right = createAnimation("Character1/PG1_right.png", 1, 3);
+            PG1_standby_right = new Animation<TextureRegion>(0f, frames[0]);
+
         }
         private Animation createAnimation(String image_path, int n_rows, int n_cols) {
             Texture image = new Texture(Gdx.files.internal(image_path));
             TextureRegion[][] tmp = TextureRegion.split(image,
                     image.getWidth() / n_cols,
                     image.getHeight() / n_rows);
-            TextureRegion[] frames  = new TextureRegion[n_rows * n_cols];
+            frames  = new TextureRegion[n_rows * n_cols];
             int index = 0;
             index = 0;
             for(int i = 0; i < n_rows; i++) {
@@ -153,9 +162,7 @@ public class Assets implements Disposable, AssetErrorListener {
                     frames[index++] = tmp[i][j];
                 }
             }
-            image.dispose();
-
-            return new Animation<TextureRegion>(1.0f / 10.0f, frames);
+            return new Animation<TextureRegion>(1.0f / (n_rows * n_cols), frames);
         }
 
     }

@@ -163,13 +163,17 @@ public class Arena {
         //Impostazioni del Player 1
         player1 = new Player();
         player1.setNamePlayer("Friederich N.");
-        player1.Asset = Assets.instance.player.PG1_standby;
         player1.setAnimations(
                 Assets.instance.player.PG1_walk_up,         //Camminata su
                 Assets.instance.player.PG1_walk_down,       //Camminata giù
                 Assets.instance.player.PG1_walk_left,       //Camminata a sinistra
-                Assets.instance.player.PG1_walk_right       //Camminata a destra
+                Assets.instance.player.PG1_walk_right,      //Camminata a destra
+                Assets.instance.player.PG1_standby_up,      //Attesa mentre si cammina in alto
+                Assets.instance.player.PG1_standby_down,    //Attesa mentre si cammina in basso
+                Assets.instance.player.PG1_standby_left,    //Attesa mentre si cammina a sinistra
+                Assets.instance.player.PG1_standby_right    //Attesa mentre si cammina a destra
         );
+        player1.setAnimation(player1.getStandby_down());
         player1.position.set(1.5f, 1.5f);
         //Fissa il punto di Spawn del Player
         player1.setSpawnPointPlayer(player1.position);
@@ -179,7 +183,7 @@ public class Arena {
         //Impostazioni del Player 2
         player2 = new Player();
         player2.setNamePlayer("Fëdor D.");
-        player2.Asset = Assets.instance.player.PG2_standby;
+        player2.animation = Assets.instance.player.PG2_standby_down;
         player2.position.set(10f, 17f);
         //Fissa il punto di Spawn del Player
         player2.setSpawnPointPlayer(player2.position);
@@ -226,7 +230,7 @@ public class Arena {
         }
         //Disegna i giocatori
         player1.render(batch);
-        player2.render(batch);
+//        player2.render(batch);
 
         //Disegna tutti i proiettili
         for (Bullet bullet : player1.shooting.getLoader()) {

@@ -24,6 +24,24 @@ public class Player extends AbstractGameObject {
     //Utile nelle exeptions per mostrare il nome dell'oggetto
     public static final String TAG = Player.class.getName();
 
+    public enum state
+    {
+        standby,
+        walking,
+        dying
+    }
+
+    public enum dir
+    {
+        left,
+        right,
+        up,
+        down
+    }
+
+    dir direction = dir.up;
+    state st = state.standby;
+
     /**
      * Animations
      */
@@ -31,6 +49,11 @@ public class Player extends AbstractGameObject {
     private Animation walk_down;
     private Animation walk_left;
     private Animation walk_right;
+
+    private Animation standby_up;
+    private Animation standby_down;
+    private Animation standby_left;
+    private Animation standby_right;
 
     /**
      * Flags
@@ -100,6 +123,8 @@ public class Player extends AbstractGameObject {
         setMeleeValue(2);
         shooting = new Shooting(true, manaMax);
         //meleeArea = new MeleeArea(this.position,getMeleeValue());
+
+        stateTime = 0;
     }
 
     /**
@@ -122,11 +147,16 @@ public class Player extends AbstractGameObject {
     /**
      * Setters delle animazioni
      */
-    public void setAnimations(Animation walk_up, Animation walk_down, Animation walk_left, Animation walk_right){
+    public void setAnimations(Animation walk_up, Animation walk_down, Animation walk_left, Animation walk_right,
+                              Animation standby_up, Animation standby_down, Animation standby_left, Animation standby_right){
         this.walk_up = walk_up;
         this.walk_down = walk_down;
         this.walk_left = walk_left;
         this.walk_right = walk_right;
+        this.standby_up = standby_up;
+        this.standby_down = standby_down;
+        this.standby_left = standby_left;
+        this.standby_right = standby_right;
     }
 
     /**
@@ -145,6 +175,18 @@ public class Player extends AbstractGameObject {
         return walk_right;
     }
 
+    public Animation getStandby_up() {
+        return standby_up;
+    }
+    public Animation getStandby_down() {
+        return standby_down;
+    }
+    public Animation getStandby_left() {
+        return standby_left;
+    }
+    public Animation getStandby_right() {
+        return standby_right;
+    }
 
     /**
      * Set nome player
@@ -212,23 +254,30 @@ public class Player extends AbstractGameObject {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        //Aumenta la variabile delle animazioni
+        stateTime += deltaTime;
         //Aggiorna il Mana
         shooting.updateMana(deltaTime);
         // Gdx.app.debug(TAG, this.position.toString());
+
+        movement.check(this);
     }
 
-    @Override
+        @Override
     protected void updateMotionX(float deltaTime) {
         if (velocity.x != 0) {
             // Apply friction
             if (velocity.x > 0) {
-                velocity.x =
-                        Math.max(velocity.x - friction.x * deltaTime, 0);
+                velocity.x = Math.max(velocity.x - friction.x * deltaTime, 0);
+                direction = dir.right;
             } else {
-                velocity.x =
-                        Math.min(velocity.x + friction.x * deltaTime, 0);
+                velocity.x = Math.min(velocity.x + friction.x * deltaTime, 0);
+                direction = dir.left;
             }
+            st = state.walking;
         }
+        else
+            st = state.standby;
         // Apply acceleration
         velocity.x += acceleration.x * deltaTime;
         // Make sure the object's velocity does not exceed the
@@ -243,10 +292,15 @@ public class Player extends AbstractGameObject {
             // Apply friction
             if (velocity.y > 0) {
                 velocity.y = Math.max(velocity.y - friction.y * deltaTime, 0);
+                direction = dir.up;
             } else {
                 velocity.y = Math.min(velocity.y + friction.y * deltaTime, 0);
+                direction = dir.down;
             }
+            st = state.walking;
         }
+        else
+            st = state.standby;
         // Apply acceleration
         velocity.y += acceleration.y * deltaTime;
         // Make sure the object's velocity does not exceed the
@@ -290,18 +344,32 @@ public class Player extends AbstractGameObject {
      * Renderizzazione del giocatore
      */
     public void render(SpriteBatch batch) {
-          if(velocity.y < 0)
-              setAnimation(walk_down);
-          else if(velocity.y > 0)
-              setAnimation(walk_up);
-//        else if(velocity.x < 0)
-//            setAnimation(walk_left);
-//        else if(velocity.x > 0)
-//            setAnimation(walk_right);
+        switch (st) {
+                case standby: if(direction == dir.up){
+                    setAnimation(standby_up);
+                }
+                else if(direction == dir.down){
+                    setAnimation(standby_down);
+                }else if(direction == dir.left){
+                    setAnimation(standby_left);
+                }else if(direction == dir.right){
+                    setAnimation(standby_right);
+                }
+                    break;
+                case walking: if(direction == dir.up){
+                    setAnimation(walk_up);
+                }
+                else if(direction == dir.down){
+                    setAnimation(walk_down);
+                }else if(direction == dir.left){
+                    setAnimation(walk_left);
+                }else if(direction == dir.right){
+                    setAnimation(walk_right);
+                }
+                break;
+            }
 
-        if(animation != null) Asset = (TextureRegion)animation.getKeyFrame(stateTime, true);
-
-
+        Asset = (TextureRegion)animation.getKeyFrame(stateTime, true);
         //if (movementEnable)Gdx.app.debug(TAG, namePlayer + " position: " + "(" + position.x + "," + position.y + ")");
         batch.draw(
                 Asset.getTexture(),                 //Asset attuale dell'oggetto
