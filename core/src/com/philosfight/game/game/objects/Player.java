@@ -255,6 +255,10 @@ public class Player extends AbstractGameObject {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        if(velocity.x != 0 || velocity.y != 0)
+            st = state.walking;
+        else
+            st = state.standby;
         //Aumenta la variabile delle animazioni
         stateTime += deltaTime;
         //Aggiorna il Mana
@@ -275,10 +279,8 @@ public class Player extends AbstractGameObject {
                 velocity.x = Math.min(velocity.x + friction.x * deltaTime, 0);
                 direction = dir.left;
             }
-            st = state.walking;
         }
-        else
-            st = state.standby;
+
         // Apply acceleration
         velocity.x += acceleration.x * deltaTime;
         // Make sure the object's velocity does not exceed the
@@ -298,10 +300,7 @@ public class Player extends AbstractGameObject {
                 velocity.y = Math.min(velocity.y + friction.y * deltaTime, 0);
                 direction = dir.down;
             }
-            st = state.walking;
         }
-        else
-            st = state.standby;
         // Apply acceleration
         velocity.y += acceleration.y * deltaTime;
         // Make sure the object's velocity does not exceed the
@@ -314,7 +313,7 @@ public class Player extends AbstractGameObject {
      * @param target Obiettivo
      */
     public void shootAt(AbstractGameObject target){
-        shooting.shoot(this.position, this.dimension, target);
+        shooting.shoot(this, target);
     }
 
     /**

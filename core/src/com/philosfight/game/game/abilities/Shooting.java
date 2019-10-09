@@ -47,11 +47,10 @@ public class Shooting {
 	
 	/**
 	 * Sistema di shooting da parte del player verso un obiettivo
-	 * @param position Da cui far partire il proiettile
-	 * @param dimension Dimensione dell'entità che spara
+	 * @param shooter Colui che spara
 	 * @param target Obiettivo a cui mira
 	 */
-	public void shoot(Vector2 position, Vector2 dimension, AbstractGameObject target) {
+	public void shoot(AbstractGameObject shooter, AbstractGameObject target) {
 		//Se ha raggiunto la massima capacità di proiettili in gioco o è inabilitato a sparare termina la funzione
 		if (loader.size() == MAX_BULLETS || !isShootEnable()) return;
 
@@ -68,12 +67,12 @@ public class Shooting {
 		Vector2 startPoint;
 
 		angle = MathUtils.atan2(
-				(target.position.y + target.dimension.y / 2) - (position.y + dimension.y / 2),
-				(target.position.x + target.dimension.x / 2) - (position.x + dimension.x / 2)
+				(target.position.y + target.dimension.y / 2) - (shooter.position.y + shooter.dimension.y / 2),
+				(target.position.x + target.dimension.x / 2) - (shooter.position.x + shooter.dimension.x / 2)
 		);
 
-		startPoint = new Vector2((position.x + dimension.x / 2) + ((dimension.x / 2) * MathUtils.cos(angle)),
-				(position.y + dimension.y / 2) + ((dimension.x / 2) * MathUtils.sin(angle)));
+		startPoint = new Vector2((shooter.position.x + shooter.dimension.x / 2) + ((shooter.dimension.x / 2) * MathUtils.cos(angle)),
+				(shooter.position.y + shooter.dimension.y / 2) + ((shooter.dimension.x / 2) * MathUtils.sin(angle)));
 
 		//Diminuzione del mana
 		setMana(getMana() - 1);
