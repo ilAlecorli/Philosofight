@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import com.philosfight.game.utils.Constants;
-import com.philosfight.game.utils.GameGUI;
+import com.philosfight.game.ScreenClasses.GameGUI;
 
 public class WorldRenderer implements Disposable {
     private static String TAG = WorldRenderer.class.getName();

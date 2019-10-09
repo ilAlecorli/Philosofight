@@ -6,22 +6,31 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
+import com.philosfight.game.ScreenClasses.MenuScreen;
 import com.philosfight.game.game.Effects.Bullet;
 import com.philosfight.game.utils.CameraHelper;
 import com.philosfight.game.utils.Constants;
+import com.badlogic.gdx.Game;
+
 
 /**
  * Classe che si occupa di gestire l'aggiornamento del mondo di gioco.
  */
 public class WorldController extends InputAdapter {
 	private static final String TAG = WorldController.class.getName();
+
 	public CameraHelper cameraHelper;
 	public Arena arena;
 	//Posizione centrale dell'arena:
 	public Vector2 centerArena;
 	//Zoom predefinito
 	private float zoomDefault = 0.023829965f;
-	public WorldController() {
+	//Gioco
+	private Game game;
+
+
+	public WorldController(Game game) {
+		this.game = game;
 		init();
 	}
 
@@ -40,6 +49,14 @@ public class WorldController extends InputAdapter {
 		//Distanza iniziale telecamera
 		cameraHelper.setZoom(zoomDefault);
 
+	}
+
+	/**
+	 * Metodo per lo switch al menu di gioco
+	 */
+	private void backToMenu () {
+		// switch to menu screen
+		game.setScreen(new MenuScreen(game));
 	}
 
 	private void initArena(){
@@ -171,7 +188,9 @@ public class WorldController extends InputAdapter {
 				cameraHelper.setTarget(null);
 				cameraHelper.setPosition(centerArena);
 			}
-
+		// Back to Menu
+		if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK)
+			backToMenu();
 		}
 		return false;
 	}

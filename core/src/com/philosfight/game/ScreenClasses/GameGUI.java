@@ -1,4 +1,4 @@
-package com.philosfight.game.utils;
+package com.philosfight.game.ScreenClasses;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -99,7 +99,8 @@ public class GameGUI {
 			batch.setColor(1, 0, 0, 1);
 		}
 		//In alto a sinistra
-		batch.draw(Assets.instance.blank.blank, 0,4 + 25,widthBar * healthP1,1 * heightBar );
+		batch.draw(Assets.instance.blank.blank, 0,4 + 25,
+				widthBar * healthP1,1 * heightBar );
 		batch.setColor(Color.WHITE);
 		//Disegna la vita del player 2
 		if (healthP2 >= intialHealthP2 * 2/3) {
