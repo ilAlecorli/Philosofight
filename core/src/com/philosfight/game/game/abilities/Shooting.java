@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.philosfight.game.game.Effects.Bullet;
 import com.philosfight.game.game.objects.AbstractGameObject;
+import com.philosfight.game.game.objects.Player;
+
 import java.util.ArrayList;
 
 import static com.philosfight.game.game.objects.Player.COOLDOWNTIME;

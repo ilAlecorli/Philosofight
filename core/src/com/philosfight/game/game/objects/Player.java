@@ -28,7 +28,8 @@ public class Player extends AbstractGameObject {
     {
         standby,
         walking,
-        dying
+        dying,
+        shooting
     }
 
     public enum dir

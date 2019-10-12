@@ -346,76 +346,38 @@ public class Arena {
 
             //Muri centrali
         } else {
-            float vel_expulsion = 0.015f;
-            Vector2 distance = new Vector2(
-                    (player.position.x + player.dimension.x / 2) - (wall.position.x + wall.dimension.x / 2),
-                    (player.position.y + player.dimension.y / 2) - (wall.position.y + wall.dimension.y / 2)
-            );
-            Vector2 final_distance = new Vector2(
-                    player.dimension.x / 2 + wall.dimension.x / 2,
-                    player.dimension.y / 2 + wall.dimension.y / 2
-            );
 
             //Player a Sud del muro
-            if (    player.position.y + player.dimension.y > wall.position.y &&
-                    player.position.y + player.dimension.y < wall.position.y + wall.dimension.y / 2) {
+            if (    player.bounds.y + player.bounds.height > wall.bounds.y &&
+                    player.bounds.y + player.bounds.height < wall.bounds.y + wall.bounds.height / 2) {
                 player.velocity.y = 0;
                 player.movement.setMovementEnableNord(false);
-                player.position.y -= vel_expulsion;
+                player.position.y = wall.bounds.y - player.bounds.height;
             }
 
             //Player a Nord del muro
-            if (    player.position.y < wall.position.y + wall.dimension.y &&
-                    player.position.y > wall.position.y + wall.dimension.y / 2) {
+            if (    player.bounds.y < wall.bounds.y + wall.bounds.height &&
+                    player.bounds.y > wall.bounds.y + wall.bounds.height / 2) {
                 player.velocity.y = 0;
                 player.movement.setMovementEnableSud(false);
-                player.position.y += vel_expulsion;
+                player.position.y = wall.bounds.y + wall.bounds.height;
             }
 
             //Player a Ovest del muro
-            if (player.position.x + player.dimension.x > wall.position.x &&
-                    player.position.x + player.dimension.x < wall.position.x + wall.dimension.x / 2) {
+            if (player.bounds.x + player.bounds.width > wall.bounds.x &&
+                    player.bounds.x + player.bounds.width < wall.bounds.x + wall.bounds.width / 2) {
                 player.velocity.x = 0;
                 player.movement.setMovementEnableEast(false);
-                player.position.x -= vel_expulsion;
+                player.position.x = wall.bounds.x - player.bounds.width;
             }
 
             //Player a Est del muro
-            if (player.position.x < wall.position.x + wall.dimension.x &&
-                    player.position.x > wall.position.x + wall.dimension.x / 2) {
+            if (player.bounds.x < wall.bounds.x + wall.bounds.width &&
+                    player.bounds.x > wall.bounds.x + wall.bounds.width / 2) {
                 player.velocity.x = 0;
                 player.movement.setMovementEnableOvest(false);
-                player.position.x += vel_expulsion;
+                player.position.x = wall.bounds.x + wall.bounds.width;
             }
-
-
-//            /* Angolo fra le posizioni del giocatore e del muro*/
-//            float angle = MathUtils.atan2(distance.y, distance.x);
-//
-//            //Player a Est del muro
-//            if (angle > (-Math.PI * (0.25)) && angle < (Math.PI * (0.25))) {
-//                player.movement.setMovementEnableEast(false);
-//                player.velocity.x = 0;
-////                player.position.x = wall.position.x + wall.dimension.x;
-//            }
-//            //Player a Nord del muro
-//            else if (angle > (Math.PI * (0.25)) && angle < (Math.PI * (0.75))) {
-//                player.movement.setMovementEnableSud(false);
-//                player.velocity.y = 0;
-////                player.position.y = wall.position.y + wall.dimension.y;
-//            }
-//            //Player a Sud del muro
-//            else if (angle < (-Math.PI * (0.25)) && angle > (-Math.PI * (0.75))) {
-//                player.movement.setMovementEnableNord(false);
-//                player.velocity.y = 0;
-////                player.position.y = (wall.position.y + (wall.dimension.y / 2)) - player.dimension.y;
-//            }
-//            //Player a Ovest del muro
-//            else if (Math.abs(angle) > (Math.PI * (0.75)) && Math.abs(angle) < (Math.PI)) {
-//                player.movement.setMovementEnableOvest(false);
-//                player.velocity.x = 0;
-////                player.position.x = wall.position.x - player.dimension.x;
-//            }
         }
     }
 
