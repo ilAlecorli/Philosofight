@@ -1,0 +1,40 @@
+MenuScreen.png
+size: 664, 477
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+CheckMark
+  rotate: false
+  xy: 74, 0
+  size: 78, 55
+  orig: 78, 55
+  offset: 0, 0
+  index: -1
+CircleButtonIcon
+  rotate: false
+  xy: 152, 0
+  size: 141, 140
+  orig: 141, 140
+  offset: 0, 0
+  index: -1
+CrossMark
+  rotate: false
+  xy: 0, 0
+  size: 74, 74
+  orig: 74, 74
+  offset: 0, 0
+  index: -1
+NightSky Background
+  rotate: false
+  xy: 0, 140
+  size: 600, 337
+  orig: 600, 337
+  offset: 0, 0
+  index: -1
+RectangeButtonIcon
+  rotate: false
+  xy: 293, 0
+  size: 371, 136
+  orig: 371, 136
+  offset: 0, 0
+  index: -1

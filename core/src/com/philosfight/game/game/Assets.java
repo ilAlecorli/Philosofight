@@ -247,6 +247,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
 	}
 
+
     /**
      * Dispose di tutti gli assets.
      */
