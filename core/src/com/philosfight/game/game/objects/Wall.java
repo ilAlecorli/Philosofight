@@ -7,6 +7,10 @@ import com.philosfight.game.game.Assets;
 
 public class Wall extends AbstractGameObject {
 
+    private TextureRegion regEdge;
+    private TextureRegion regMiddle;
+
+    private int lenght;
     public Wall() {
         init();
     }

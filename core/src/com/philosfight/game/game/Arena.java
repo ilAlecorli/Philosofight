@@ -160,6 +160,7 @@ public class Arena {
             }
         }
 
+
         //Impostazioni del Player 1
         player1 = new Player();
         player1.setNamePlayer("Friederich N.");

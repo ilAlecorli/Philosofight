@@ -15,7 +15,7 @@ public class PhilosofightMain extends Game {
 		// Load game assets
 		Assets.instance.init(new AssetManager());
 		// Load menù assets
-		MenuAsset.instance.init(new AssetManager());
+//		MenuAsset.instance.init(new AssetManager());
 		// Start game at menu screen
 		setScreen(new MenuScreen(this));
 	}
