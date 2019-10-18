@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Disposable;
 import com.philosfight.game.utils.Constants;
 
+import java.awt.Rectangle;
+
 public class MenuAsset implements Disposable, AssetErrorListener {
 	public static final String TAG = com.philosfight.game.gameStuff.Assets.class.getName();
 	public static final MenuAsset instance = new MenuAsset();

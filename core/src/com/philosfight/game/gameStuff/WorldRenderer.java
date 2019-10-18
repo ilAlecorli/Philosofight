@@ -68,6 +68,7 @@ public class WorldRenderer implements Disposable {
     public void resize(int width, int height){
         camera.viewportWidth = width;
         camera.viewportHeight = height;
+        gameGUI.resize();
     }
 
     /**

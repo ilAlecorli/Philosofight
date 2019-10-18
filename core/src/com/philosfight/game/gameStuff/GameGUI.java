@@ -171,6 +171,8 @@ public class GameGUI {
 	}
 
 
+	public void resize(){
 
+	}
 
 }

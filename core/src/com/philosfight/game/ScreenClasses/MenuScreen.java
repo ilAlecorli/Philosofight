@@ -9,6 +9,7 @@ import com.philosfight.game.Menu.MenuRenderer;
 public class MenuScreen extends AbstractGameScreen {
 	private static final String TAG = MenuScreen.class.getName();
 
+
 	private MenuRenderer menuRenderer;
 	private boolean paused;
 
