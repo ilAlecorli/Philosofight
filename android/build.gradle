@@ -17,7 +17,7 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "com.philosfight.game"
+        applicationId "com.philosfight.gameStuff"
         minSdkVersion 9
         targetSdkVersion 28
         versionCode 1
@@ -86,7 +86,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.philosfight.game/com.philosfight.game.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.philosfight.gameStuff/com.philosfight.gameStuff.AndroidLauncher'
 }
 
 // sets up the Android Eclipse project, using the old Ant based build.

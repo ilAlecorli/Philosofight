@@ -3,7 +3,7 @@ package com.philosfight.game.utils;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.philosfight.game.game.objects.AbstractGameObject;
+import com.philosfight.game.gameStuff.objects.AbstractGameObject;
 
 public class CameraHelper {
     private static final String TAG = CameraHelper.class.getName();
