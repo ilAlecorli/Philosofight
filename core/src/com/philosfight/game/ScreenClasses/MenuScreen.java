@@ -3,6 +3,7 @@ package com.philosfight.game.ScreenClasses;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.philosfight.game.Menu.MenuAsset;
 import com.philosfight.game.Menu.MenuRenderer;
 
 
@@ -35,7 +36,7 @@ public class MenuScreen extends AbstractGameScreen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		//Renderizza il menu di gioco
 		menuRenderer.render();
-		if(Gdx.input.isTouched())
+		if(	Gdx.input.isTouched())
 			game.setScreen(new GameScreen(game));
 	}
 

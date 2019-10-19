@@ -1,7 +1,9 @@
 package com.philosfight.game.Menu;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.philosfight.game.utils.Constants;
@@ -14,6 +16,9 @@ public class MenuRenderer implements Disposable {
 	//Batch per renderizzare
 	private SpriteBatch batch;
 
+	//Position
+	public Vector2 enterButtonPosition;
+	public Vector2 enterButtonSize;
 
 	/**
 	 * Inizializzazione del Renderizzatore di Menù
@@ -27,19 +32,23 @@ public class MenuRenderer implements Disposable {
 	 */
 	private void init(){
 		batch = new SpriteBatch();
-		camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+		camera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 		camera.position.set(0, 0, 0);
-		camera.update();
+		camera.translate(camera.viewportWidth/2,camera.viewportHeight/2);
+		enterButtonPosition= new Vector2(camera.viewportWidth/2.7f,camera.viewportHeight/4);
+		enterButtonSize = new Vector2(MenuAsset.instance.rectangleButton.rectangleButton.originalWidth,
+				MenuAsset.instance.rectangleButton.rectangleButton.originalHeight);
 	}
 
 	/**
 	 * Metodo per decretare l'ordine di renderizzazione degli oggetti
 	 */
 	public void render(){
-
+		camera.update();
 		batch.begin();
-		batch.draw(MenuAsset.instance.menuBackground.menuBackground, Constants.VIEWPORT_WIDTH,Constants.VIEWPORT_HEIGHT);
-		batch.draw(MenuAsset.instance.rectangleButton.rectangleButton, 0, 0);
+		batch.setProjectionMatrix(camera.combined);
+		batch.draw(MenuAsset.instance.menuBackground.menuBackground,0,0,camera.viewportWidth,camera.viewportHeight);
+		batch.draw(MenuAsset.instance.rectangleButton.rectangleButton, enterButtonPosition.x ,enterButtonPosition.y , enterButtonSize.x,enterButtonSize.y);
 		batch.end();
 	}
 
