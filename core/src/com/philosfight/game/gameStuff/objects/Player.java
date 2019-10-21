@@ -247,12 +247,16 @@ public class Player extends AbstractGameObject {
                 this.getNamePlayer() + ": " + getSpawnPointPlayer());
     }
 
+    public void setSt(state st) {
+        this.st = st;
+    }
+
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
         if(velocity.x != 0 || velocity.y != 0)
             st = state.walking;
-        else
+        else if( st != state.shooting)
             st = state.standby;
         //Aumenta la variabile delle animazioni
         stateTime += deltaTime;
@@ -307,7 +311,7 @@ public class Player extends AbstractGameObject {
      * Metodo per sparare ad un preciso target
      * @param target Obiettivo
      */
-    public void shootAt(AbstractGameObject target){
+    public void shootAt(Player target){
         shooting.shoot(this, target);
     }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.philosfight.game.gameStuff.Effects.Bullet;
 import com.philosfight.game.gameStuff.objects.AbstractGameObject;
+import com.philosfight.game.gameStuff.objects.Player;
 
 import java.util.ArrayList;
 
@@ -51,7 +52,7 @@ public class Shooting {
 	 * @param shooter Colui che spara
 	 * @param target Obiettivo a cui mira
 	 */
-	public void shoot(AbstractGameObject shooter, AbstractGameObject target) {
+	public void shoot(Player shooter, Player target) {
 		//Se ha raggiunto la massima capacità di proiettili in gioco o è inabilitato a sparare termina la funzione
 		if (loader.size() == MAX_BULLETS || !isShootEnable()) return;
 
@@ -67,10 +68,23 @@ public class Shooting {
 		//Posizione di partenza del proiettile
 		Vector2 startPoint;
 
+		//Angolo fra le due entità
 		angle = MathUtils.atan2(
 				(target.position.y + target.dimension.y / 2) - (shooter.position.y + shooter.dimension.y / 2),
 				(target.position.x + target.dimension.x / 2) - (shooter.position.x + shooter.dimension.x / 2)
 		);
+
+		shooter.setSt(Player.state.shooting);
+
+		if(angle >= -(Math.PI  * 1/4) && angle < (Math.PI  * 1/4))
+			shooter.setAnimation(shooter.getStandby_right());
+		else if(angle >= (Math.PI * 1/4) && angle < (Math.PI * 3/4))
+			shooter.setAnimation(shooter.getStandby_up());
+		else if(angle >= -(Math.PI * 3/4) && angle < -(Math.PI * 1/4))
+			shooter.setAnimation(shooter.getStandby_down());
+		else
+			shooter.setAnimation(shooter.getStandby_left());
+
 
 		startPoint = new Vector2((shooter.position.x + shooter.dimension.x / 2) + ((shooter.dimension.x / 2) * MathUtils.cos(angle)),
 				(shooter.position.y + shooter.dimension.y / 2) + ((shooter.dimension.x / 2) * MathUtils.sin(angle)));

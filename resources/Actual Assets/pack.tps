@@ -196,7 +196,6 @@
                 <false/>
             </struct>
             <key type="filename">Assets wall/tile.png</key>
-            <key type="filename">Assets wall/wall_center.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -222,9 +221,9 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Assets wall/wall_corner.png</key>
+            <key type="filename">Assets wall/wall_center1.png</key>
+            <key type="filename">Assets wall/wall_center2.png</key>
             <key type="filename">Assets wall/wall_front.png</key>
-            <key type="filename">Assets wall/wall_lateral.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -284,12 +283,11 @@
             <filename>bullet.png</filename>
             <filename>Assets wall/tile.png</filename>
             <filename>Assets wall/wall_back.png</filename>
-            <filename>Assets wall/wall_center.png</filename>
-            <filename>Assets wall/wall_corner.png</filename>
             <filename>Assets wall/wall_front.png</filename>
-            <filename>Assets wall/wall_lateral.png</filename>
             <filename>Assets wall/wall_side.png</filename>
             <filename>blank.png</filename>
+            <filename>Assets wall/wall_center1.png</filename>
+            <filename>Assets wall/wall_center2.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

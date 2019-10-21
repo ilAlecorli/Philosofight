@@ -40,9 +40,11 @@ public class Arena {
      * Classe che crea le costanti legate agli oggetti di gioco tramite i colori
      */
     public enum BLOCK_TYPE {
-        TILE(160, 160, 160),    //grey
-        WALL(255, 216, 0),      //yellow
-        EMPTY(0, 0, 0);           //black
+        TILE(160, 160, 160),            //Grey
+        WALL(255, 216, 0),              //Yellow
+        CENTER_WALL_1(76, 255, 0),      //Green
+        CENTER_WALL_2(255, 0, 21),      //Red
+        EMPTY(0, 0, 0);                 //Black
         private int color;
 
         private BLOCK_TYPE(int r, int g, int b) {
@@ -145,11 +147,30 @@ public class Arena {
                     else if (pixelY == 0) {
                         obj.Asset = Assets.instance.wall.back;
                     }
-                    //Muri centrali
-                    else {
-                        obj.Asset = Assets.instance.wall.front;
-                        obj.bounds.set(obj.position.x, obj.position.y + (obj.dimension.y / 2), obj.dimension.x, obj.dimension.y / 2);
-                    }
+                    this.walls.add((Wall) obj);
+                }
+
+                else if(BLOCK_TYPE.CENTER_WALL_1.sameColor(currentPixel)){
+                    obj = new Wall();
+
+                    //Impostazoioni muri
+                    obj.position.set((float) pixelX, (float) pixelY);
+                    obj.bounds.set(obj.position.x, obj.position.y, obj.dimension.x, obj.dimension.y);
+
+                    obj.Asset = Assets.instance.wall.center_front;
+
+                    this.walls.add((Wall) obj);
+
+                }
+                else if(BLOCK_TYPE.CENTER_WALL_2.sameColor(currentPixel)){
+                    obj = new Wall();
+
+                    //Impostazoioni muri
+                    obj.position.set((float) pixelX, (float) pixelY);
+                    obj.bounds.set(obj.position.x, obj.position.y, obj.dimension.x, obj.dimension.y);
+
+                    obj.Asset = Assets.instance.wall.center_back;
+
                     this.walls.add((Wall) obj);
                 }
             }
@@ -342,13 +363,14 @@ public class Arena {
 
             //Muri centrali
         } else {
-
+            float pushing = 0.05f;
             //Player a Sud del muro
             if (    player.bounds.y + player.bounds.height > wall.bounds.y &&
                     player.bounds.y + player.bounds.height < wall.bounds.y + wall.bounds.height / 2) {
                 player.velocity.y = 0;
                 player.movement.setMovementEnableNord(false);
-                player.position.y = wall.bounds.y - player.bounds.height;
+//                player.position.y = wall.bounds.y - player.bounds.height;
+                player.position.y = player.position.y - pushing;
             }
 
             //Player a Nord del muro
@@ -356,7 +378,9 @@ public class Arena {
                     player.bounds.y > wall.bounds.y + wall.bounds.height / 2) {
                 player.velocity.y = 0;
                 player.movement.setMovementEnableSud(false);
-                player.position.y = wall.bounds.y + wall.bounds.height;
+//                player.position.y = wall.bounds.y + wall.bounds.height;
+                player.position.y = player.position.y + pushing;
+
             }
 
             //Player a Ovest del muro
@@ -364,7 +388,9 @@ public class Arena {
                     player.bounds.x + player.bounds.width < wall.bounds.x + wall.bounds.width / 2) {
                 player.velocity.x = 0;
                 player.movement.setMovementEnableEast(false);
-                player.position.x = wall.bounds.x - player.bounds.width;
+//                player.position.x = wall.bounds.x - player.bounds.width;
+                player.position.x = player.position.x - pushing;
+
             }
 
             //Player a Est del muro
@@ -372,7 +398,9 @@ public class Arena {
                     player.bounds.x > wall.bounds.x + wall.bounds.width / 2) {
                 player.velocity.x = 0;
                 player.movement.setMovementEnableOvest(false);
-                player.position.x = wall.bounds.x + wall.bounds.width;
+//                player.position.x = wall.bounds.x + wall.bounds.width;
+                player.position.x = player.position.x + pushing;
+
             }
         }
     }

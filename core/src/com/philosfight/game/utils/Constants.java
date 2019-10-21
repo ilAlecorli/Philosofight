@@ -12,5 +12,5 @@ public class Constants {
     //Posizione del file atlas che contiene le informazioni sulle texture dell'Menù di gioco
     public static final String TEXTURE_ATLAS_MENU = "MenuScreen/MenuScreen.atlas";
     //Posizione del file immagine dell'arena
-    public static final String ARENA_00 = "Arenas/arena00.png";
+    public static final String ARENA_00 = "Arena/arena00.png";
 }
