@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import com.philosfight.game.utils.Constants;
 
 public class MenuRenderer implements Disposable {
 	private static String TAG = MenuRenderer.class.getName();
@@ -49,6 +47,7 @@ public class MenuRenderer implements Disposable {
 		batch.setProjectionMatrix(camera.combined);
 		batch.draw(MenuAsset.instance.menuBackground.menuBackground,0,0,camera.viewportWidth,camera.viewportHeight);
 		batch.draw(MenuAsset.instance.rectangleButton.rectangleButton, enterButtonPosition.x ,enterButtonPosition.y , enterButtonSize.x,enterButtonSize.y);
+
 		batch.end();
 	}
 

@@ -24,7 +24,7 @@ public class WorldController extends InputAdapter {
 	//Posizione centrale dell'arena:
 	public Vector2 centerArena;
 	//Zoom predefinito
-	private float zoomDefault = 0.023829965f;
+	private float zoomDefault = 0.026337234f;
 	//Gioco
 	private Game game;
 
@@ -57,6 +57,12 @@ public class WorldController extends InputAdapter {
 	private void backToMenu () {
 		// switch to menu screen
 		game.setScreen(new MenuScreen(game));
+	}
+
+	private void exitGame(){
+		//Shut off everything and exit the game
+		System.exit(0);
+
 	}
 
 	private void initArena(){
@@ -114,8 +120,8 @@ public class WorldController extends InputAdapter {
 			arena.player2.shootAt(arena.player1);
 		}
 
-		/*
-		Controlli di movimento della telecamera:
+	/*
+		//Controlli di movimento della telecamera:
 		float camMoveSpeed = 5 * deltaTime;
 		float camMoveSpeedAccelerationFactor = 5;
 		if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))
@@ -149,7 +155,7 @@ public class WorldController extends InputAdapter {
 		if (Gdx.input.isKeyPressed(Input.Keys.COMMA))
 			cameraHelper.setZoom(zoomDefault);
 
-		*/
+	*/
 	}
 
 	private void moveCamera(float x, float y) {
@@ -166,7 +172,7 @@ public class WorldController extends InputAdapter {
 	public boolean keyUp(int keycode) {
 
 		// Toggle camera follow
-		if (keycode == Input.Keys.ENTER) {
+		/*if (keycode == Input.Keys.ENTER) {
 			//Se la camera è puntata al centro
 			if (!cameraHelper.hasTarget()) {
 				//Attiva il player1
@@ -188,14 +194,14 @@ public class WorldController extends InputAdapter {
 				cameraHelper.setTarget(null);
 				cameraHelper.setPosition(centerArena);
 			}
+		*/
 		// Back to Menu
-		if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK)
+		if (keycode == Input.Keys.BACKSPACE)
 			backToMenu();
-		}
+
+		if (keycode == Input.Keys.ESCAPE)
+			exitGame();
 		return false;
 	}
 
-
 }
-
-
