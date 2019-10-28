@@ -99,7 +99,7 @@ public class MenuRenderer implements Disposable {
 		//Grandezza X x Y:
 		nameFont.getData().setScale(11f);
 		//Scritta con coordinate settate ovest
-		nameFont.draw(batch,"Philosfight" , Gdx.graphics.getWidth()/2 -320, Gdx.graphics.getHeight()/2 + 200);
+		nameFont.draw(batch,"Philosofight" , Gdx.graphics.getWidth()/2 -350, Gdx.graphics.getHeight()/2 + 200);
 
 	}
 }
