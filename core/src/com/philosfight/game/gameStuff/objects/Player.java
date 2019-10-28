@@ -66,6 +66,7 @@ public class Player extends AbstractGameObject {
     public Shooting shooting;
     //Sparo giocatore
     private int key_Shoot;
+    private int counterDeath;
 
 
     /**
@@ -117,6 +118,7 @@ public class Player extends AbstractGameObject {
         //Player charatteristics
         setHealthPlayer(healthMax);
         setMeleeValue(2);
+        counterDeath = 0;
         shooting = new Shooting(true, manaMax);
         //meleeArea = new MeleeArea(this.position,getMeleeValue());
 
@@ -326,9 +328,24 @@ public class Player extends AbstractGameObject {
         Gdx.app.debug(TAG, getNamePlayer() + " health is " + getHealthPlayer() + ".");
     }
 
+    /**
+     * Metodi per tracciare il flag per la GUI della morte del player
+     */
+    public void incCounterDeath(){ counterDeath++; }
+
+    public void decCounterdeath(){ if (counterDeath > 0)counterDeath--; }
+
+    public int getCounterDeath(){ return counterDeath; }
+
+    /**
+     * Metodo per attivare la morte del player
+     */
     public void death(){
         //ritorna vivo
         setAlive(true);
+
+        //Avverti la gameGUI di aggiornare il kill counter
+        incCounterDeath();
 
         //Ritorna al punto iniziale di Spawn
         this.position.set(spawnPointPlayer);

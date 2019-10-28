@@ -36,6 +36,7 @@ public class GameScreen extends AbstractGameScreen {
 	@Override  public void resize (int width, int height) {
 		worldRenderer.resize(width, height);
 	}
+
 	@Override  public void show () {
 		worldController = new WorldController(game);
 		worldRenderer = new WorldRenderer(worldController);

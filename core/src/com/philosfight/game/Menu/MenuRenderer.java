@@ -1,10 +1,14 @@
 package com.philosfight.game.Menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import com.philosfight.game.gameStuff.Assets;
 
 public class MenuRenderer implements Disposable {
 	private static String TAG = MenuRenderer.class.getName();
@@ -43,11 +47,11 @@ public class MenuRenderer implements Disposable {
 	 */
 	public void render(){
 		camera.update();
-		batch.begin();
 		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
 		batch.draw(MenuAsset.instance.menuBackground.menuBackground,0,0,camera.viewportWidth,camera.viewportHeight);
-		batch.draw(MenuAsset.instance.rectangleButton.rectangleButton, enterButtonPosition.x ,enterButtonPosition.y , enterButtonSize.x,enterButtonSize.y);
-
+		renderButton();
+		renderTitle();
 		batch.end();
 	}
 
@@ -64,4 +68,41 @@ public class MenuRenderer implements Disposable {
 	 */
 	@Override
 	public void dispose(){ batch.dispose(); }
+
+	private void renderButton(){
+		batch.draw(MenuAsset.instance.rectangleButton.rectangleButton, enterButtonPosition.x ,enterButtonPosition.y , enterButtonSize.x,enterButtonSize.y);
+
+		renderButtonText();
+	}
+	private void renderButtonText() {
+
+		//Player1:
+		BitmapFont nameFont = new BitmapFont(
+				Gdx.files.internal("Images/arial-15.fnt"), false);
+		nameFont.getRegion().getTexture().setFilter(
+				Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		//Colore
+		nameFont.setColor(Color.GOLDENROD);
+		//Grandezza X x Y:
+		nameFont.getData().setScale(2.5f);
+		//Scritta con coordinate settate ovest
+		nameFont.draw(batch,"Press Enter to play" , Gdx.graphics.getWidth()/2 - 130, Gdx.graphics.getHeight()/2 - 95);
+
+	}
+	private void renderTitle() {
+
+		//Player1:
+		BitmapFont nameFont = new BitmapFont(
+				Gdx.files.internal("Images/arial-15.fnt"), false);
+		//Colore
+		nameFont.setColor(Color.WHITE);
+		//Grandezza X x Y:
+		nameFont.getData().setScale(11f);
+		//Scritta con coordinate settate ovest
+		nameFont.draw(batch,"Philosfight" , Gdx.graphics.getWidth()/2 -320, Gdx.graphics.getHeight()/2 + 200);
+
+	}
 }
+
+
+

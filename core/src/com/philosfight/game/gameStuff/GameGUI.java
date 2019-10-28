@@ -18,6 +18,8 @@ public class GameGUI {
 	//L'arena da cui estrarre i dati da renderizzare
 	private Arena arena;
 
+
+
 	/**
 	 * Costruttore
 	 * @param batch	La batch con cui disegnare la GUI
@@ -31,8 +33,8 @@ public class GameGUI {
 		Gdx.app.debug(TAG, "GameGUI is initialized" );
 	}
 
-	public void renderGui() {
 
+	public void renderGui() {
 		batch.setProjectionMatrix(cameraGUI.combined);
 		batch.begin();
 		//Disegna i nomi dei players
@@ -41,8 +43,12 @@ public class GameGUI {
 		renderHealth();
 		//Disegna il mana dei players
 		renderMana();
+		//Disegna i counter delle kills
+		renderKillCounters();
 		//Draw FPS text
 		renderGuiFpsCounter();
+		//Disegna l'infobox
+		renderInfoBackspace();
 		batch.end();
 	}
 
@@ -61,15 +67,22 @@ public class GameGUI {
 
 		//Player1:
 		BitmapFont nameFont = Assets.instance.fonts.defaultBig;
+		//Grandezza:
+		nameFont.getData().setScale(2);
+		//Colore:
+		nameFont.setColor(Color.CORAL);
 		//Scritta con coordinate settate nord-ovest
 		nameFont.draw(batch, name1, lung1 - 10, 1);
-		nameFont.setColor(Color.CORAL);
 
 		//Player2:
 		nameFont = Assets.instance.fonts.defaultBig;
+		//Grandezza:
+		nameFont.getData().setScale(2);
+		//Colore
+		nameFont.setColor(Color.CORAL);
 		//Scritta con coordinate settate sud-est
 		nameFont.draw(batch, name2, cameraGUI.viewportWidth - lung2*14, cameraGUI.viewportHeight - 52); //larghezza in pixel font * numero lettere parola
-		nameFont.setColor(Color.CORAL);
+
 	}
 
 	/**
@@ -170,9 +183,43 @@ public class GameGUI {
 		fpsFont.setColor(1, 1, 1, 1); // white
 	}
 
+	private void renderKillCounters(){
+		//Kill counters
+		Integer killCounter1 = new Integer(arena.player2.getCounterDeath());
+		Integer killCounter2 = new Integer(arena.player1.getCounterDeath());
 
-	public void resize(){
+		//Player1:
+		BitmapFont nameFont = Assets.instance.fonts.defaultBig;
+		//Colore
+		nameFont.setColor(Color.BLUE);
+		//Grandezza X x Y:
+		nameFont.getData().setScale(10);
+		//Scritta con coordinate settate ovest
+		nameFont.draw(batch, killCounter1.toString(), Gdx.graphics.getWidth()/2 - 500, Gdx.graphics.getHeight()/2 -90);
+
+		//Player2:
+		nameFont = Assets.instance.fonts.defaultBig;
+		//Colore
+		nameFont.setColor(Color.BLUE);
+		//Grandezza X x Y:
+		nameFont.getData().setScale(10);
+		//Scritta con coordinate settate est
+		nameFont.draw(batch, killCounter2.toString(), Gdx.graphics.getWidth()/2 + 430, Gdx.graphics.getHeight()/2 -90);
 
 	}
+
+	private void renderInfoBackspace() {
+
+		//Player1:
+		BitmapFont nameFont = Assets.instance.fonts.defaultBig;
+		//Colore
+		nameFont.setColor(Color.WHITE);
+		//Grandezza X x Y:
+		nameFont.getData().setScale(2);
+		//Scritta con coordinate settate ovest
+		nameFont.draw(batch,"Press backspace to Menu" , 40, Gdx.graphics.getHeight() - 60);
+
+	}
+
 
 }
