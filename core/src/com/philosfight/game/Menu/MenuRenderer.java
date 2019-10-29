@@ -95,7 +95,7 @@ public class MenuRenderer implements Disposable {
 		BitmapFont nameFont = new BitmapFont(
 				Gdx.files.internal("Images/arial-15.fnt"), false);
 		//Colore
-		nameFont.setColor(Color.WHITE);
+		nameFont.setColor(Color.CORAL);
 		//Grandezza X x Y:
 		nameFont.getData().setScale(11f);
 		//Scritta con coordinate settate ovest
