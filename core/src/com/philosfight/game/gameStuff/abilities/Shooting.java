@@ -3,11 +3,8 @@ package com.philosfight.game.gameStuff.abilities;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.philosfight.game.gameStuff.Effects.Bullet;
-import com.philosfight.game.gameStuff.objects.AbstractGameObject;
 import com.philosfight.game.gameStuff.objects.Player;
-
 import java.util.ArrayList;
-
 import static com.philosfight.game.gameStuff.objects.Player.COOLDOWNTIME;
 import static com.philosfight.game.gameStuff.objects.Player.MAX_BULLETS;
 import static com.philosfight.game.gameStuff.objects.Player.manaMax;

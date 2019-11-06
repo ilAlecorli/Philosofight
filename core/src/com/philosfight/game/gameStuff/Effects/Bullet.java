@@ -20,7 +20,7 @@ public class Bullet extends AbstractGameObject {
 	//angolo del bullet
 	private float angle;
 	//Danno del bullet;
-	private float damage = 2.5f;
+	private float damage = 2.50f;
 
 	//flag di rimozione
 	private boolean remove = false;

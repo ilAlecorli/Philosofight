@@ -48,8 +48,8 @@ wall_back
 wall_center1
   rotate: false
   xy: 75, 32
-  size: 35, 36
-  orig: 35, 36
+  size: 34, 35
+  orig: 34, 35
   offset: 0, 0
   index: -1
 wall_center2
@@ -62,14 +62,14 @@ wall_center2
 wall_front
   rotate: false
   xy: 40, 32
-  size: 35, 36
-  orig: 35, 36
+  size: 33, 34
+  orig: 33, 34
   offset: 0, 0
   index: -1
 wall_side
   rotate: false
   xy: 48, 0
-  size: 32, 32
-  orig: 32, 32
+  size: 31, 31
+  orig: 31, 31
   offset: 0, 0
   index: -1

@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
-import com.philosfight.game.gameStuff.Assets;
 
 public class MenuRenderer implements Disposable {
 	private static String TAG = MenuRenderer.class.getName();
@@ -21,6 +20,13 @@ public class MenuRenderer implements Disposable {
 	//Position
 	public Vector2 enterButtonPosition;
 	public Vector2 enterButtonSize;
+
+	//Tempo di ciclo del luccichio
+	private float blinkingTime;
+	//Flag colore luccichio
+	private boolean blinkingColorFlag;
+	//Timer di intervallo del blinking
+	private final float TIMER_BLINKING = 30;
 
 	/**
 	 * Inizializzazione del Renderizzatore di Menù
@@ -40,6 +46,10 @@ public class MenuRenderer implements Disposable {
 		enterButtonPosition= new Vector2(camera.viewportWidth/2.7f,camera.viewportHeight/4);
 		enterButtonSize = new Vector2(MenuAsset.instance.rectangleButton.rectangleButton.originalWidth,
 				MenuAsset.instance.rectangleButton.rectangleButton.originalHeight);
+
+		//Inizializzare gli attributi per il ciclo
+		blinkingTime = 0;
+		blinkingColorFlag = true;
 	}
 
 	/**
@@ -69,20 +79,44 @@ public class MenuRenderer implements Disposable {
 	@Override
 	public void dispose(){ batch.dispose(); }
 
+	/**
+	 * Renderizzazione Bottone
+	 */
 	private void renderButton(){
-		batch.draw(MenuAsset.instance.rectangleButton.rectangleButton, enterButtonPosition.x ,enterButtonPosition.y , enterButtonSize.x,enterButtonSize.y);
-
+		batch.draw(MenuAsset.instance.rectangleButton.rectangleButton, enterButtonPosition.x, enterButtonPosition.y, enterButtonSize.x, enterButtonSize.y);
 		renderButtonText();
 	}
-	private void renderButtonText() {
 
-		//Player1:
+	/**
+	 * Renderizzazione testo bottone
+	 */
+	private void renderButtonText() {
+		//Aggiorna il counter del ciclo di Blinking
+		blinkingTime += 1;
+
+		//Inizializza l'asset del Font della scritta
 		BitmapFont nameFont = new BitmapFont(
 				Gdx.files.internal("Images/arial-15.fnt"), false);
-		nameFont.getRegion().getTexture().setFilter(
-				Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-		//Colore
-		nameFont.setColor(Color.GOLDENROD);
+		//Smussalo per renderlo più bello
+		nameFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+		if (blinkingColorFlag){
+			nameFont.setColor(Color.GOLDENROD);
+		}
+
+		if (blinkingTime > TIMER_BLINKING) {
+			blinkingTime = 0;
+			if (blinkingColorFlag == false){
+				//Torna a oro
+				blinkingColorFlag = true;
+			} else {
+				//Vai a bianco
+				blinkingColorFlag = false;
+				//Colore
+				nameFont.setColor(Color.WHITE);
+			}
+		}
+
 		//Grandezza X x Y:
 		nameFont.getData().setScale(2.5f);
 		//Scritta con coordinate settate ovest

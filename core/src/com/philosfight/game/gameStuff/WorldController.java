@@ -59,11 +59,15 @@ public class WorldController extends InputAdapter {
 		game.setScreen(new MenuScreen(game));
 	}
 
+	/**
+	 * Metodo escape
+	 */
 	private void exitGame(){
 		//Shut off everything and exit the game
 		System.exit(0);
 
 	}
+
 
 	private void initArena(){
 		arena = new Arena(Constants.ARENA_00);
@@ -97,6 +101,8 @@ public class WorldController extends InputAdapter {
 
 		//Aggiornamento della telecamera
 		cameraHelper.update(deltaTime);
+
+
 	}
 
 	/**
