@@ -50,6 +50,7 @@ public class Player extends AbstractGameObject {
     private Animation standby_down;
     private Animation standby_left;
     private Animation standby_right;
+    private Animation fainted;
 
     /**
      * Flags
@@ -146,7 +147,7 @@ public class Player extends AbstractGameObject {
      * Setters delle animazioni
      */
     public void setAnimations(Animation walk_up, Animation walk_down, Animation walk_left, Animation walk_right,
-                              Animation standby_up, Animation standby_down, Animation standby_left, Animation standby_right){
+                              Animation standby_up, Animation standby_down, Animation standby_left, Animation standby_right, Animation fainted){
         this.walk_up = walk_up;
         this.walk_down = walk_down;
         this.walk_left = walk_left;
@@ -155,6 +156,7 @@ public class Player extends AbstractGameObject {
         this.standby_down = standby_down;
         this.standby_left = standby_left;
         this.standby_right = standby_right;
+        this.fainted = fainted;
     }
 
     /**
@@ -185,6 +187,10 @@ public class Player extends AbstractGameObject {
     public Animation getStandby_right() {
         return standby_right;
     }
+    public Animation getFainted() {
+        return fainted;
+    }
+
 
     /**
      * Set nome player
@@ -256,7 +262,9 @@ public class Player extends AbstractGameObject {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if(velocity.x != 0 || velocity.y != 0)
+        if(! this.isAlive())
+             st = state.dying;
+        else if(velocity.x != 0 || velocity.y != 0)
             st = state.walking;
         else if( st != state.shooting)
             st = state.standby;
@@ -365,6 +373,9 @@ public class Player extends AbstractGameObject {
      */
     public void render(SpriteBatch batch) {
         switch (st) {
+                case dying:
+                    setAnimation(fainted);
+                    break;
                 case standby: if(direction == dir.up){
                     setAnimation(standby_up);
                 }

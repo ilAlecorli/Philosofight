@@ -189,7 +189,8 @@ public class Arena {
                 Assets.instance.player.PG1_standby_up,      //Attesa mentre si cammina in alto
                 Assets.instance.player.PG1_standby_down,    //Attesa mentre si cammina in basso
                 Assets.instance.player.PG1_standby_left,    //Attesa mentre si cammina a sinistra
-                Assets.instance.player.PG1_standby_right    //Attesa mentre si cammina a destra
+                Assets.instance.player.PG1_standby_right,    //Attesa mentre si cammina a destra
+                Assets.instance.player.PG1_fainted
         );
         player1.setDirection(Player.dir.up);
         player1.position.set(1.5f, 1.5f);
@@ -210,7 +211,8 @@ public class Arena {
                 Assets.instance.player.PG2_standby_up,      //Attesa mentre si cammina in alto
                 Assets.instance.player.PG2_standby_down,    //Attesa mentre si cammina in basso
                 Assets.instance.player.PG2_standby_left,    //Attesa mentre si cammina a sinistra
-                Assets.instance.player.PG2_standby_right    //Attesa mentre si cammina a destra
+                Assets.instance.player.PG2_standby_right,    //Attesa mentre si cammina a destra
+                Assets.instance.player.PG2_fainted
         );
         player2.setDirection(Player.dir.down);
         player2.position.set(10f, 17f);

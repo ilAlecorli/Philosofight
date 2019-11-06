@@ -123,6 +123,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Animation PG1_standby_down;
         public final Animation PG1_standby_left;
         public final Animation PG1_standby_right;
+        public final Animation PG1_fainted;
 
 
         public final Animation PG2_walk_up;
@@ -134,9 +135,12 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Animation PG2_standby_down;
         public final Animation PG2_standby_left;
         public final Animation PG2_standby_right;
+        public final Animation PG2_fainted;
+
 
 
         public AssetPlayer(TextureAtlas atlas) {
+            Texture image;
 
             //Animazione Player 1: Camminata verso l'alto
             PG1_walk_up = createAnimation("Character1/PG1_up.png", 1, 5);
@@ -153,6 +157,10 @@ public class Assets implements Disposable, AssetErrorListener {
             //Animazione Player 1: Camminata verso destra
             PG1_walk_right = createAnimation("Character1/PG1_right.png", 1, 3);
             PG1_standby_right = new Animation<TextureRegion>(0f, frames[0]);
+
+            image = new Texture(Gdx.files.internal("Character1/PG1_fainted.png"));
+            PG1_fainted = new Animation<Texture>(0f, image);
+
 
 
 
@@ -171,6 +179,9 @@ public class Assets implements Disposable, AssetErrorListener {
             //Animazione Player 2: Camminata verso destra
             PG2_walk_right = createAnimation("Character2/PG2_right.png", 1, 3);
             PG2_standby_right = new Animation<TextureRegion>(0f, frames[0]);
+
+            image = new Texture(Gdx.files.internal("Character2/PG2_fainted.png"));
+            PG2_fainted = new Animation<Texture>(0f, image);
 
         }
         private Animation createAnimation(String image_path, int n_rows, int n_cols) {
